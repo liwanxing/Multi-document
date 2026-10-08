@@ -1,0 +1,1053 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 29, 33, 41;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+
+  /* 统一品牌设计系统 Token (Volcano Brand Blue) */
+  --brand-primary: #1664ff;
+  --brand-hover: #3882ff;
+  --brand-active: #0e42d2;
+  --brand-light: #f2f7ff;
+  --brand-border: #bedaff;
+
+  /* 高级环境色投影 (Colored Ambient Shadows) */
+  --shadow-subtle: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-card: 0 4px 14px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  --shadow-float: 0 12px 28px -4px rgba(22, 100, 255, 0.08), 0 6px 12px -2px rgba(15, 23, 42, 0.04);
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #ffffff;
+  font-family:
+    "Geist",
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    "Segoe UI",
+    Roboto,
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    sans-serif;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 标题与展示性大字开启智能孤字平衡 */
+h1, h2, h3, .portal-hero h1, .catalog-hero h1 {
+  text-wrap: balance;
+}
+
+/* 统计数据、版本与时间开启等宽对齐 */
+time,
+small,
+.tabular-nums,
+.document-updated time,
+.document-pagination strong {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e6eb;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9cdd4;
+}
+
+/* Light Theme Code Syntax Highlighting (1:1 with Volcano Engine & GitHub Light) */
+.hljs-light {
+  color: #24292e;
+  background: transparent;
+}
+
+.hljs-light .hljs-keyword,
+.hljs-light .hljs-selector-tag,
+.hljs-light .hljs-subst {
+  color: #24292e;
+  font-weight: 600;
+}
+
+.hljs-light .hljs-string,
+.hljs-light .hljs-title,
+.hljs-light .hljs-section,
+.hljs-light .hljs-attribute,
+.hljs-light .hljs-literal,
+.hljs-light .hljs-template-tag,
+.hljs-light .hljs-template-variable,
+.hljs-light .hljs-type,
+.hljs-light .hljs-addition {
+  color: #22863a; /* Crisp vibrant green matching user screenshot */
+}
+
+.hljs-light .hljs-comment,
+.hljs-light .hljs-quote,
+.hljs-light .hljs-deletion,
+.hljs-light .hljs-meta {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.hljs-light .hljs-number {
+  color: #005cc5; /* Blue numbers */
+}
+
+.hljs-light .hljs-variable,
+.hljs-light .hljs-params {
+  color: #b08800; /* Warm amber / yellow-brown for variables like $ARK_API_KEY */
+  font-weight: 500;
+}
+
+.hljs-light .hljs-built_in,
+.hljs-light .hljs-builtin-name {
+  color: #005cc5;
+}
+
+.hljs-light .hljs-symbol,
+.hljs-light .hljs-bullet {
+  color: #e36209;
+}
+
+/* Prose Markdown Styling matching Volcano Engine Docs */
+.doc-markdown h1,
+.prose-clean h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1d2129;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.doc-markdown h2,
+.prose-clean h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1d2129;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #f2f3f5;
+  scroll-margin-top: 80px;
+}
+
+.doc-markdown h3,
+.prose-clean h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1d2129;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  scroll-margin-top: 80px;
+}
+
+.doc-markdown p,
+.prose-clean p {
+  color: #4e5969;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: 0.9375rem;
+}
+
+.doc-markdown ul,
+.prose-clean ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: #4e5969;
+}
+
+.doc-markdown ol,
+.prose-clean ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: #4e5969;
+}
+
+.doc-markdown li,
+.prose-clean li {
+  margin-bottom: 0.35rem;
+  line-height: 1.6;
+}
+
+.doc-markdown strong,
+.prose-clean strong {
+  font-weight: 600;
+  color: #1d2129;
+}
+
+.doc-markdown del,
+.doc-markdown s,
+.prose-clean del,
+.prose-clean s,
+del, s {
+  text-decoration: line-through !important;
+  color: #86909c;
+}
+
+.doc-markdown a,
+.prose-clean a {
+  color: #1664ff;
+  text-decoration: none;
+}
+.doc-markdown a:not(.doc-card-link):not(.doc-banner-card-link):not(.doc-cap-link):not(.doc-file-card):not(.doc-api-explorer-btn):not([class*="card-link"]):hover,
+.prose-clean a:not(.doc-card-link):not(.doc-banner-card-link):not(.doc-cap-link):not(.doc-file-card):not(.doc-api-explorer-btn):not([class*="card-link"]):hover {
+  text-decoration: underline;
+}
+
+/* Inline Code (Strictly exclude code inside pre!) */
+.doc-markdown :not(pre) > code,
+.prose-clean :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  background-color: #f2f3f5;
+  color: #1d2129;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+/* Pre and Code Blocks must strictly be transparent and avoid inline badge styles */
+.doc-markdown pre,
+.prose-clean pre,
+.doc-markdown pre code,
+.prose-clean pre code,
+pre code.hljs-light {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Tables */
+.doc-markdown table,
+.prose-clean table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.8125rem;
+  border: 1px solid #e5e6eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.doc-markdown th,
+.prose-clean th {
+  background-color: #f7f8fa;
+  color: #4e5969;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e6eb;
+}
+
+.doc-markdown td,
+.prose-clean td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f2f3f5;
+  color: #1d2129;
+}
+
+.doc-markdown tr:last-child td,
+.prose-clean tr:last-child td {
+  border-bottom: none;
+}
+
+.doc-markdown tr:hover td,
+.prose-clean tr:hover td {
+  background-color: #fafafa;
+}
+
+/* Blockquote */
+.doc-markdown blockquote,
+.prose-clean blockquote {
+  border-left: 3px solid #1664ff;
+  padding: 0.5rem 1rem;
+  color: #4e5969;
+  background: #f7f8fa;
+  border-radius: 0 6px 6px 0;
+  margin: 1rem 0;
+}
+
+.doc-markdown {
+  --doc-accent: #2563eb;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.doc-markdown.theme-ocean {
+  --doc-accent: #087f8c;
+}
+.doc-markdown.theme-forest {
+  --doc-accent: #247454;
+}
+.doc-markdown.theme-ink {
+  --doc-accent: #343b48;
+}
+.doc-markdown h2,
+.doc-markdown h3 {
+  color: var(--doc-accent);
+}
+.doc-markdown a {
+  color: var(--doc-accent);
+}
+.doc-markdown blockquote {
+  border-color: var(--doc-accent);
+}
+.doc-markdown.theme-ocean h2,
+.doc-markdown.theme-forest h2 {
+  border-bottom: 2px solid color-mix(in srgb, var(--doc-accent) 18%, white);
+  padding-bottom: 12px;
+}
+.doc-markdown.theme-ink h2 {
+  border: 0;
+  letter-spacing: -0.6px;
+}
+.doc-markdown.density-compact p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  margin-bottom: 0.6rem;
+}
+.doc-markdown.density-compact h2 {
+  margin-top: 1.3rem;
+}
+.doc-markdown.density-compact > div {
+  margin-top: 0.8rem;
+}
+.doc-markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.doc-markdown table {
+  display: block;
+  overflow-x: auto;
+}
+.doc-markdown input[type="checkbox"] {
+  margin-right: 5px;
+}
+.doc-markdown .prose-clean > p:last-child {
+  margin-bottom: 0;
+}
+.project-portal {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 30px 80px;
+}
+.portal-breadcrumb {
+  font-size: 12px;
+  color: #8491a6;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 35px;
+}
+.portal-hero {
+  background: linear-gradient(115deg, #edf3ff, #f8faff);
+  border: 1px solid #e6edf9;
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  margin-bottom: 32px;
+}
+.portal-hero > span {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #7290c3;
+  margin-bottom: 12px;
+}
+.portal-hero h1 {
+  font-size: 32px;
+  font-weight: 650;
+  color: #253a5a;
+  letter-spacing: -1px;
+}
+.portal-hero p {
+  color: #8190a6;
+  font-size: 14px;
+  line-height: 1.9;
+  margin-top: 15px;
+  max-width: 700px;
+}
+.portal-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border: 1px solid #e2e8f2;
+  border-radius: 8px;
+  background: #fff;
+  max-width: 400px;
+  margin: 30px 0 0;
+  color: #91a0b9;
+}
+.portal-search input {
+  outline: 0;
+  width: 100%;
+  font-size: 13px;
+}
+.portal-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: #8694ab;
+  font-size: 12px;
+}
+.portal-section-title h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #36465f;
+}
+.portal-doc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.portal-doc-card {
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  border-radius: 12px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-subtle);
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.portal-doc-card:hover {
+  border-color: var(--brand-border);
+  box-shadow: var(--shadow-float);
+  transform: translateY(-2px);
+}
+.portal-doc-card:active {
+  transform: scale(0.985) translateY(0);
+  transition-duration: 0.08s;
+}
+.portal-doc-card > svg {
+  color: var(--brand-primary);
+  transition: transform 0.2s;
+}
+.portal-doc-card:hover > svg {
+  transform: scale(1.08);
+}
+.portal-doc-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  transition: color 0.15s;
+}
+.portal-doc-card:hover h3 {
+  color: var(--brand-primary);
+}
+.portal-doc-card p {
+  color: #64748b;
+  line-height: 1.65;
+  font-size: 13px;
+  flex: 1;
+}
+.portal-doc-card small {
+  color: #94a3b8;
+  font-size: 11px;
+  margin-top: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.portal-empty {
+  text-align: center;
+  padding: 72px 24px;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.project-reader {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 40px;
+}
+.project-reader > aside {
+  border-right: 1px solid #e7ecf3;
+  padding-right: 25px;
+}
+.project-reader > aside h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #526580;
+  margin-bottom: 18px;
+}
+.project-reader > aside a {
+  display: block;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #8090a8;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+.project-reader > aside a.active {
+  background: #eef4ff;
+  color: #396acb;
+}
+.project-reader article {
+  min-width: 0;
+  max-width: 850px;
+}
+.project-reader article > header {
+  border-bottom: 1px solid #e7ecf3;
+  padding-bottom: 25px;
+  margin-bottom: 30px;
+}
+.project-reader article > header h1 {
+  font-size: 30px;
+  font-weight: 650;
+  color: #253957;
+}
+.project-reader article > header p {
+  color: #93a0b3;
+  font-size: 11px;
+  margin-top: 15px;
+}
+.portal-back {
+  font-size: 12px;
+  color: #6388ce;
+  margin-bottom: 25px;
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+}
+@media (max-width: 850px) {
+  .portal-doc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .project-reader {
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 25px;
+  }
+  .project-portal {
+    padding: 30px 20px;
+  }
+}
+@media (max-width: 600px) {
+  .portal-doc-grid {
+    grid-template-columns: 1fr;
+  }
+  .portal-hero {
+    padding: 25px;
+  }
+  .portal-hero h1 {
+    font-size: 27px;
+  }
+  .project-reader {
+    display: block;
+  }
+  .project-reader > aside {
+    border-right: 0;
+    border-bottom: 1px solid #e7ecf3;
+    padding: 0 0 15px;
+    margin-bottom: 25px;
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+  }
+  .project-reader > aside h2 {
+    display: none;
+  }
+  .project-reader > aside a {
+    white-space: nowrap;
+  }
+  .portal-breadcrumb {
+    margin-bottom: 22px;
+    font-size: 11px;
+  }
+}
+
+/* Keep table borders on the actual table; the wrapper owns horizontal scrolling. */
+.doc-markdown table{display:table;table-layout:auto;width:100%;overflow:visible;border-collapse:separate;border-spacing:0;margin:0;border:1px solid #e5e6eb;border-radius:8px}
+.doc-table-scroll{max-width:100%;overflow-x:auto;margin:1.25rem 0}
+.doc-markdown th,.doc-markdown td{min-width:110px}
+.doc-markdown blockquote p{margin:0;line-height:1.8}.doc-markdown blockquote{display:flow-root;padding:12px 16px}
+.doc-markdown img[role=button]{cursor:zoom-in}.doc-markdown img[role=button]:focus-visible{outline:2px solid #165dff;outline-offset:4px}
+.doc-markdown kbd,.doc-markdown .inline-flex{align-items:center;justify-content:center;vertical-align:middle;line-height:1.6}
+
+/* 5 Built-in Documentation Components Styles */
+/* 1. Navigation Cards (:::cards) */
+.doc-cards-grid {
+  margin: 1.5rem 0;
+}
+.doc-cards-grid a,
+.doc-cards-grid a:hover,
+.doc-cards-grid a:focus,
+.doc-cards-grid a:active,
+.doc-cards-grid a *,
+.doc-cards-grid a:hover *,
+.doc-card-link,
+.doc-card-link:hover,
+.doc-card-link:focus,
+.doc-card-link:active,
+.doc-card-link *,
+.doc-card-link:hover *,
+.doc-card-inner,
+.doc-card-inner:hover,
+.doc-card-inner *,
+.doc-card-inner:hover *,
+.doc-markdown .doc-cards-grid a,
+.doc-markdown .doc-cards-grid a:hover,
+.doc-markdown .doc-cards-grid a:focus,
+.doc-markdown .doc-cards-grid a:active,
+.doc-markdown .doc-cards-grid a:hover *,
+.doc-markdown .doc-card-link,
+.doc-markdown .doc-card-link:hover,
+.doc-markdown .doc-card-link:focus,
+.doc-markdown .doc-card-link:active,
+.doc-markdown .doc-card-link *,
+.doc-markdown .doc-card-link:hover * {
+  text-decoration: none !important;
+}
+.doc-card-inner {
+  border: 1px solid #eaedf1;
+  background-color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.doc-card-inner:hover {
+  border-color: #165dff;
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* 2. Feature / Highlights Cards (:::features) */
+.doc-features-grid {
+  margin: 1.5rem 0;
+}
+.doc-feature-card {
+  border: 1px solid #eaedf1;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+.doc-feature-card:hover {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.04);
+}
+.doc-feature-content ul {
+  list-style-type: disc !important;
+  padding-left: 1.125rem !important;
+  margin: 0 !important;
+}
+.doc-feature-content li {
+  margin-bottom: 0.35rem !important;
+  color: #4e5869 !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+.doc-feature-content li::marker {
+  color: #86909c !important;
+  font-size: 0.85em;
+}
+
+/* 3. Prompt & Output Preview (:::prompt-preview) */
+.doc-prompt-preview {
+  margin: 1.5rem 0;
+}
+.doc-prompt-preview .select-text {
+  user-select: text;
+}
+
+/* 4. Video & Media Grid (:::video-grid) */
+.doc-video-grid {
+  margin: 1rem 0;
+}
+.video-player-modal .arco-modal {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000000;
+}
+.video-player-modal .arco-modal-body {
+  padding: 0;
+  background: #000000;
+}
+
+/* 5. Multimodal Showcase (:::multimodal) */
+.doc-multimodal {
+  margin: 1.5rem 0;
+}
+.doc-multimodal blockquote {
+  border-left: 3px solid #c9cdd4 !important;
+  padding: 8px 14px !important;
+  margin: 10px 0 !important;
+  background: #f7f8fa !important;
+  border-radius: 0 6px 6px 0 !important;
+  font-size: 12px !important;
+  color: #4e5869 !important;
+}
+.doc-multimodal blockquote p {
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+/* 6. Storyboard Showcase (:::storyboard) */
+.doc-storyboard {
+  margin: 1.5rem 0;
+}
+.doc-markdown .doc-storyboard table {
+  border: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  display: table !important;
+}
+.doc-markdown .doc-storyboard tr,
+.doc-markdown .doc-storyboard tr:hover td {
+  background: transparent !important;
+}
+.doc-markdown .doc-storyboard td {
+  border: 0 !important;
+  min-width: 0 !important;
+  padding: 3px 0 !important;
+}
+
+/* 7. Keyframes Gallery (:::keyframes) */
+.doc-keyframes {
+  margin: 1.5rem 0;
+}
+
+/* 8. File Attachment Card (:::file) */
+.doc-file-card-wrapper {
+  margin: 0.75rem 0;
+}
+.doc-file-card {
+  border: 1px solid #eaedf1;
+  background-color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.doc-file-card:hover {
+  border-color: #165dff;
+  box-shadow: 0 3px 12px 0 rgba(22, 93, 255, 0.08);
+}
+.doc-file-card,
+.doc-file-card:hover,
+.doc-file-card:focus,
+.doc-file-card:active,
+.doc-file-card *,
+.doc-file-card:hover *,
+.doc-file-card-wrapper a,
+.doc-file-card-wrapper a:hover,
+.doc-file-card-wrapper a:focus,
+.doc-file-card-wrapper a:active,
+.doc-file-card-wrapper a:hover *,
+.doc-markdown .doc-file-card,
+.doc-markdown .doc-file-card:hover,
+.doc-markdown .doc-file-card:focus,
+.doc-markdown .doc-file-card:active,
+.doc-markdown .doc-file-card *,
+.doc-markdown .doc-file-card:hover * {
+  text-decoration: none !important;
+}
+
+/* 9. Banner Cards (:::banner-cards) */
+.doc-banner-cards-grid {
+  margin: 1.5rem 0;
+}
+.doc-banner-card {
+  border: 1px solid #eaedf1;
+  background-color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.doc-banner-card:hover {
+  border-color: #165dff;
+  box-shadow: 0 4px 16px 0 rgba(22, 93, 255, 0.08);
+  transform: translateY(-2px);
+}
+.doc-banner-cards-grid a,
+.doc-banner-cards-grid a:hover,
+.doc-banner-cards-grid a:focus,
+.doc-banner-cards-grid a:active,
+.doc-banner-cards-grid a *,
+.doc-banner-cards-grid a:hover *,
+.doc-banner-card-link,
+.doc-banner-card-link:hover,
+.doc-banner-card-link:focus,
+.doc-banner-card-link:active,
+.doc-banner-card-link *,
+.doc-banner-card-link:hover *,
+.doc-banner-card,
+.doc-banner-card:hover,
+.doc-banner-card *,
+.doc-banner-card:hover *,
+.doc-markdown .doc-banner-cards-grid a,
+.doc-markdown .doc-banner-cards-grid a:hover,
+.doc-markdown .doc-banner-cards-grid a:focus,
+.doc-markdown .doc-banner-cards-grid a:active,
+.doc-markdown .doc-banner-cards-grid a:hover *,
+.doc-markdown .doc-banner-card-link,
+.doc-markdown .doc-banner-card-link:hover,
+.doc-markdown .doc-banner-card-link:focus,
+.doc-markdown .doc-banner-card-link:active,
+.doc-markdown .doc-banner-card-link *,
+.doc-markdown .doc-banner-card-link:hover *,
+.doc-markdown .doc-banner-card,
+.doc-markdown .doc-banner-card:hover,
+.doc-markdown .doc-banner-card *,
+.doc-markdown .doc-banner-card:hover * {
+  text-decoration: none !important;
+}
+
+/* 10. Capabilities Matrix (:::capabilities) */
+.doc-capabilities-wrapper {
+  margin: 2rem 0;
+}
+.doc-cap-item {
+  transition: all 0.15s ease-in-out;
+}
+.doc-cap-item:hover {
+  background-color: #f7f8fa;
+}
+.doc-capabilities-wrapper a,
+.doc-capabilities-wrapper a:hover,
+.doc-capabilities-wrapper a:focus,
+.doc-capabilities-wrapper a:active,
+.doc-capabilities-wrapper a *,
+.doc-capabilities-wrapper a:hover *,
+.doc-cap-link,
+.doc-cap-link:hover,
+.doc-cap-link:focus,
+.doc-cap-link:active,
+.doc-cap-link *,
+.doc-cap-link:hover *,
+.doc-cap-item,
+.doc-cap-item:hover,
+.doc-cap-item *,
+.doc-cap-item:hover *,
+.doc-markdown .doc-capabilities-wrapper a,
+.doc-markdown .doc-capabilities-wrapper a:hover,
+.doc-markdown .doc-capabilities-wrapper a:focus,
+.doc-markdown .doc-capabilities-wrapper a:active,
+.doc-markdown .doc-capabilities-wrapper a:hover *,
+.doc-markdown .doc-cap-link,
+.doc-markdown .doc-cap-link:hover,
+.doc-markdown .doc-cap-link:focus,
+.doc-markdown .doc-cap-link:active,
+.doc-markdown .doc-cap-link *,
+.doc-markdown .doc-cap-link:hover *,
+.doc-markdown .doc-cap-item,
+.doc-markdown .doc-cap-item:hover,
+.doc-markdown .doc-cap-item:focus,
+.doc-markdown .doc-cap-item:hover * {
+  text-decoration: none !important;
+}
+
+/* 11. Pro Table (:::pro-table) */
+.doc-pro-table-wrapper {
+  margin: 1.5rem 0;
+}
+.doc-pro-table th {
+  background-color: #f2f6fd !important;
+  color: #1d2129 !important;
+  font-weight: 600 !important;
+  border-color: #e5edf8 !important;
+}
+.doc-pro-table td {
+  border-color: #eef3f9 !important;
+}
+.doc-pro-table tr:hover td {
+  background-color: #f9fbff !important;
+}
+
+/* 11.5 API Explorer Card (:::api-explorer) */
+.doc-api-explorer-card {
+  margin: 1.5rem 0;
+  border: 1px solid #eaedf1;
+  background-color: #fafbfc;
+}
+.doc-api-explorer-btn,
+.doc-api-explorer-btn:hover,
+.doc-api-explorer-btn:focus,
+.doc-api-explorer-btn:active,
+.doc-markdown .doc-api-explorer-btn,
+.doc-markdown .doc-api-explorer-btn:hover {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* 11.6 API Parameters Accordion List (:::api-params) */
+.doc-api-params {
+  margin: 1.5rem 0;
+}
+.doc-api-param-desc {
+  color: #4e5969;
+}
+.doc-api-param-desc .doc-markdown {
+  margin: 0 !important;
+}
+.doc-api-param-desc .doc-markdown.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.75rem !important;
+}
+.doc-api-param-desc .doc-code-box,
+.doc-api-param-desc .code-tabs {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+.doc-api-param-desc p {
+  margin: 0 0 0.5rem 0 !important;
+  color: #4e5969 !important;
+  font-size: 14px !important;
+  line-height: 1.75 !important;
+}
+.doc-api-param-desc p:last-child {
+  margin-bottom: 0 !important;
+}
+.doc-api-param-desc a {
+  color: #1664ff !important;
+  text-decoration: none;
+}
+.doc-api-param-desc a:hover {
+  text-decoration: underline !important;
+}
+
+/* 12. Inline Icon Directives & Realtime Rendering ([icon:name]) */
+.doc-inline-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.16em;
+  line-height: 1;
+  margin: 0 0.2em;
+  color: inherit;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.doc-inline-icon svg {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: middle;
+  stroke-width: 2px;
+}
+
+.doc-inline-icon:hover {
+  transform: translateY(-1px) scale(1.08);
+}
+
+h1 .doc-inline-icon svg,
+h2 .doc-inline-icon svg,
+h3 .doc-inline-icon svg {
+  vertical-align: -0.12em;
+}
+
+.workspace-icon-picker-popover,
+.workspace-icon-picker-popover.arco-popover,
+.workspace-icon-picker-popover .arco-popover-inner,
+.workspace-icon-picker-popover .arco-popover-content {
+  max-width: none !important;
+  width: auto !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+}
+
+.workspace-icon-picker-popover .arco-popover-content {
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12), 0 2px 8px -2px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #e5e6eb !important;
+  overflow: hidden !important;
+}
+
+.workspace-icon-picker-popover .arco-popover-inner {
+  overflow: hidden !important;
+}
+
+.workspace-icon-picker-popover .arco-radio-group-button {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+}
+
+.workspace-icon-picker-popover .arco-radio-button {
+  white-space: nowrap !important;
+}
+
+/* Standalone Markdown Code Block Styles (Aligned 1:1 with CodeTabs) */
+.doc-code-copy-btn .check-icon {
+  display: none !important;
+}
+.doc-code-copy-btn.copied .copy-icon {
+  display: none !important;
+}
+.doc-code-copy-btn.copied .check-icon {
+  display: inline-block !important;
+}
+.doc-code-copy-btn.copied .copy-text {
+  color: #16a34a !important;
+  font-weight: 500;
+}
+
+/* Document Code Block Auto-Wrap (Single and Multi Code Blocks) */
+.doc-code-box,
+.code-tabs {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.doc-code-box pre,
+.doc-code-box code,
+.code-tabs pre,
+.code-tabs code,
+.doc-markdown pre,
+.doc-markdown pre code,
+.prose-clean pre,
+.prose-clean pre code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.doc-code-line {
+  display: flex !important;
+  align-items: flex-start !important;
+  min-height: 1.5rem !important;
+  line-height: 1.5rem !important;
+  width: 100% !important;
+}
+
+.doc-code-linenumber {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  line-height: 1.5rem !important;
+}
+
+.doc-code-linecontent {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.5rem !important;
+}
+
+/* 主题切换瞬间禁用全部过渡：顶栏、侧栏等元素带有 background 过渡动画，
+   亮暗翻转时会呈现为一次闪烁。theme.ts 在切换时挂上该类，绘制一帧后移除。 */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+
+
+

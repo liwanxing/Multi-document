@@ -1,0 +1,854 @@
+/* ============================================================================
+   文档预览页暗色模式
+   ----------------------------------------------------------------------------
+   生效链路：
+   1) 根布局内联脚本（首帧前）写入 <html data-theme="dark">
+   2) 同一脚本写入 <body arco-theme="dark">，Arco Design 自带的暗色变量随之生效
+      （--color-text-*、--color-fill-*、--color-bg-* 等，大量 var() 规则自动翻转）
+   3) Arco 并未覆盖 --color-border-*，本文件在 html 层补齐
+   4) 其余硬编码的亮色值（#fff、gray-*、text-[#1d2129] 等）在下方逐项覆盖
+   ========================================================================== */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 页面调色板 */
+  --dk-bg: #141519; /* 页面背景 */
+  --dk-surface: #1a1c21; /* 卡片 / 侧栏 / 代码框 */
+  --dk-surface-2: #212429; /* 次级表面：表头、引用、行内代码 */
+  --dk-hover: #262a31; /* hover 面 */
+  --dk-border: #2e323a;
+  --dk-border-strong: #3d434c;
+  --dk-text-1: rgba(255, 255, 255, 0.92);
+  --dk-text-2: rgba(255, 255, 255, 0.66);
+  --dk-text-3: rgba(255, 255, 255, 0.45);
+  --dk-accent: #4d8bff; /* 链接 / 强调 */
+  --dk-code-bg: #17191e;
+
+  /* Arco 边框变量在暗色下未被框架覆盖，这里补齐（作用于整页继承） */
+  --color-border-1: rgba(255, 255, 255, 0.08);
+  --color-border-2: #2e323a;
+  --color-border-3: #3d434c;
+  --color-border-4: #4b525c;
+}
+
+/* ============================== 基础 ============================== */
+
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background-color: var(--dk-bg) !important;
+}
+
+html[data-theme="dark"] body {
+  color: var(--dk-text-1) !important;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #3a3f47;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #4a5059;
+}
+
+html[data-theme="dark"] ::selection {
+  background: rgba(77, 139, 255, 0.32);
+}
+
+/* ============ 项目头（品牌栏）与产品子导航 ============ */
+
+html[data-theme="dark"] .project-public-header {
+  background-color: rgba(20, 21, 25, 0.92);
+  border-bottom-color: var(--dk-border);
+}
+html[data-theme="dark"] .public-brand i {
+  border-left-color: var(--dk-border-strong);
+}
+html[data-theme="dark"] .public-brand > span:last-child {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .project-public-header nav {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .project-public-header a:hover {
+  color: var(--dk-accent);
+}
+
+html[data-theme="dark"] .product-subnav {
+  background-color: rgba(20, 21, 25, 0.94);
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .product-subnav strong {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .product-subnav > span {
+  border-left-color: var(--dk-border-strong);
+}
+html[data-theme="dark"] .product-subnav a:hover {
+  color: var(--dk-accent);
+}
+
+/* ============ 左侧文档目录 ============ */
+
+html[data-theme="dark"] .project-public {
+  --reading-text: var(--dk-text-1);
+  --reading-muted: var(--dk-text-3);
+  --reading-line: var(--dk-border);
+  --portal-ink: var(--dk-text-1);
+  --portal-muted: var(--dk-text-3);
+  --portal-line: var(--dk-border);
+  background-color: var(--dk-bg);
+  color: var(--dk-text-1);
+}
+
+html[data-theme="dark"] .product-doc-sidebar {
+  background-color: var(--dk-bg);
+  border-right-color: var(--dk-border);
+  border-bottom-color: var(--dk-border);
+}
+html[data-theme="dark"] .product-doc-sidebar h2 {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-search-trigger {
+  background-color: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-search-trigger:hover,
+html[data-theme="dark"] .doc-search-trigger:focus-visible {
+  /* 用 background 简写覆盖亮色 hover 留下的白色渐变 background-image */
+  background: var(--dk-surface);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px rgba(77, 139, 255, 0.65),
+    0 0 12px rgba(77, 139, 255, 0.22);
+}
+html[data-theme="dark"] .doc-search-sparkle-icon {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .doc-search-placeholder {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .doc-search-shortcuts kbd {
+  background-color: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .tree-search {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .tree-search input {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .tree-search input::placeholder {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .product-doc-sidebar nav a {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .product-doc-sidebar nav a > svg {
+  color: #68737f;
+}
+html[data-theme="dark"] .product-doc-sidebar nav a.active {
+  background-color: #22304d !important;
+  color: #79a8ff !important;
+}
+html[data-theme="dark"] .product-doc-sidebar nav a:hover {
+  background-color: var(--dk-hover) !important;
+  color: #79a8ff !important;
+}
+html[data-theme="dark"] .public-tree-group summary {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .public-tree-group summary > svg {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .public-tree-group > div {
+  border-left-color: var(--dk-border);
+}
+html[data-theme="dark"] .tree-divider {
+  background-color: var(--dk-border);
+}
+html[data-theme="dark"] .back-all-products,
+html[data-theme="dark"] .tree-empty,
+html[data-theme="dark"] .tree-results > p {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .update-tag {
+  background-color: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .mobile-directory-toggle {
+  color: var(--dk-text-2);
+}
+
+/* ============ 阅读区顶栏（面包屑 / 操作区 / 模式切换） ============ */
+
+html[data-theme="dark"] .document-breadcrumb {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .document-breadcrumb a {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .document-breadcrumb a:hover {
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .doc-theme-switch {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .doc-theme-switch:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-theme-switch:focus-visible {
+  outline-color: var(--dk-accent);
+}
+
+/* 自定义 :::styled 容器：作者写入的内联亮色背景/边框在暗色下强制反色 */
+html[data-theme="dark"] .doc-markdown .doc-styled-container {
+  background-color: #1c2029 !important;
+  border-color: var(--dk-border) !important;
+}
+
+/* ============ 文章头部 ============ */
+
+html[data-theme="dark"] .product-reading-article > header {
+  border-bottom-color: var(--dk-border);
+}
+html[data-theme="dark"] .product-reading-article > header h1 {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .product-reading-article > header > div {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .product-reading-article > header a {
+  color: #7ea6e8;
+}
+html[data-theme="dark"] .product-reading-article > header a:hover {
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .product-reading-article > header p {
+  color: var(--dk-text-2);
+}
+
+/* ============================== Markdown 正文 ============================== */
+
+html[data-theme="dark"] .doc-markdown,
+html[data-theme="dark"] .prose-clean {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-markdown {
+  /* 主题强调色整体提亮，避免深蓝/深绿在暗底上不可读 */
+  --doc-accent: #5b9dff;
+}
+html[data-theme="dark"] .doc-markdown.theme-ocean {
+  --doc-accent: #3ec7d1;
+}
+html[data-theme="dark"] .doc-markdown.theme-forest {
+  --doc-accent: #4cc795;
+}
+html[data-theme="dark"] .doc-markdown.theme-ink {
+  --doc-accent: #cfd6e2;
+}
+html[data-theme="dark"] .product-reading-article .doc-markdown.theme-classic h2,
+html[data-theme="dark"] .product-reading-article .doc-markdown.theme-classic h3 {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-markdown h1,
+html[data-theme="dark"] .doc-markdown h4,
+html[data-theme="dark"] .doc-markdown h5,
+html[data-theme="dark"] .doc-markdown h6,
+html[data-theme="dark"] .prose-clean h1,
+html[data-theme="dark"] .prose-clean h4,
+html[data-theme="dark"] .prose-clean h5,
+html[data-theme="dark"] .prose-clean h6 {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-markdown h2,
+html[data-theme="dark"] .doc-markdown h3,
+html[data-theme="dark"] .prose-clean h2,
+html[data-theme="dark"] .prose-clean h3 {
+  border-bottom-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-markdown p,
+html[data-theme="dark"] .doc-markdown ul,
+html[data-theme="dark"] .doc-markdown ol,
+html[data-theme="dark"] .prose-clean p,
+html[data-theme="dark"] .prose-clean ul,
+html[data-theme="dark"] .prose-clean ol {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .doc-markdown strong,
+html[data-theme="dark"] .prose-clean strong {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-markdown a,
+html[data-theme="dark"] .prose-clean a {
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .doc-markdown del,
+html[data-theme="dark"] .doc-markdown s,
+html[data-theme="dark"] .prose-clean del {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .doc-markdown hr {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-markdown img {
+  opacity: 0.92;
+}
+
+/* 行内代码 */
+html[data-theme="dark"] .doc-markdown :not(pre) > code,
+html[data-theme="dark"] .prose-clean :not(pre) > code {
+  background-color: var(--dk-surface-2);
+  color: #dce3ec;
+}
+
+/* 表格 */
+html[data-theme="dark"] .doc-markdown table,
+html[data-theme="dark"] .prose-clean table {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-markdown th,
+html[data-theme="dark"] .prose-clean th {
+  background-color: var(--dk-surface-2);
+  color: var(--dk-text-1);
+  border-bottom-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-markdown td,
+html[data-theme="dark"] .prose-clean td {
+  color: var(--dk-text-1);
+  border-bottom-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-markdown tr:hover td,
+html[data-theme="dark"] .prose-clean tr:hover td {
+  background-color: var(--dk-hover);
+}
+
+/* 引用 */
+html[data-theme="dark"] .doc-markdown blockquote,
+html[data-theme="dark"] .prose-clean blockquote {
+  background-color: var(--dk-surface-2);
+  border-left-color: var(--dk-accent);
+  color: var(--dk-text-2);
+}
+
+/* ============================== 代码块 ============================== */
+
+html[data-theme="dark"] .doc-code-box,
+html[data-theme="dark"] .code-tabs > div {
+  background-color: var(--dk-code-bg) !important;
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .doc-code-box pre,
+html[data-theme="dark"] .doc-code-box code,
+html[data-theme="dark"] .code-tabs pre,
+html[data-theme="dark"] .code-tabs code {
+  background-color: transparent !important;
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-code-linenumber {
+  background-color: transparent !important;
+  color: var(--dk-text-3) !important;
+}
+html[data-theme="dark"] .doc-code-linecontent {
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .doc-code-copy-btn {
+  color: var(--dk-text-2) !important;
+}
+html[data-theme="dark"] .doc-code-copy-btn:hover {
+  background-color: var(--dk-hover) !important;
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .code-tabs [class*="border-t-[#1664ff]"] {
+  background-color: var(--dk-surface) !important;
+}
+
+/* highlight.js 暗色主题（沿用 GitHub Dark 配色，覆盖 .hljs-light 规则） */
+html[data-theme="dark"] .hljs-light {
+  color: #c9d1d9;
+}
+html[data-theme="dark"] .hljs-light .hljs-keyword,
+html[data-theme="dark"] .hljs-light .hljs-selector-tag,
+html[data-theme="dark"] .hljs-light .hljs-subst {
+  color: #ff7b72;
+}
+html[data-theme="dark"] .hljs-light .hljs-string,
+html[data-theme="dark"] .hljs-light .hljs-title,
+html[data-theme="dark"] .hljs-light .hljs-section,
+html[data-theme="dark"] .hljs-light .hljs-attribute,
+html[data-theme="dark"] .hljs-light .hljs-literal,
+html[data-theme="dark"] .hljs-light .hljs-template-tag,
+html[data-theme="dark"] .hljs-light .hljs-template-variable,
+html[data-theme="dark"] .hljs-light .hljs-type,
+html[data-theme="dark"] .hljs-light .hljs-addition {
+  color: #a5d6ff;
+}
+html[data-theme="dark"] .hljs-light .hljs-comment,
+html[data-theme="dark"] .hljs-light .hljs-quote,
+html[data-theme="dark"] .hljs-light .hljs-deletion,
+html[data-theme="dark"] .hljs-light .hljs-meta {
+  color: #8b949e;
+  font-style: italic;
+}
+html[data-theme="dark"] .hljs-light .hljs-number {
+  color: #79c0ff;
+}
+html[data-theme="dark"] .hljs-light .hljs-variable,
+html[data-theme="dark"] .hljs-light .hljs-params {
+  color: #ffa657;
+}
+html[data-theme="dark"] .hljs-light .hljs-built_in,
+html[data-theme="dark"] .hljs-light .hljs-builtin-name {
+  color: #79c0ff;
+}
+html[data-theme="dark"] .hljs-light .hljs-symbol,
+html[data-theme="dark"] .hljs-light .hljs-bullet {
+  color: #f0883e;
+}
+
+/* ============================== 文档内置组件 ============================== */
+
+html[data-theme="dark"] .doc-card-inner,
+html[data-theme="dark"] .doc-feature-card,
+html[data-theme="dark"] .doc-file-card,
+html[data-theme="dark"] .doc-banner-card,
+html[data-theme="dark"] .doc-capabilities-wrapper,
+html[data-theme="dark"] .doc-cap-item {
+  background-color: var(--dk-surface) !important;
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .doc-card-inner:hover,
+html[data-theme="dark"] .doc-file-card:hover,
+html[data-theme="dark"] .doc-banner-card:hover {
+  border-color: var(--dk-accent) !important;
+}
+html[data-theme="dark"] .doc-cap-item:hover {
+  background-color: var(--dk-hover) !important;
+}
+html[data-theme="dark"] .doc-markdown .doc-callout-note {
+  background-color: var(--dk-surface-2) !important;
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .doc-markdown .doc-comparison > div {
+  background-color: var(--dk-surface) !important;
+}
+
+/* Pro Table（原样式带 !important，这里同样以 !important 覆盖） */
+html[data-theme="dark"] .doc-pro-table th {
+  background-color: var(--dk-surface-2) !important;
+  color: var(--dk-text-1) !important;
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .doc-pro-table td {
+  border-color: var(--dk-border) !important;
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .doc-pro-table tr:hover td {
+  background-color: var(--dk-hover) !important;
+}
+
+/* 多媒体 / 提示块 */
+html[data-theme="dark"] .doc-multimodal blockquote {
+  background-color: var(--dk-surface-2) !important;
+  border-left-color: var(--dk-border-strong) !important;
+  color: var(--dk-text-2) !important;
+}
+
+/* ============================== 右侧本页目录 ============================== */
+
+html[data-theme="dark"] .document-toc .toc-title,
+html[data-theme="dark"] .document-toc > div {
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .document-toc .arco-anchor::before {
+  background-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .document-toc .arco-anchor-link-title {
+  color: var(--dk-text-3) !important;
+}
+html[data-theme="dark"] .document-toc .arco-anchor-link-title:hover {
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .document-toc .arco-anchor-link-active
+  > .arco-anchor-link-title {
+  color: var(--dk-text-1) !important;
+}
+
+/* ============================== 顶部操作 / 分享弹层 ============================== */
+
+html[data-theme="dark"] .doc-action-group {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .doc-action-divider {
+  color: var(--dk-border-strong);
+}
+html[data-theme="dark"] .doc-share-popover-wrapper .arco-popover-content {
+  background-color: var(--dk-surface) !important;
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .doc-share-header {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .doc-share-qr-wrapper img {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-share-copy-btn {
+  color: var(--dk-text-2) !important;
+  background-color: var(--dk-surface-2) !important;
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .doc-share-copy-btn:hover {
+  background-color: var(--dk-hover) !important;
+  color: var(--dk-text-1) !important;
+  border-color: var(--dk-border-strong) !important;
+}
+
+/* ============================== 底部分页 / 时间 / 页脚 ============================== */
+
+html[data-theme="dark"] .document-updated {
+  color: var(--dk-text-3);
+  border-top-color: var(--dk-border);
+}
+html[data-theme="dark"] .document-pagination {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .document-pagination span {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .document-pagination strong {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .document-pagination a:hover {
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .document-bottom {
+  border-top-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .document-bottom a {
+  color: #7ea6e8;
+}
+
+/* ============================== 全局搜索弹窗 ============================== */
+
+html[data-theme="dark"] .global-search-arco-modal .arco-modal {
+  background-color: var(--dk-surface);
+}
+/* 弹窗内容区由 Tailwind 硬编码亮色类组成，逐项覆盖 */
+html[data-theme="dark"] .global-search-arco-modal .bg-white {
+  background-color: var(--dk-surface) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .bg-gray-100 {
+  background-color: var(--dk-surface-2) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .hover\:bg-gray-50:hover {
+  background-color: var(--dk-hover) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .border-gray-100,
+html[data-theme="dark"] .global-search-arco-modal .border-gray-200 {
+  border-color: var(--dk-border) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .text-gray-800,
+html[data-theme="dark"] .global-search-arco-modal .text-gray-900 {
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .text-gray-600 {
+  color: var(--dk-text-2) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .text-gray-500,
+html[data-theme="dark"] .global-search-arco-modal .text-gray-400 {
+  color: var(--dk-text-3) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .hover\:text-gray-600:hover {
+  color: var(--dk-text-1) !important;
+}
+html[data-theme="dark"] .global-search-arco-modal .placeholder-gray-400::placeholder {
+  color: var(--dk-text-3) !important;
+}
+
+/* ============================== 其余公共页面兜底 ============================== */
+/* 主题作用于 <html>，离开文档页后其它公共页也要保持可读 */
+
+html[data-theme="dark"] .portal-hero {
+  background: linear-gradient(115deg, #16203a, #141a2b 58%, #161d33);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .portal-hero h1 {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .portal-hero p,
+html[data-theme="dark"] .portal-breadcrumb,
+html[data-theme="dark"] .portal-section-title,
+html[data-theme="dark"] .portal-section-title h2 {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .portal-doc-card {
+  background-color: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .portal-doc-card h3 {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .portal-doc-card p,
+html[data-theme="dark"] .portal-doc-card small {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .portal-search {
+  background-color: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .portal-empty {
+  background-color: var(--dk-surface);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .catalog-hero {
+  background:
+    radial-gradient(circle at 85% 15%, rgba(77, 139, 255, 0.14) 0%, transparent 45%),
+    linear-gradient(115deg, #161d31, #141826 58%, #151a2c);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .product-link-grid > a,
+html[data-theme="dark"] .learning-content {
+  background-color: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .public-button {
+  background-color: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .public-button.primary {
+  background-color: #e8eaf0;
+  border-color: #e8eaf0;
+  color: #141519;
+}
+html[data-theme="dark"] .public-button.primary:hover {
+  background-color: var(--dk-accent);
+  border-color: var(--dk-accent);
+  color: #ffffff;
+}
+html[data-theme="dark"] .product-visual {
+  background: linear-gradient(135deg, #171d2e, #151a29);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .project-reader > aside,
+html[data-theme="dark"] .favorites-list > li {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .favorites-list > li a {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .favorites-page time,
+html[data-theme="dark"] .favorites-page header p {
+  color: var(--dk-text-3);
+}
+html[data-theme="dark"] .project-public-footer {
+  color: var(--dk-text-3);
+  border-top-color: var(--dk-border);
+}
+
+/* Public entry header and API components also use the shared dark palette. */
+html[data-theme="dark"] .portal-header {
+  background-color: rgba(20, 21, 25, 0.95);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .portal-header a {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .portal-header .text-slate-500,
+html[data-theme="dark"] .portal-header .text-slate-300,
+html[data-theme="dark"] .portal-empty p {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .portal-header a:hover {
+  color: var(--dk-accent);
+  background-color: var(--dk-hover);
+}
+html[data-theme="dark"] .portal-hero > span {
+  background-color: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .doc-api-param-list,
+html[data-theme="dark"] .doc-api-param-row,
+html[data-theme="dark"] .doc-api-explorer-card {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-api-param-tag {
+  background-color: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .project-public .doc-api-param-badge {
+  background-color: #574b12;
+  color: #ffe58f !important;
+}
+html[data-theme="dark"] .doc-api-param-toggle:hover {
+  background-color: var(--dk-hover);
+}
+html[data-theme="dark"] .doc-api-explorer-card {
+  background-color: var(--dk-surface);
+}
+
+/* Catalog, overview, history and favorites: keep interactive surfaces dark. */
+html[data-theme="dark"] .catalog-search,
+html[data-theme="dark"] .hero-summary,
+html[data-theme="dark"] .catalog-search-results > a,
+html[data-theme="dark"] .revision-modal {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .catalog-search input,
+html[data-theme="dark"] .hero-summary strong,
+html[data-theme="dark"] .catalog-search-results strong {
+  color: var(--dk-text-1);
+}
+html[data-theme="dark"] .catalog-hero p,
+html[data-theme="dark"] .hero-summary span,
+html[data-theme="dark"] .product-group-nav > span,
+html[data-theme="dark"] .catalog-search-results small {
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .hero-kicker { color: var(--dk-accent); }
+html[data-theme="dark"] .product-link-grid > a:hover,
+html[data-theme="dark"] .product-link-grid > a:focus-visible,
+html[data-theme="dark"] .product-group-nav a:hover,
+html[data-theme="dark"] .product-group-nav a:focus-visible {
+  background: var(--dk-hover);
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .product-group-nav a.active {
+  background: #22304d;
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .product-link-grid > a:hover strong,
+html[data-theme="dark"] .product-link-grid a:hover svg {
+  color: var(--dk-accent);
+}
+html[data-theme="dark"] .revision-modal > header,
+html[data-theme="dark"] .revision-changes span {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .revision-changes span,
+html[data-theme="dark"] .timeline-header p { color: var(--dk-text-2); }
+html[data-theme="dark"] .visual-note,
+html[data-theme="dark"] .visual-stack {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+html[data-theme="dark"] .project-public-footer { border-color: var(--dk-border); }
+
+/* Exact utility tokens avoid treating hover classes as base classes.
+   Scope includes standalone markdown in history dialogs and favorites. */
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page, .project-public-footer) :is(
+  [class~="bg-white"], [class~="bg-gray-50"], [class~="bg-gray-100"],
+  [class~="bg-gray-50/40"], [class~="bg-gray-50/50"], [class~="bg-gray-50/70"], [class~="bg-gray-50/80"],
+  [class~="bg-gray-100/50"], [class~="bg-slate-50"],
+  [class~="bg-[#f7f8fa]"], [class~="bg-[#f2f6fd]"], [class~="bg-[#fafafa]"], [class~="bg-[#f2f3f5]"]
+) { background-color: var(--dk-surface-2) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page, .project-public-footer) :is(
+  [class~="border-gray-100"], [class~="border-gray-200"], [class~="border-gray-200/80"], [class~="border-gray-200/90"],
+  [class~="border-gray-300"], [class~="border-slate-100"], [class~="border-slate-200/80"],
+  [class~="border-[#e5e6eb]"], [class~="border-[#eef3f9]"], [class~="border-[#e5edf8]"]
+) { border-color: var(--dk-border) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is(
+  [class~="divide-[#eef3f9]"], [class~="divide-gray-100"]
+) > :not([hidden]) ~ :not([hidden]) { border-color: var(--dk-border); }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page, .project-public-footer) :is(
+  [class~="text-[#1d2129]"], [class~="text-[#30343b]"], [class~="text-gray-800"], [class~="text-gray-900"], [class~="text-slate-700"]
+) { color: var(--dk-text-1) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page, .project-public-footer) :is(
+  [class~="text-[#4e5969]"], [class~="text-[#4e5869]"], [class~="text-[#6b778b]"], [class~="text-[#65758d]"],
+  [class~="text-gray-700"], [class~="text-gray-600"], [class~="text-gray-500"], [class~="text-slate-500"]
+) { color: var(--dk-text-2) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page, .project-public-footer) :is(
+  [class~="text-[#86909c]"], [class~="text-[#8096bf]"], [class~="text-gray-400"], [class~="text-slate-400"], [class~="text-slate-300"]
+) { color: var(--dk-text-3) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is(
+  [class~="hover:bg-gray-100"], [class~="hover:bg-gray-50"], [class~="hover:bg-gray-50/50"], [class~="hover:bg-gray-50/80"],
+  [class~="hover:bg-blue-50/50"], [class~="hover:bg-[#e5e6eb]"], [class~="hover:bg-[#f9fbff]"], [class~="hover:bg-[#f7f8fa]"]
+):hover { background-color: var(--dk-hover) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page, .project-public-footer) :is(
+  [class~="hover:text-[#1d2129]"], [class~="hover:text-blue-600"], [class~="hover:text-[#1664FF]"], [class~="hover:text-slate-600"]
+):hover { color: var(--dk-accent) !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) .group:hover :is(
+  [class~="group-hover:text-blue-600"], [class~="group-hover:text-blue-500"]
+) { color: var(--dk-accent) !important; }
+/* Semantic tints retain the meaning of callouts, badges and icon backgrounds. */
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="bg-blue-50"], [class~="bg-blue-50/80"], [class~="bg-[#F4F7FF]"]) { background-color: #182238 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="border-blue-100/60"], [class~="border-blue-200"], [class~="border-[#D0DEFF]"]) { border-color: #2f4472 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="text-blue-600"], [class~="text-blue-700"], [class~="text-[#165dff]"], [class~="text-[#1E429F]"]) { color: #8fb6ff !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="bg-emerald-50"], [class~="bg-emerald-50/80"], [class~="bg-emerald-100"]) { background-color: #102620 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="border-emerald-100"], [class~="border-emerald-200"]) { border-color: #23513e !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="text-emerald-600"], [class~="text-emerald-700"], [class~="text-emerald-900"]) { color: #8fe3c2 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="bg-purple-50"], [class~="bg-purple-50/80"], [class~="bg-purple-100"]) { background-color: #1f1a33 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="border-purple-100"], [class~="border-purple-200"]) { border-color: #3d3266 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="text-purple-600"], [class~="text-purple-700"], [class~="text-purple-900"]) { color: #cdb8ff !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="bg-amber-50"], [class~="bg-amber-50/80"], [class~="bg-amber-100"]) { background-color: #2a2213 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="border-amber-100"], [class~="border-amber-200"]) { border-color: #57431c !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="text-amber-600"], [class~="text-amber-700"], [class~="text-amber-900"]) { color: #ffd899 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="bg-rose-50"], [class~="bg-rose-50/80"], [class~="bg-rose-100"]) { background-color: #2d1a1d !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="border-rose-100"], [class~="border-rose-200"]) { border-color: #5e2a31 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="text-rose-600"], [class~="text-rose-700"], [class~="text-rose-900"]) { color: #ffb4bc !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="bg-red-50"], [class~="bg-red-50/80"], [class~="bg-red-100"]) { background-color: #2d1a1d !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="border-red-100"], [class~="border-red-200"]) { border-color: #5e2a31 !important; }
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is([class~="text-red-600"], [class~="text-red-700"], [class~="text-red-900"]) { color: #ffb4bc !important; }
+
+html[data-theme="dark"] .doc-card-inner:hover,
+html[data-theme="dark"] .doc-feature-card:hover,
+html[data-theme="dark"] .doc-file-card:hover,
+html[data-theme="dark"] .doc-banner-card:hover {
+  background: var(--dk-hover) !important;
+  border-color: var(--dk-accent) !important;
+}
+html[data-theme="dark"] .doc-prompt-preview .select-text,
+html[data-theme="dark"] .doc-storyboard > div > div,
+html[data-theme="dark"] .doc-video-grid [class~="bg-gray-100"] {
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .product-link-grid {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+/* Reference navigation uses !important; override at the same priority. */
+html[data-theme="dark"] .product-group-nav a.active {
+  background: #22304d !important;
+  color: var(--dk-accent) !important;
+  box-shadow: inset 3px 0 0 var(--dk-accent);
+}
+html[data-theme="dark"] .product-group-nav a.active:hover {
+  background: #2a3b5e !important;
+}
+html[data-theme="dark"] .product-group-nav a.active > svg:last-child {
+  color: var(--dk-accent) !important;
+}
+html[data-theme="dark"] .doc-feature-content li {
+  color: var(--dk-text-2) !important;
+}
+html[data-theme="dark"] .doc-feature-content li::marker {
+  color: var(--dk-text-3) !important;
+}
+html[data-theme="dark"] .product-uploaded-media {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+html[data-theme="dark"] .doc-markdown .doc-storyboard tr:hover td {
+  background: transparent !important;
+}
+html[data-theme="dark"] .doc-markdown .doc-api-param-tag {
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text-2) !important;
+}
+html[data-theme="dark"] :is(.project-public, .doc-markdown, .favorites-page) :is(
+  [class~="hover:border-blue-300"], [class~="hover:border-blue-400"], [class~="hover:border-blue-500"]
+):hover { border-color: var(--dk-accent) !important; }
+html[data-theme="dark"] .code-tabs [class~="border-t-[#1664ff]"] {
+  border-top-color: var(--dk-accent) !important;
+  color: var(--dk-accent) !important;
+}

@@ -1,0 +1,1187 @@
+/* Reading proportions and typography shared by the public documentation pages. */
+.project-public {
+  --reading-text: #30343b;
+  --reading-muted: #697386;
+  --reading-line: #e9ecf1;
+}
+.project-public-header > div {
+  max-width: none;
+  padding-inline: 28px;
+}
+.project-public-header nav {
+  font-size: 14px;
+}
+.product-document-layout {
+  max-width: none;
+}
+.product-doc-sidebar {
+  width: 260px;
+  padding: 26px 22px 44px;
+}
+.product-doc-sidebar nav a,
+.public-tree-group summary,
+.public-tree-heading {
+  font-size: 14px;
+  line-height: 22px;
+  padding: 8px 12px;
+}
+.product-doc-sidebar nav a.active {
+  background: #f2f3f5;
+  color: #343940;
+  font-weight: 600;
+}
+.public-tree-group {
+  margin-top: 8px;
+}
+.public-tree-heading {
+  margin: 0;
+  min-height: 36px;
+  font-weight: 600;
+  color: var(--color-text-1);
+}
+.product-doc-sidebar .public-tree-group > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14px;
+  align-items: center;
+  justify-content: initial;
+  column-gap: 8px;
+}
+.product-doc-sidebar .public-tree-group > summary > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+.product-doc-sidebar .public-tree-group > summary > svg:last-child {
+  justify-self: end;
+}
+.public-tree-group > div {
+  border-left: 0;
+  margin-left: 0;
+  padding-left: 20px;
+}
+.public-tree-group .public-tree-group {
+  margin-left: 0;
+}
+.tree-search {
+  min-height: 38px;
+  margin: 0 0 20px;
+}
+.tree-search input {
+  font-size: 13px;
+}
+
+/* Sidebar Top Search Box Trigger matching Screenshots 1 & 2 */
+.doc-search-trigger {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 38px;
+  padding: 0 10px 0 12px;
+  background: #ffffff;
+  border: 1px solid #e5e6eb;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  margin: 0 0 18px;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.doc-search-trigger:hover,
+.doc-search-trigger:focus-visible {
+  border-color: transparent;
+  background: linear-gradient(#ffffff, #ffffff) padding-box,
+              linear-gradient(135deg, #386bff 0%, #7b61ff 45%, #ffb356 100%) border-box;
+  box-shadow: 0 0 12px rgba(56, 107, 255, 0.15);
+  outline: none;
+}
+
+.doc-search-sparkle-icon {
+  display: flex;
+  align-items: center;
+  color: #4e5969;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.doc-search-placeholder {
+  flex: 1;
+  font-size: 13px;
+  color: #86909c;
+  text-align: left;
+}
+
+.doc-search-shortcuts {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: auto;
+}
+
+.doc-search-shortcuts kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 20px;
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: #4e5969;
+  background: #f2f3f5;
+  border-radius: 4px;
+  border: 1px solid rgba(229, 230, 235, 0.8);
+  line-height: 1;
+}
+
+.product-doc-sidebar h2 {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 6px 4px 14px;
+  margin: 0;
+  color: var(--color-text-1, #1d2129);
+}
+
+/* Global Search Modal Custom Styles & Smooth Opening/Closing Animation */
+.global-search-arco-modal .arco-modal-mask {
+  background-color: rgba(15, 23, 42, 0.38) !important;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.global-search-arco-modal .arco-modal {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transform-origin: 50% 0%;
+}
+
+.global-search-arco-modal .arco-modal-content {
+  padding: 0 !important;
+}
+
+.global-search-arco-modal .arco-pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Modal Window Slide-Down + Fade-In Opening Animation */
+.global-search-arco-modal .zoomModal-enter,
+.global-search-arco-modal .zoomModal-appear {
+  opacity: 0 !important;
+  transform: translateY(-20px) scale(0.97) !important;
+}
+
+.global-search-arco-modal .zoomModal-enter-active,
+.global-search-arco-modal .zoomModal-appear-active {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Modal Window Slide-Up + Fade-Out Closing Animation */
+.global-search-arco-modal .zoomModal-exit {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+.global-search-arco-modal .zoomModal-exit-active {
+  opacity: 0 !important;
+  transform: translateY(-12px) scale(0.97) !important;
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Mask Fade Transition */
+.global-search-arco-modal-mask.fadeModal-enter-active,
+.global-search-arco-modal-mask.fadeModal-appear-active {
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.global-search-arco-modal-mask.fadeModal-exit-active {
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.product-reading-layout {
+  display: flex;
+  max-width: 1600px;
+  gap: clamp(36px, 4vw, 80px);
+  padding: 38px clamp(20px, 2vw, 40px) 72px;
+  margin-inline: auto;
+  align-items: flex-start;
+}
+.product-reading-article {
+  padding: 0 clamp(24px, 3vw, 48px);
+  flex: 1;
+  min-width: 0;
+  max-width: 1160px;
+  margin-inline: auto;
+}
+.document-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  min-width: 0;
+}
+.document-top-bar .document-breadcrumb {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.document-top-bar .document-actions {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+/* 外观模式切换：单图标按钮，点击在 跟随系统 → 亮色 → 暗色 间循环 */
+.doc-theme-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-3, #86909c);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+.doc-theme-switch:hover {
+  background-color: var(--color-fill-2, #f2f3f5);
+  color: var(--color-text-1, #1d2129);
+}
+.doc-theme-switch:focus-visible {
+  outline: 2px solid var(--color-primary-6, #165dff);
+  outline-offset: 1px;
+}
+.doc-theme-switch svg {
+  display: block;
+}
+@media (max-width: 768px) {
+  .document-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .document-top-bar .document-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+.document-breadcrumb {
+  font-size: 12px;
+  line-height: 20px;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.product-reading-article > header {
+  padding-bottom: 26px;
+  margin-bottom: 36px;
+  border-color: var(--reading-line);
+}
+.product-reading-article > header h1 {
+  font-size: 32px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: #181a1d;
+}
+.product-reading-article > header > div {
+  font-size: 12px;
+  margin-top: 12px;
+  gap: 16px;
+}
+.product-reading-article > header p {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-top: 24px;
+  color: var(--reading-muted);
+}
+.product-reading-article .doc-markdown {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--reading-text);
+}
+.product-reading-article .doc-markdown p {
+  font-size: 15px;
+  line-height: 1.85;
+  margin: 0 0 18px;
+}
+.product-reading-article .doc-markdown h2 {
+  font-size: 24px;
+  line-height: 1.5;
+  margin: 44px 0 24px;
+  font-weight: 600;
+}
+.product-reading-article .doc-markdown h3 {
+  font-size: 19px;
+  line-height: 1.5;
+  margin: 30px 0 18px;
+  font-weight: 600;
+}
+.product-reading-article .doc-markdown.theme-classic h2,
+.product-reading-article .doc-markdown.theme-classic h3 {
+  color: #1d2129;
+}
+.product-reading-article .doc-markdown th,
+.product-reading-article .doc-markdown td {
+  font-size: 14px;
+  line-height: 1.8;
+  padding: 14px 18px;
+}
+.product-reading-article .doc-markdown pre {
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+.product-reading-article .doc-code-box pre,
+.product-reading-article .code-tabs pre {
+  font-size: 12px !important;
+  line-height: 1.5rem !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+.product-reading-article .doc-code-box pre code,
+.product-reading-article .code-tabs pre code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+.product-reading-article .doc-markdown blockquote {
+  margin: 22px 0;
+  padding: 16px 18px;
+}
+.product-reading-article .doc-markdown blockquote p {
+  margin: 0;
+}
+.product-reading-article .doc-markdown.density-compact p {
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.product-reading-article .doc-markdown.density-compact h2 {
+  margin-top: 28px;
+}
+/* Document Table of Contents */
+.document-toc {
+  flex: 0 0 180px;
+  width: 180px;
+  top: 84px;
+  font-size: 14px;
+  padding: 0 !important;
+  border-left: none !important;
+}
+.document-toc > div,
+.document-toc .toc-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-1, #1d2129);
+  margin-bottom: 12px;
+  padding-left: 12px;
+}
+.document-toc .arco-anchor {
+  background: transparent;
+  font-size: 13px;
+  width: 100%;
+  position: relative;
+  overflow: visible !important;
+}
+/* Single light vertical line on the left (same coordinate parent as slider) */
+.document-toc .arco-anchor::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 2px !important;
+  background-color: var(--color-border-2, #e5e6eb) !important;
+  left: 0 !important;
+  display: block !important;
+  z-index: 1 !important;
+}
+.document-toc .arco-anchor-list {
+  margin-left: 0 !important;
+  position: relative !important;
+}
+/* Hide inner default track line to avoid any duplicate or misalignment */
+.document-toc .arco-anchor-list::before {
+  display: none !important;
+}
+/* Marker point directly ON the line (identical left: 0 and width: 2px) */
+.document-toc .arco-anchor-line-slider {
+  position: absolute !important;
+  width: 2px !important;
+  height: 14px !important;
+  margin-top: 8px !important;
+  background-color: #165dff !important;
+  border-radius: 1px !important;
+  left: 0 !important;
+  display: block !important;
+  z-index: 2 !important;
+  transition: all 0.2s cubic-bezier(0.34, 0.69, 0.1, 1) !important;
+}
+/* Anchor links */
+.document-toc .arco-anchor-link {
+  padding: 3px 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+/* Normal title: gray text, no background */
+.document-toc .arco-anchor-link-title {
+  color: #4e5969 !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  padding: 2px 0 2px 12px !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  text-decoration: none !important;
+  transition: font-weight 0.15s ease !important;
+}
+.document-toc .arco-anchor-link-title:hover {
+  color: #1d2129 !important;
+  background: transparent !important;
+}
+/* Active title: ONLY bold, NO background, NO text color change (stays dark #1d2129) */
+.document-toc .arco-anchor-link-active > .arco-anchor-link-title {
+  color: #1d2129 !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+/* Nested H3 titles indentation */
+.document-toc .arco-anchor-link .arco-anchor-link {
+  padding-left: 0 !important;
+}
+.document-toc .arco-anchor-link .arco-anchor-link .arco-anchor-link-title {
+  padding-left: 24px !important;
+}
+.catalog-hero {
+  background: #f6f8ff url("/images/document-hero.png") center / cover no-repeat;
+}
+.catalog-hero h1 {
+  font-size: 34px;
+  line-height: 1.4;
+}
+.catalog-hero p {
+  font-size: 15px;
+  line-height: 1.8;
+}
+.catalog-hero-inner {
+  padding-block: 48px;
+}
+.catalog-product-section > h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.product-link-grid > a {
+  padding: 24px 18px;
+}
+.product-link-grid strong {
+  font-size: 16px;
+  line-height: 1.5;
+}
+.product-link-grid p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+.product-link-grid small {
+  margin-top: 12px;
+}
+.product-default-art {
+  width: 100%;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+}
+@media (min-width: 1800px) {
+  .product-doc-sidebar {
+    width: 280px;
+    padding-inline: 24px;
+  }
+  .product-reading-layout {
+    padding-inline: 100px;
+    gap: 100px;
+  }
+  .document-toc {
+    flex-basis: 200px;
+    width: 200px;
+  }
+}
+@media (max-width: 1200px) {
+  .product-doc-sidebar {
+    width: 230px;
+    padding-inline: 16px;
+  }
+  .product-reading-layout {
+    padding: 32px 40px 60px;
+  }
+}
+@media (max-width: 800px) {
+  .product-doc-sidebar {
+    width: 210px;
+    padding-inline: 12px;
+  }
+  .product-reading-layout {
+    padding: 28px 24px 48px;
+  }
+  .product-reading-article > header h1 {
+    font-size: 28px;
+  }
+  .product-default-art {
+    height: 190px;
+    margin-top: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .project-public-header > div {
+    padding-inline: 18px;
+  }
+  .project-public-header nav {
+    font-size: 12px;
+  }
+  .product-doc-sidebar {
+    width: 100%;
+    padding: 0 18px;
+  }
+  .product-reading-layout {
+    padding: 24px 20px 44px;
+  }
+  .document-breadcrumb {
+    margin-bottom: 20px;
+  }
+  .product-reading-article > header h1 {
+    font-size: 27px;
+  }
+  .product-reading-article .doc-markdown h2 {
+    font-size: 22px;
+    margin-top: 32px;
+  }
+  .catalog-hero h1 {
+    font-size: 28px;
+  }
+  .catalog-hero-inner {
+    padding-block: 32px;
+  }
+  .catalog-hero p {
+    font-size: 14px;
+  }
+  .product-link-grid > a {
+    padding: 18px 12px;
+  }
+  .product-link-grid strong {
+    font-size: 15px;
+  }
+  .product-link-grid p {
+    font-size: 13px;
+  }
+}
+.product-reading-article .doc-markdown h2 {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.product-reading-article .doc-callout {
+  font-size: 14px;
+  line-height: 1.8;
+  border-radius: 8px;
+  box-shadow: none;
+  padding: 16px 18px;
+}
+.product-reading-article .doc-callout-note {
+  background: #f8f9fb;
+  border-color: var(--reading-line);
+  color: var(--reading-text);
+}
+.product-reading-article .doc-callout .prose-clean p:last-child {
+  margin-bottom: 0;
+}
+.product-reading-article .doc-comparison > div {
+  background: white;
+  border-radius: 8px;
+  padding: 18px;
+}
+.product-reading-article .doc-comparison > div > div {
+  font-size: 14px;
+  line-height: 1.8;
+}
+@media (min-width: 1201px) and (max-width: 1400px) {
+  .product-reading-layout {
+    padding-inline: 40px;
+    gap: 32px;
+  }
+  .document-toc {
+    flex-basis: 160px;
+    width: 160px;
+  }
+}
+/* Document Top Action Toolbar (matching reference screenshot) */
+.document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+/* Arco Split Button (.doc-arco-split-btn) Alignment & Appearance */
+.doc-arco-split-btn.arco-btn-group {
+  display: inline-flex !important;
+  align-items: stretch !important;
+  vertical-align: middle !important;
+  height: 28px !important;
+}
+
+.doc-arco-split-btn.arco-btn-group > .arco-btn,
+.doc-arco-split-btn .arco-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  height: 28px !important;
+  line-height: 26px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  font-size: 12px !important;
+}
+
+.doc-arco-split-btn.arco-btn-group > .arco-btn:first-child,
+.doc-arco-split-btn .arco-btn:first-child {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  padding: 0 10px !important;
+}
+
+.doc-arco-split-btn.arco-btn-group > .arco-btn:last-child,
+.doc-arco-split-btn .arco-btn:last-child {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  width: 26px !important;
+  min-width: 26px !important;
+  padding: 0 !important;
+}
+
+.doc-arco-split-btn .arco-btn:not(:last-child) {
+  border-right: 1px solid var(--color-secondary-hover, #e5e6eb) !important;
+}
+
+.doc-arco-split-btn .arco-btn .arco-icon {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+/* Action Group: ☆ | ↥ | 我的收藏 */
+.doc-action-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #4e5969;
+  font-size: 13px;
+}
+
+.doc-action-divider {
+  display: inline-flex;
+  align-items: center;
+  color: #c9cdd4;
+  font-size: 12px;
+  user-select: none;
+  line-height: 1;
+}
+
+/* 圆形图标按钮内的 svg 恢复行内块显示：
+   Tailwind preflight 将 svg 设为 block，会让自定义分享图标
+   偏离 text-align 居中的背景（偏左约 5px），这里与 Arco 图标行为对齐 */
+.doc-action-group .arco-btn svg {
+  display: inline-block;
+  vertical-align: -2px;
+}
+
+/* Share Popover Styling (Single clean card, no nested border) */
+.doc-share-popover-wrapper.arco-popover {
+  padding: 0;
+}
+
+.doc-share-popover-wrapper .arco-popover-inner {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.doc-share-popover-wrapper .arco-popover-content {
+  padding: 14px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #e5e6eb !important;
+  background-color: #ffffff !important;
+}
+
+.doc-share-popover-content {
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.doc-share-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #1d2129;
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.doc-share-qr-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 136px;
+  height: 136px;
+  margin-bottom: 12px;
+}
+
+.doc-share-qr-wrapper img {
+  display: block;
+  width: 136px;
+  height: 136px;
+  border-radius: 4px;
+  border: 1px solid #f2f3f5;
+}
+
+.doc-share-action {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.doc-share-copy-btn {
+  width: 136px !important;
+  height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  border-radius: 4px !important;
+  color: #4e5969 !important;
+  background-color: #f2f3f5 !important;
+  border: 1px solid #e5e6eb !important;
+  transition: all 0.15s ease !important;
+}
+
+.doc-share-copy-btn:hover {
+  background-color: #e5e6eb !important;
+  color: #1d2129 !important;
+  border-color: #c9cdd4 !important;
+}
+
+.document-updated {
+  margin-top: 48px;
+  padding: 24px 0;
+  font-size: 14px;
+  color: var(--reading-muted);
+  border-top: 1px solid var(--reading-line);
+}
+.document-pagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid var(--reading-line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-top: 20px;
+}
+.document-pagination a {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+}
+.document-pagination a:last-child {
+  justify-content: flex-end;
+  text-align: right;
+}
+.document-pagination span {
+  color: var(--reading-muted);
+  font-size: 13px;
+}
+.document-pagination strong {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.document-pagination a:hover {
+  color: #386bff;
+}
+.favorites-page {
+  width: min(100% - 40px, 1000px);
+  margin: 48px auto;
+  padding-bottom: 48px;
+}
+.favorites-page h1 {
+  font-size: 30px;
+  margin: 20px 0 12px;
+}
+.favorites-page header p {
+  color: #86909c;
+  margin-bottom: 32px;
+}
+.favorites-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 24px;
+}
+.favorites-list > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid #e5e6eb;
+}
+.favorites-list > li a {
+  font-size: 17px;
+  font-weight: 500;
+  color: #1d2129;
+}
+.favorites-list > li p {
+  margin: 10px 0;
+  color: #697386;
+}
+.favorites-page time {
+  color: #86909c;
+  font-size: 12px;
+}
+.favorites-page .arco-pagination {
+  justify-content: flex-end;
+}
+.group-edit-form {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+}
+.product-group-list > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e6eb;
+}
+.product-group-list > div > span {
+  flex: 1;
+}
+.product-group-list small {
+  display: block;
+  color: #86909c;
+  margin-top: 4px;
+}
+@media (max-width: 600px) {
+  .document-actions {
+    justify-content: flex-start;
+    gap: 4px;
+  }
+  .document-pagination {
+    padding: 16px;
+    gap: 16px;
+  }
+  .document-pagination a {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .document-pagination a:last-child {
+    align-items: flex-end;
+  }
+}
+.category-doc-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+}
+@media (min-width: 1200px) {
+  .category-doc-links {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .category-doc-links:has(> a:only-child) {
+    grid-template-columns: 1fr;
+  }
+  .category-doc-links:has(> a:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .category-doc-links:has(> a:nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.category-doc-links a > svg:last-child {
+  display: none;
+}
+/* 滚动吸顶：品牌栏固定在 top:0，面包屑子导航固定在其下方 top:64px，
+   位置始终不变、不隐藏、不做过渡动画；白色/毛玻璃背景与淡灰下边框
+   由 .project-public-header / .product-subnav 基础样式提供。 */
+.product-subnav {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-public-header,
+  .product-subnav,
+  .product-doc-sidebar,
+  .document-toc,
+  .product-group-nav {
+    transition: none !important;
+  }
+}
+.doc-markdown video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  background: #111;
+}
+.doc-comparison .doc-markdown {
+  white-space: normal;
+}
+.table-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.icon-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+.icon-picker button {
+  border: 1px solid #e5e6eb;
+  padding: 9px;
+  border-radius: 5px;
+  background: white;
+}
+.icon-picker button[aria-pressed="true"] {
+  border-color: #386bff;
+  color: #386bff;
+  background: #edf3ff;
+}
+@media(max-width:600px){.product-doc-sidebar{min-height:0;max-height:none;top:auto}}
+
+/* Print / PDF Export Optimization */
+@media print {
+  header,
+  nav,
+  aside,
+  footer,
+  .document-actions,
+  .document-toc,
+  .document-pagination,
+  .site-header,
+  .product-reading-sidebar,
+  .feedback-box,
+  .arco-back-top,
+  .arco-message,
+  .arco-dropdown,
+  .arco-popover {
+    display: none !important;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .product-reading-layout {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .product-reading-article {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .doc-markdown {
+    color: #1d2129 !important;
+  }
+
+  pre,
+  table,
+  img,
+  svg,
+  .doc-callout,
+  .doc-comparison,
+  .doc-storyboard-item,
+  .doc-feature-card,
+  .doc-nav-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+}
+
+/* ============================================================
+   Image Preview - Constrained Comfortable Size & Polished UI
+   ============================================================ */
+.arco-image-preview.doc-image-preview,
+.arco-image-preview {
+  z-index: 1100;
+}
+
+.arco-image-preview-mask {
+  background-color: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.arco-image-preview .arco-image-preview-img-container .arco-image-preview-img {
+  max-width: min(1216px, 92vw) !important;
+  max-height: min(832px, 85vh) !important;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background-color: #ffffff;
+}
+
+.arco-image-preview-toolbar {
+  bottom: 32px !important;
+  background-color: rgba(23, 23, 23, 0.85) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 28px !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.arco-image-preview-toolbar-action {
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  color: #f3f4f6 !important;
+  background-color: transparent !important;
+  margin: 0 3px !important;
+  transition: all 0.15s ease;
+}
+
+.arco-image-preview-toolbar-action:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.arco-image-preview-close-btn {
+  top: 24px !important;
+  right: 24px !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(23, 23, 23, 0.65) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50% !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.arco-image-preview-close-btn:hover {
+  background-color: rgba(239, 68, 68, 0.85) !important;
+  transform: scale(1.08);
+}
+
+/* ============================================================
+   Document Center Homepage (Portal) Sticky Header & Sidebar
+   ============================================================ */
+/* Sticky header on portal page */
+.is-portal-page .project-public-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
+  transform: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  background-color: #fffffff5;
+  transition: background-color 0.25s cubic-bezier(0.2, 0, 0, 1),
+              backdrop-filter 0.25s cubic-bezier(0.2, 0, 0, 1),
+              opacity 0.25s cubic-bezier(0.2, 0, 0, 1),
+              box-shadow 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+/* Sticky left sidebar on portal page */
+.is-portal-page .product-group-nav {
+  position: sticky !important;
+  top: 76px !important;
+  align-self: start !important;
+  max-height: calc(100dvh - 88px) !important;
+  overflow-y: auto !important;
+  transition: top 0.25s cubic-bezier(0.2, 0, 0, 1) !important;
+  scrollbar-width: thin;
+}
+
+/* Active navigation item styling */
+.product-group-nav a {
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1) !important;
+}
+
+.product-group-nav a.active {
+  background: #eff4fe !important;
+  color: #245eea !important;
+  font-weight: 600 !important;
+  box-shadow: inset 3px 0 0 #245eea;
+}
+
+.product-group-nav a.active > svg:last-child {
+  opacity: 1 !important;
+  color: #245eea !important;
+  transform: translateX(2px);
+}
+
+

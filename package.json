@@ -1,0 +1,49 @@
+{
+  "name": "volc-doc-center",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4000",
+    "build": "next build",
+    "start": "next start -p 4000",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test:integration": "node tests/workspace.integration.mjs",
+    "test:media": "node tests/media-editor.integration.mjs",
+    "test:groups": "node tests/product-groups.integration.mjs",
+    "test:reorder": "node tests/catalog-reorder.integration.mjs",
+    "test:expansion": "node tests/expansion.integration.mjs",
+    "test:components": "node tests/components.test.mjs",
+    "test:icons": "node tests/icon-system.test.mjs",
+    "test:codewrap": "node tests/code-wrap.test.mjs",
+    "test:htmltabs": "node tests/html-tabs.test.mjs",
+    "test:category-icons": "node tests/category-icons.test.mjs"
+  },
+  "dependencies": {
+    "@arco-design/web-react": "^2.66.16",
+    "@types/katex": "^0.16.8",
+    "clsx": "^2.1.1",
+    "highlight.js": "^11.12.0",
+    "katex": "^0.18.7",
+    "lucide-react": "^0.453.0",
+    "marked": "^18.0.13",
+    "mermaid": "^12.0.0",
+    "next": "^14.2.15",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanitize-html": "^2.17.7",
+    "tailwind-merge": "^2.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/sanitize-html": "^2.16.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.5.4"
+  }
+}
