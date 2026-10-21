@@ -67,9 +67,9 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
     description: p.description,
     company: str(p.company) ?? undefined,
     brandName: str(p.brandName) ?? undefined,
-    productGroups: p.productGroups as string[] | undefined,
-    hiddenProductGroups: p.hiddenProductGroups as string[] | undefined,
-    groupIcons: p.groupIcons as Record<string, string> | undefined,
+    productGroups: (p.productGroups ?? undefined) as string[] | undefined,
+    hiddenProductGroups: (p.hiddenProductGroups ?? undefined) as string[] | undefined,
+    groupIcons: (p.groupIcons ?? undefined) as Record<string, string> | undefined,
     updatedAt: fmt(p.updatedAt),
     products: p.products.map(
       (pp): ProjectProduct => ({
@@ -78,8 +78,8 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
         name: pp.name,
         description: pp.description,
         group: pp.group,
-        media: pp.media as ProjectProduct["media"],
-        docOrder: pp.docOrder as string[] | undefined,
+        media: (pp.media ?? undefined) as ProjectProduct["media"],
+        docOrder: (pp.docOrder ?? undefined) as string[] | undefined,
         categories: pp.categories.map(
           (c): DocCategory => ({
             id: c.id,
@@ -148,7 +148,7 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
       content: d.content,
       hidden: d.hidden || undefined,
       changeNote: str(d.changeNote) ?? undefined,
-      appearance: d.appearance as DocDetail["appearance"],
+      appearance: (d.appearance ?? undefined) as DocDetail["appearance"],
       placements: d.placements.map((pl) => ({
         projectId: pl.projectId,
         productId: pl.productId,
@@ -171,9 +171,9 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
     publishedAt: fmt(r.publishedAt),
     summary: r.summary,
     changes: r.changes as string[],
-    placements: r.placements as unknown as DocRevision["placements"],
+    placements: (r.placements ?? undefined) as unknown as DocRevision["placements"],
     content: r.content,
-    appearance: r.appearance as DocRevision["appearance"],
+    appearance: (r.appearance ?? undefined) as DocRevision["appearance"],
     baseline: r.baseline || undefined,
   }));
 
@@ -188,7 +188,7 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
     createdAt: fmt(u.createdAt),
     updatedAt: fmt(u.updatedAt),
     lastLoginAt: u.lastLoginAt ? fmt(u.lastLoginAt) : undefined,
-    customPermissions: u.customPermissions as AdminUser["customPermissions"],
+    customPermissions: (u.customPermissions ?? undefined) as AdminUser["customPermissions"],
   }));
 
   const storeRoles: RoleDefinition[] = roles.map((r) => ({

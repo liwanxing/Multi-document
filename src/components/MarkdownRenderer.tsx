@@ -180,8 +180,10 @@ interface MarkdownRendererProps {
 
 export default function MarkdownRenderer({
   content,
-  appearance = defaultAppearance,
+  appearance: appearanceProp,
 }: MarkdownRendererProps) {
+  // appearance 可能为 null（如数据库 NULL 直接透传），null 不触发默认值，需显式兜底
+  const appearance = appearanceProp ?? defaultAppearance;
   // Parse Markdown with all tech extensions
   const [zoom, setZoom] = useState("");
   const root = useRef<HTMLDivElement>(null);
