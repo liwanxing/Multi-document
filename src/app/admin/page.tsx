@@ -947,7 +947,7 @@ export default function AdminPage() {
             className="mt-4"
           >
             <div style={{ border: "1px solid var(--color-border-secondary)", borderRadius: 8, padding: "16px 16px 4px", marginBottom: 16 }}>
-              <div style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text-primary)", marginBottom: 12 }}>项目信息</div>
+              <div style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text-primary)", marginBottom: 12 }}>项目基础信息</div>
             <Form.Item label="项目名称" required>
               <Input
                 autoFocus
@@ -956,16 +956,6 @@ export default function AdminPage() {
                 value={projectForm.name}
                 onChange={(name) => setProjectForm({ ...projectForm, name })}
                 placeholder="例如：开发者平台"
-              />
-            </Form.Item>
-            <Form.Item label="公司 / 品牌名称">
-              <Input
-                maxLength={160}
-                value={projectForm.company || ""}
-                onChange={(company) =>
-                  setProjectForm({ ...projectForm, company })
-                }
-                placeholder="在项目首页和文档页中展示"
               />
             </Form.Item>
             <Form.Item
@@ -986,15 +976,6 @@ export default function AdminPage() {
                 placeholder="developer-platform"
               />
             </Form.Item>
-            <Form.Item label="品牌名称" extra="变量 brand_name，留空使用项目名称">
-              <Input
-                value={projectForm.brandName || ""}
-                onChange={(brandName) =>
-                  setProjectForm({ ...projectForm, brandName })
-                }
-                placeholder="留空默认使用项目名称"
-              />
-            </Form.Item>
             <Form.Item label="项目说明">
               <Input.TextArea
                 rows={3}
@@ -1008,7 +989,7 @@ export default function AdminPage() {
             </div>
             <div style={{ border: "1px solid var(--color-border-secondary)", borderRadius: 8, padding: "16px 16px 4px", marginBottom: 16, background: "var(--color-fill-1, rgba(0,0,0,0.015))" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text-primary)" }}>自定义字段（变量）</div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text-primary)" }}>项目变量</div>
                 <Button
                   size="small"
                   type="text"
@@ -1027,8 +1008,33 @@ export default function AdminPage() {
                 </Button>
               </div>
               <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginBottom: 12 }}>
-                文档正文中用 {"{{变量名}}"} 引用，不同项目渲染各自的值；brand_name / company_name 为内置变量
+                文档正文中用 {"{{变量名}}"} 引用，按项目渲染各自的值；brand_name / company_name 为系统内置变量
               </div>
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "center" }}>
+                <div style={{ width: 140, fontSize: 12, color: "var(--color-text-secondary)", fontFamily: "monospace" }}>brand_name</div>
+                <div style={{ width: 130, fontSize: 12, color: "var(--color-text-secondary)" }}>品牌名称（内置）</div>
+                <Input
+                  style={{ flex: 1 }}
+                  placeholder="留空默认使用项目名称"
+                  value={projectForm.brandName || ""}
+                  onChange={(brandName) =>
+                    setProjectForm({ ...projectForm, brandName })
+                  }
+                />
+              </div>
+              <div style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "center" }}>
+                <div style={{ width: 140, fontSize: 12, color: "var(--color-text-secondary)", fontFamily: "monospace" }}>company_name</div>
+                <div style={{ width: 130, fontSize: 12, color: "var(--color-text-secondary)" }}>公司 / 品牌名称（内置）</div>
+                <Input
+                  style={{ flex: 1 }}
+                  placeholder="在项目首页和文档页中展示"
+                  value={projectForm.company || ""}
+                  onChange={(company) =>
+                    setProjectForm({ ...projectForm, company })
+                  }
+                />
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-secondary)", margin: "4px 0 10px" }}>自定义字段（可增删）</div>
               {(projectForm.customFields || []).length === 0 ? (
                 <div style={{ fontSize: 12, color: "var(--color-text-tertiary)", padding: "4px 0 12px" }}>
                   暂无自定义字段，点右上角"添加字段"
