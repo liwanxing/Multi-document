@@ -2,12 +2,12 @@ import { publicProduct } from "@/lib/publicProject";
 import { productHref } from "@/lib/projectModel";
 import UpdateTimeline from "@/components/UpdateTimeline";
 export const dynamic = "force-dynamic";
-export default function UpdatesPage({
+export default async function UpdatesPage({
   params,
 }: {
   params: { projectSlug: string; productSlug: string };
 }) {
-  const { project, product, history } = publicProduct(
+  const { project, product, history } = await publicProduct(
     params.projectSlug,
     params.productSlug,
   );

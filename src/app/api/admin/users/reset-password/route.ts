@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const targetUser = findUserById(id);
+    const targetUser = await findUserById(id);
     if (!targetUser) {
       return NextResponse.json(
         { code: 404, message: "用户不存在" },
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       );
     }
 
-    resetUserPassword(id, newPassword);
+    await resetUserPassword(id, newPassword);
 
     return NextResponse.json({
       code: 0,

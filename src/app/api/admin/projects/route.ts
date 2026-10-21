@@ -27,7 +27,7 @@ export async function POST(request: Request) {
         },
         { status: 400 },
       );
-    const store = getStore();
+    const store = await getStore();
     if (body.copyFrom) {
       const source = store.projects?.find((p) => p.id === body.copyFrom);
       if (!source)
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         company:typeof body.company==="string"?body.company.trim().slice(0,160):undefined,
         brandName:typeof body.brandName==="string"?body.brandName.trim().slice(0,160):undefined,
       });
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({ code: 0, data: copy });
     }
     const existing = store.projects?.find((p) => p.id === body.id);
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     store.projects = existing
       ? store.projects!.map((p) => (p.id === existing.id ? project : p))
       : [...(store.projects || []), project];
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({ code: 0, data: project });
   } catch {
     return NextResponse.json(
@@ -103,7 +103,7 @@ export async function DELETE(request: Request) {
 
   try {
     const { id } = await request.json();
-    const store = getStore();
+    const store = await getStore();
     if (!store.projects?.some((p) => p.id === id))
       return NextResponse.json(
         { code: 404, message: "项目不存在" },
@@ -127,7 +127,7 @@ export async function DELETE(request: Request) {
         { status: 409 },
       );
     store.projects = store.projects.filter((p) => p.id !== id);
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({ code: 0 });
   } catch {
     return NextResponse.json(

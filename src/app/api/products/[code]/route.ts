@@ -7,7 +7,7 @@ export async function GET(
   request: Request,
   { params }: { params: { code: string } },
 ) {
-  const store = getStore();
+  const store = await getStore();
   const { code } = params;
 
   // Find product from all categories

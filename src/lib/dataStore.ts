@@ -808,7 +808,32 @@ export function createDefaultUsers(): AdminUser[] {
   ];
 }
 
-export function getStore(): DocStoreData {
+// ── 存储后端开关 ────────────────────────────────────────────
+// 默认：配置了 DATABASE_URL 就走 MySQL；DATA_BACKEND=json 可强制回退 JSON 文件
+function useMysqlBackend(): boolean {
+  if (process.env.DATA_BACKEND === "json") return false;
+  return Boolean(process.env.DATABASE_URL);
+}
+
+export async function getStore(): Promise<DocStoreData> {
+  if (useMysqlBackend()) {
+    // 动态引入避免与 dbStore 的循环依赖
+    const { getStoreFromDb } = await import("./dbStore");
+    const data = await getStoreFromDb();
+    let changed = false;
+    if (!data.roles || data.roles.length === 0) {
+      data.roles = createDefaultRoles();
+      changed = true;
+    }
+    if (!data.users || data.users.length === 0) {
+      data.users = createDefaultUsers();
+      changed = true;
+    }
+    if (changed) await saveStore(data);
+    cachedData = data;
+    return data;
+  }
+
   // Read the current file so independently bundled route handlers see the same state.
 
   if (fs.existsSync(DATA_FILE)) {
@@ -825,7 +850,7 @@ export function getStore(): DocStoreData {
         data.users = createDefaultUsers();
         changed = true;
       }
-      if (changed) saveStore(data);
+      if (changed) await saveStore(data);
       return data;
     } catch (e) {
       throw new Error("文档数据读取失败，请检查数据文件后重试");
@@ -885,11 +910,17 @@ export function getStore(): DocStoreData {
     },
   };
 
-  saveStore(defaultData);
+  await saveStore(defaultData);
   return getStore();
 }
 
-export function saveStore(data: DocStoreData) {
+export async function saveStore(data: DocStoreData): Promise<void> {
+  cachedData = data;
+  if (useMysqlBackend()) {
+    const { saveStoreToDb } = await import("./dbStore");
+    await saveStoreToDb(data);
+    return;
+  }
   try {
     const dir = path.dirname(DATA_FILE);
     if (!fs.existsSync(dir)) {
@@ -904,32 +935,32 @@ export function saveStore(data: DocStoreData) {
   }
 }
 
-export function listUsers(): SafeAdminUser[] {
-  const store = getStore();
+export async function listUsers(): Promise<SafeAdminUser[]> {
+  const store = await getStore();
   return (store.users || []).map((u) => toSafeUser(u, store.roles));
 }
 
-export function findUserById(id: string): AdminUser | undefined {
-  const store = getStore();
+export async function findUserById(id: string): Promise<AdminUser | undefined> {
+  const store = await getStore();
   return store.users?.find((u) => u.id === id);
 }
 
-export function findUserByUsername(username: string): AdminUser | undefined {
-  const store = getStore();
+export async function findUserByUsername(username: string): Promise<AdminUser | undefined> {
+  const store = await getStore();
   return store.users?.find((u) => u.username.toLowerCase() === username.toLowerCase());
 }
 
-export function createUser(params: {
+export async function createUser(params: {
   username: string;
   name: string;
   role: Role;
   password: string;
   customPermissions?: Permission[];
-}): SafeAdminUser {
-  const store = getStore();
+}): Promise<SafeAdminUser> {
+  const store = await getStore();
   if (!store.users) store.users = [];
 
-  const existing = findUserByUsername(params.username);
+  const existing = await findUserByUsername(params.username);
   if (existing) {
     throw new Error(`用户名 "${params.username}" 已存在`);
   }
@@ -950,15 +981,15 @@ export function createUser(params: {
   };
 
   store.users.push(newUser);
-  saveStore(store);
+  await saveStore(store);
   return toSafeUser(newUser, store.roles);
 }
 
-export function updateUser(
+export async function updateUser(
   id: string,
   updates: Partial<Pick<AdminUser, "name" | "role" | "status" | "customPermissions">>
-): SafeAdminUser {
-  const store = getStore();
+): Promise<SafeAdminUser> {
+  const store = await getStore();
   const user = store.users?.find((u) => u.id === id);
   if (!user) {
     throw new Error("用户不存在");
@@ -970,12 +1001,12 @@ export function updateUser(
   if (updates.customPermissions !== undefined) user.customPermissions = updates.customPermissions;
   user.updatedAt = new Date().toISOString();
 
-  saveStore(store);
+  await saveStore(store);
   return toSafeUser(user, store.roles);
 }
 
-export function resetUserPassword(id: string, newPassword: string): void {
-  const store = getStore();
+export async function resetUserPassword(id: string, newPassword: string): Promise<void> {
+  const store = await getStore();
   const user = store.users?.find((u) => u.id === id);
   if (!user) {
     throw new Error("用户不存在");
@@ -985,47 +1016,47 @@ export function resetUserPassword(id: string, newPassword: string): void {
   user.passwordHash = hash;
   user.salt = salt;
   user.updatedAt = new Date().toISOString();
-  saveStore(store);
+  await saveStore(store);
 }
 
-export function updateUserLastLogin(id: string): void {
-  const store = getStore();
+export async function updateUserLastLogin(id: string): Promise<void> {
+  const store = await getStore();
   const user = store.users?.find((u) => u.id === id);
   if (user) {
     user.lastLoginAt = new Date().toISOString();
-    saveStore(store);
+    await saveStore(store);
   }
 }
 
-export function deleteUser(id: string): void {
-  const store = getStore();
+export async function deleteUser(id: string): Promise<void> {
+  const store = await getStore();
   if (!store.users) return;
   const idx = store.users.findIndex((u) => u.id === id);
   if (idx === -1) {
     throw new Error("用户不存在");
   }
   store.users.splice(idx, 1);
-  saveStore(store);
+  await saveStore(store);
 }
 
-export function listRoles(): RoleDefinition[] {
-  const store = getStore();
+export async function listRoles(): Promise<RoleDefinition[]> {
+  const store = await getStore();
   return store.roles || [];
 }
 
-export function findRoleById(id: string): RoleDefinition | undefined {
-  const store = getStore();
+export async function findRoleById(id: string): Promise<RoleDefinition | undefined> {
+  const store = await getStore();
   return store.roles?.find((r) => r.id === id);
 }
 
-export function createRole(params: {
+export async function createRole(params: {
   id: string;
   name: string;
   description?: string;
   color?: string;
   permissions: Permission[];
-}): RoleDefinition {
-  const store = getStore();
+}): Promise<RoleDefinition> {
+  const store = await getStore();
   if (!store.roles) store.roles = createDefaultRoles();
 
   const id = params.id.trim().toLowerCase();
@@ -1051,15 +1082,15 @@ export function createRole(params: {
   };
 
   store.roles.push(newRole);
-  saveStore(store);
+  await saveStore(store);
   return newRole;
 }
 
-export function updateRole(
+export async function updateRole(
   id: string,
   updates: Partial<Pick<RoleDefinition, "name" | "description" | "color" | "permissions">>
-): RoleDefinition {
-  const store = getStore();
+): Promise<RoleDefinition> {
+  const store = await getStore();
   if (!store.roles) store.roles = createDefaultRoles();
 
   const role = store.roles.find((r) => r.id === id);
@@ -1090,12 +1121,12 @@ export function updateRole(
   }
 
   role.updatedAt = new Date().toISOString();
-  saveStore(store);
+  await saveStore(store);
   return role;
 }
 
-export function deleteRole(id: string): void {
-  const store = getStore();
+export async function deleteRole(id: string): Promise<void> {
+  const store = await getStore();
   if (!store.roles) return;
 
   const role = store.roles.find((r) => r.id === id);
@@ -1115,5 +1146,5 @@ export function deleteRole(id: string): void {
   }
 
   store.roles = store.roles.filter((r) => r.id !== id);
-  saveStore(store);
+  await saveStore(store);
 }

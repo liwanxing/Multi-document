@@ -1,0 +1,189 @@
+// Multi-document 数据库表结构（后端化：store.json → MySQL）
+// 对应关系：原 dataStore.ts 中各 interface 的落库版本
+//   Project        → projects（含原全局 categories 层字段，项目辅助）
+//   ProjectProduct → products（+ doc_categories 目录树）
+//   DocDetail      → documents（文档主表，只存当前态）+ doc_placements（文档挂多个项目）
+//   DocRevision    → doc_revisions（历史表，每次发布一条不可变快照）
+//   AdminUser/Role → users / roles
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  // 连接串在 prisma.config.ts 里配（Prisma 7 起 url 不再写在 schema）
+}
+
+// ── 项目（辅助层）──────────────────────────────────────────
+model Project {
+  id                  String    @id // "proj-xxx" / 沿用原 slug 风格
+  slug                String    @unique
+  name                String
+  description         String    @db.Text
+  company             String?
+  brandName           String?
+  productGroups       Json? // string[]
+  hiddenProductGroups Json? // string[]
+  groupIcons          Json? // Record<string,string>
+  legacyAliases       Json? // [{alias, productId}]，原 legacyProjectAliases（旧链接跳转用）
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime
+  products            Product[]
+
+  @@map("projects")
+}
+
+// ── 产品（项目下的文档分组单元）────────────────────────────
+model Product {
+  id          String        @id
+  projectId   String
+  project     Project       @relation(fields: [projectId], references: [id])
+  slug        String
+  name        String
+  description String        @db.Text
+  group       String
+  media       Json? // { url, type: "image"|"video" }
+  docOrder    Json? // string[]，目录内文档排序
+  categories  DocCategory[]
+  documents   Document[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime
+
+  @@unique([projectId, slug])
+  @@map("products")
+}
+
+// ── 目录树（原 DocCategory，挂在产品下）────────────────────
+model DocCategory {
+  id        String        @id
+  productId String
+  product   Product       @relation(fields: [productId], references: [id])
+  name      String
+  icon      String?
+  hidden    Boolean       @default(false)
+  parentId  String?
+  parent    DocCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children  DocCategory[] @relation("CategoryTree")
+
+  @@index([productId])
+  @@map("doc_categories")
+}
+
+// ── 阅读侧导航树（原 trees: Record<productId, DocTreeNode[]>）──
+model DocTreeNode {
+  id        String        @id
+  productId String
+  parentId  String?
+  parent    DocTreeNode?  @relation("Tree", fields: [parentId], references: [id])
+  children  DocTreeNode[] @relation("Tree")
+  title     String
+  slug      String
+  type      String // folder | doc
+  status    String? // published | draft（仅 doc 节点）
+  order     Int       @default(0) // 同级排序（原数组顺序）
+
+  @@index([productId])
+  @@map("doc_tree_nodes")
+}
+
+// ── 文档主表（核心：只存"当前态"）──────────────────────────
+// 同一 (productId, slug) 最多两行：published（已发布态）+ draft（编辑中草稿）
+model Document {
+  id          String         @id
+  productId   String
+  product     Product        @relation(fields: [productId], references: [id])
+  slug        String
+  title       String
+  description String?        @db.Text
+  content     String         @db.LongText // 纯 Markdown 源
+  status      String         @default("draft") // draft | published
+  version     Int            @default(1)
+  breadcrumbs Json? // string[]
+  hidden      Boolean        @default(false)
+  changeNote  String?        @db.Text
+  appearance  Json? // 编辑器外观配置
+  placements  DocPlacement[]
+  revisions   DocRevision[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime
+
+  @@unique([productId, slug, status])
+  @@map("documents")
+}
+
+// ── 文档挂载（一篇文档可出现在多个项目/目录）────────────────
+model DocPlacement {
+  id         String   @id
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  projectId  String
+  productId  String
+  categoryId String?
+
+  @@index([documentId])
+  @@index([projectId, productId])
+  @@map("doc_placements")
+}
+
+// ── 历史表（核心：每次发布一条不可变快照）──────────────────
+model DocRevision {
+  id          String   @id
+  docId       String
+  document    Document @relation(fields: [docId], references: [id], onDelete: Cascade)
+  version     Int
+  title       String
+  summary     String   @db.Text // 发布时的变更摘要
+  changes     Json // string[]
+  placements  Json // 发布时的挂载点快照
+  content     String   @db.LongText // 发布时的正文快照
+  appearance  Json?
+  baseline    Boolean  @default(false) // 基线版本（迁移自旧系统的首个版本）
+  publishedAt DateTime
+
+  @@unique([docId, version])
+  @@index([docId, publishedAt])
+  @@map("doc_revisions")
+}
+
+// ── 应用级杂项设置（全局产品分类层、schemaVersion 等旧字段）──
+model AppSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime
+
+  @@map("app_settings")
+}
+
+// ── 用户 / 角色 ────────────────────────────────────────────
+model Role {
+  id          String   @id
+  name        String
+  description String?  @db.Text
+  color       String?
+  permissions Json // string[]，8 种权限枚举见 src/lib/authTypes.ts
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+  users       User[]
+
+  @@map("roles")
+}
+
+model User {
+  id           String    @id
+  username     String    @unique
+  name         String
+  passwordHash String
+  salt         String
+  roleId       String
+  role         Role      @relation(fields: [roleId], references: [id])
+  status       String    @default("active") // active | disabled
+  customPermissions Json? // 用户级权限覆盖（原 AdminUser.customPermissions）
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime
+
+  @@map("users")
+}

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = findUserByUsername(username.trim());
+    const user = await findUserByUsername(username.trim());
     if (!user) {
       return NextResponse.json(
         { code: 401, message: "用户名或密码错误" },
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       );
     }
 
-    updateUserLastLogin(user.id);
+    await updateUserLastLogin(user.id);
     const token = await signSessionToken({
       uid: user.id,
       username: user.username,

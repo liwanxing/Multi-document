@@ -3,8 +3,8 @@ import Link from "next/link";
 import { FolderOpen, ArrowUpRight } from "lucide-react";
 import { getStore } from "@/lib/dataStore";
 export const dynamic = "force-dynamic";
-export default function HomePage() {
-  const store = getStore();
+export default async function HomePage() {
+  const store = await getStore();
   return (
     <div className="project-portal max-w-[1360px] mx-auto px-6 py-10 w-full">
       <section className="portal-hero mb-10">

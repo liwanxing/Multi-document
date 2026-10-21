@@ -5,7 +5,7 @@ import { getStore } from "@/lib/dataStore";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const store = getStore();
+  const store = await getStore();
   return NextResponse.json({
     code: 0,
     data: store.categories

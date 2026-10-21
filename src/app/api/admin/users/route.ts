@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const auth = await requirePermission("users:manage", request);
   if (auth.errorResponse) return auth.errorResponse;
 
-  const users = listUsers();
+  const users = await listUsers();
   return NextResponse.json({
     code: 0,
     data: users,
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = createUser({
+    const user = await createUser({
       username: username.trim(),
       name: name?.trim() || username.trim(),
       role,
@@ -82,7 +82,7 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const targetUser = findUserById(id);
+    const targetUser = await findUserById(id);
     if (!targetUser) {
       return NextResponse.json(
         { code: 404, message: "目标用户不存在" },
@@ -106,7 +106,7 @@ export async function PATCH(request: Request) {
       }
     }
 
-    const updated = updateUser(id, {
+    const updated = await updateUser(id, {
       name,
       role,
       status,
@@ -146,7 +146,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    deleteUser(id);
+    await deleteUser(id);
     return NextResponse.json({
       code: 0,
       message: "删除用户成功",

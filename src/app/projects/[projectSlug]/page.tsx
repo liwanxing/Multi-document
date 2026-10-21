@@ -4,12 +4,12 @@ import { getStore } from "@/lib/dataStore";
 import ProjectPortal from "@/components/ProjectPortal";
 import { isBound, productHref } from "@/lib/projectModel";
 export const dynamic = "force-dynamic";
-export default function ProjectPage({
+export default async function ProjectPage({
   params,
 }: {
   params: { projectSlug: string };
 }) {
-  const store = getStore();
+  const store = await getStore();
   const project = store.projects?.find((p) => p.slug === params.projectSlug);
   if (!project) {
     const alias =

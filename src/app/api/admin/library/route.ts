@@ -6,7 +6,7 @@ import { requirePermission } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 export async function GET() {
   try {
-    const store = getStore();
+    const store = await getStore();
     return NextResponse.json({
       code: 0,
       data: {
@@ -28,7 +28,7 @@ export async function DELETE(request: Request) {
 
   try {
     const { id } = await request.json();
-    const store = getStore();
+    const store = await getStore();
     const doc = library(store).find((doc) => doc.id === id);
     if (!doc)
       return NextResponse.json(
@@ -38,7 +38,7 @@ export async function DELETE(request: Request) {
     delete store.docs[documentKey(doc)];
     if (store.drafts) delete store.drafts[documentKey(doc)];
     store.history = store.history?.filter((entry) => entry.docId !== id);
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({ code: 0, message: "删除成功" });
   } catch {
     return NextResponse.json(
@@ -53,7 +53,7 @@ export async function PATCH(request: Request) {
 
   try {
     const { id, hidden } = await request.json();
-    const store = getStore();
+    const store = await getStore();
     const doc = library(store).find((doc) => doc.id === id);
     if (!doc)
       return NextResponse.json(
@@ -67,7 +67,7 @@ export async function PATCH(request: Request) {
     if (store.drafts?.[key]) {
       store.drafts[key].hidden = !!hidden;
     }
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({
       code: 0,
       data: { ...doc, hidden: !!hidden },

@@ -11,7 +11,7 @@ import { placementKey } from "@/lib/projectModel";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const store = getStore();
+    const store = await getStore();
     const source = library(store).find((d) => d.id === body.docId);
     const project = store.projects?.find((p) => p.id === body.projectId);
     const product = project?.products?.find((p) => p.id === body.productId);
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
         doc.projectIds = Array.from(new Set(next.map((p) => p.projectId)));
         doc.updatedAt = new Date().toISOString();
       }
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({
         code: 0,
         data: library(store).find((d) => d.id === source.id),
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
         appearance: published.appearance,
       });
     }
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({
       code: 0,
       data: library(store).find((d) => d.id === source.id),

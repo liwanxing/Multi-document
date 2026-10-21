@@ -7,7 +7,7 @@ export async function GET(
   request: Request,
   { params }: { params: { slug: string } },
 ) {
-  const store = getStore();
+  const store = await getStore();
   const project = store.projects?.find((p) => p.slug === params.slug);
   if (!project)
     return NextResponse.json(

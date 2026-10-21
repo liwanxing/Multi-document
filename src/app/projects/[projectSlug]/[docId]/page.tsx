@@ -2,12 +2,12 @@ import { notFound, redirect } from "next/navigation";
 import { getStore } from "@/lib/dataStore";
 import { productHref } from "@/lib/projectModel";
 export const dynamic = "force-dynamic";
-export default function LegacyProjectDocument({
+export default async function LegacyProjectDocument({
   params,
 }: {
   params: { projectSlug: string; docId: string };
 }) {
-  const store = getStore();
+  const store = await getStore();
   const alias =
     store.legacyProjectAliases?.[params.projectSlug.replace(/-/g, "_")] ||
     store.legacyProjectAliases?.[params.projectSlug];

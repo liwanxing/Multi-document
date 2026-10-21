@@ -9,8 +9,8 @@ export async function GET(request: Request) {
   const auth = await requirePermission("users:manage", request);
   if (auth.errorResponse) return auth.errorResponse;
 
-  const store = getStore();
-  const roles = listRoles();
+  const store = await getStore();
+  const roles = await listRoles();
   const users = store.users || [];
 
   const rolesWithStats = roles.map((role) => ({
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       ALL_PERMISSIONS.includes(p)
     );
 
-    const created = createRole({
+    const created = await createRole({
       id: id.trim().toLowerCase(),
       name: name.trim(),
       description: description?.trim() || "",
@@ -101,7 +101,7 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const updated = updateRole(id, {
+    const updated = await updateRole(id, {
       name,
       description,
       color,
@@ -134,7 +134,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    deleteRole(id);
+    await deleteRole(id);
 
     return NextResponse.json({
       code: 0,

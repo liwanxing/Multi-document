@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const store = getStore();
+    const store = await getStore();
     const key = `${body.productId}/${body.slug}`;
     const existing = store.drafts?.[key] || store.docs[key];
     if (existing && body.updatedAt !== existing.updatedAt)
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     if (error)
       return NextResponse.json({ code: 400, message: error }, { status: 400 });
     const doc = persistDocument(store, body, false);
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({ code: 0, data: doc });
   } catch {
     return NextResponse.json(

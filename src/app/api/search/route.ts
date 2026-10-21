@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
   const pageSize = Math.max(1, parseInt(searchParams.get("pageSize") || "6", 10));
 
-  const store = getStore();
+  const store = await getStore();
 
   const hotDefaults = [
     { title: "模型价格", productName: "火山方舟" },

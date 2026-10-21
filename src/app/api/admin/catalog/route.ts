@@ -12,7 +12,7 @@ import { library } from "@/lib/documents";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const store = getStore();
+    const store = await getStore();
     const project = store.projects?.find((p) => p.id === body.projectId);
     if (!project)
       return NextResponse.json(
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
             (name) => name !== body.name,
           );
       project.updatedAt = new Date().toISOString();
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({ code: 0, data: project });
     }
     if (body.action === "save-group" || body.action === "delete-group") {
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
         project.productGroups = groups.filter((g) => g !== body.name);
       }
       project.updatedAt = new Date().toISOString();
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({ code: 0, data: project });
     }
     if (body.action === "save-product") {
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
         ? products.map((p) => (p.id === product.id ? updated : p))
         : [...products, updated];
       project.updatedAt = new Date().toISOString();
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({ code: 0, data: updated });
     }
     if (body.action === "set-document-visibility") {
@@ -142,7 +142,7 @@ export async function POST(request: Request) {
         d.hidden = body.hidden;
         d.updatedAt = new Date().toISOString();
       });
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({ code: 0, data: project });
     }
     if (!product) return fail("产品不存在", 404);
@@ -188,7 +188,7 @@ export async function POST(request: Request) {
         ? product.categories.map((c) => (c.id === existing.id ? category : c))
         : [...product.categories, category];
       project.updatedAt = new Date().toISOString();
-      saveStore(store);
+      await saveStore(store);
       return NextResponse.json({ code: 0, data: category });
     } else if (body.action === "delete-category") {
       if (!product.categories.some((c) => c.id === body.categoryId))
@@ -252,7 +252,7 @@ export async function POST(request: Request) {
       }
     } else return fail("未知操作");
     project.updatedAt = new Date().toISOString();
-    saveStore(store);
+    await saveStore(store);
     return NextResponse.json({ code: 0, data: project });
   } catch {
     return NextResponse.json(

@@ -2,8 +2,8 @@ import { visibleDocument, publicCatalog } from "./visibility";
 import { notFound } from "next/navigation";
 import { getStore } from "./dataStore";
 import { isBound, sortDocsByCatalog, visibleHistory } from "./projectModel";
-export function publicProduct(projectSlug: string, productSlug: string) {
-  const store = getStore();
+export async function publicProduct(projectSlug: string, productSlug: string) {
+  const store = await getStore();
   const project = store.projects?.find((p) => p.slug === projectSlug);
   const product =
     project &&

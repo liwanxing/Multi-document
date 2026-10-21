@@ -16,9 +16,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const store = getStore();
+    const store = await getStore();
     store.trees[productId] = tree;
-    saveStore(store);
+    await saveStore(store);
 
     return NextResponse.json({
       code: 0,

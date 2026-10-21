@@ -6,7 +6,7 @@ export async function GET(
   _request: Request,
   { params }: { params: { productCode: string; slug: string[] } },
 ) {
-  const store = getStore();
+  const store = await getStore();
   const doc = store.docs[`${params.productCode}/${params.slug.join("/")}`];
   if (!doc || !store.projects?.some(p=>visibleDocument(doc,p)))
     return NextResponse.json(

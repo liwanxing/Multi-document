@@ -12,12 +12,12 @@ import {
 import { publicProduct } from "@/lib/publicProject";
 import { productHref, isBound, categoryOptions } from "@/lib/projectModel";
 export const dynamic = "force-dynamic";
-export default function ProductPage({
+export default async function ProductPage({
   params,
 }: {
   params: { projectSlug: string; productSlug: string };
 }) {
-  const { project, product, documents, history } = publicProduct(
+  const { project, product, documents, history } = await publicProduct(
     params.projectSlug,
     params.productSlug,
   );

@@ -40,7 +40,7 @@ export async function getAuthenticatedUser(req?: Request): Promise<SafeAdminUser
   if (!payload || !payload.uid) return null;
 
   try {
-    const store = getStore();
+    const store = await getStore();
     const user = store.users?.find((u) => u.id === payload.uid);
     if (!user || user.status === "disabled") {
       return null;
@@ -78,7 +78,7 @@ export async function requirePermission(
   const auth = await requireAuth(req);
   if (auth.errorResponse) return auth;
 
-  const store = getStore();
+  const store = await getStore();
   if (!hasUserPermission(auth.user, permission, store.roles)) {
     return {
       user: null,

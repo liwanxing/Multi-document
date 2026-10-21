@@ -13,6 +13,9 @@ data/
 .backups/
 .freebuff/
 
+# IDE / editor local files
+.idea/
+
 # Credentials and machine-local files
 .env*
 !.env.example
@@ -21,3 +24,6 @@ data/
 *.pem
 *.key
 CLAUDE.md
+.idea/
+.workbuddy/
+src/generated/

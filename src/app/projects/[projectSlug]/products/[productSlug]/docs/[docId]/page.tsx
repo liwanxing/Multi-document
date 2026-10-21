@@ -15,14 +15,14 @@ import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { getStore } from "@/lib/dataStore";
 import TableOfContents from "@/components/TableOfContents";
 export const dynamic = "force-dynamic";
-export default function DocumentPage({
+export default async function DocumentPage({
   params,
   searchParams,
 }: {
   searchParams: Record<string, string | string[] | undefined>;
   params: { projectSlug: string; productSlug: string; docId: string };
 }) {
-  const { project, product, documents, history } = publicProduct(
+  const { project, product, documents, history } = await publicProduct(
     params.projectSlug,
     params.productSlug,
   );
@@ -34,7 +34,7 @@ export default function DocumentPage({
   };
   const base = productHref(project, product);
   const publishedAt =
-    (getStore().history || [])
+    ((await getStore()).history || [])
       .filter((entry) => entry.docId === doc.id)
       .map((entry) => entry.publishedAt)
       .sort((a, b) => a.localeCompare(b))[0] || doc.updatedAt;

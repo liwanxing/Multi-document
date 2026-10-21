@@ -4,14 +4,14 @@ import { publicProduct } from "@/lib/publicProject";
 import { productHref } from "@/lib/projectModel";
 import ProductSidebar from "@/components/ProductSidebar";
 export const dynamic = "force-dynamic";
-export default function ProductLayout({
+export default async function ProductLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { projectSlug: string; productSlug: string };
 }) {
-  const { project, product, documents } = publicProduct(
+  const { project, product, documents } = await publicProduct(
     params.projectSlug,
     params.productSlug,
   );
