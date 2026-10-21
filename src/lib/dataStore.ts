@@ -69,12 +69,22 @@ export interface DocRevision {
   appearance?: import("./editor").DocAppearance;
   baseline?: boolean;
 }
+export interface ProjectCustomField {
+  /** 变量名：文档里用 {{key}} 引用，限字母/数字/下划线 */
+  key: string;
+  /** 显示名：后台表单里给人看的说明 */
+  label: string;
+  /** 变量值：按项目渲染时替换进文档 */
+  value: string;
+}
 export interface Project {
   brandName?: string;
   groupIcons?: Record<string,string>;
   productGroups?: string[];
   hiddenProductGroups?: string[];
   company?: string;
+  /** 项目自定义字段/变量，文档里可用 {{key}} 引用 */
+  customFields?: ProjectCustomField[];
   products?: ProjectProduct[];
   id: string;
   slug: string;

@@ -28,6 +28,33 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     const store = await getStore();
+    // 自定义字段校验：key 限字母数字下划线，brand_name/company_name 为内置保留名
+    let customFields: import("@/lib/dataStore").ProjectCustomField[] | undefined;
+    if (body.customFields !== undefined) {
+      if (!Array.isArray(body.customFields) || body.customFields.length > 50)
+        return NextResponse.json(
+          { code: 400, message: "自定义字段格式不正确（最多 50 个）" },
+          { status: 400 },
+        );
+      customFields = [];
+      for (const f of body.customFields) {
+        if (
+          !f ||
+          typeof f.key !== "string" ||
+          !/^\w+$/.test(f.key) ||
+          ["brand_name", "company_name"].includes(f.key)
+        )
+          return NextResponse.json(
+            { code: 400, message: `变量名不合法：${f?.key ?? ""}（限字母数字下划线，brand_name/company_name 为内置变量）` },
+            { status: 400 },
+          );
+        customFields.push({
+          key: f.key,
+          label: String(f.label ?? "").slice(0, 80),
+          value: String(f.value ?? "").slice(0, 500),
+        });
+      }
+    }
     if (body.copyFrom) {
       const source = store.projects?.find((p) => p.id === body.copyFrom);
       if (!source)
@@ -44,6 +71,7 @@ export async function POST(request: Request) {
         company:typeof body.company==="string"?body.company.trim().slice(0,160):undefined,
         brandName:typeof body.brandName==="string"?body.brandName.trim().slice(0,160):undefined,
       });
+      if (customFields !== undefined) copy.customFields = customFields;
       await saveStore(store);
       return NextResponse.json({ code: 0, data: copy });
     }
@@ -80,6 +108,10 @@ export async function POST(request: Request) {
         typeof body.company === "string"
           ? body.company.trim().slice(0, 160)
           : existing?.company || "",
+      customFields:
+        customFields !== undefined
+          ? customFields
+          : existing?.customFields || [],
       products: existing?.products || [],
       productGroups: existing?.productGroups || [],
       hiddenProductGroups: existing?.hiddenProductGroups || [],

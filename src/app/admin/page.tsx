@@ -68,6 +68,7 @@ type ProjectForm = {
   copyFrom?: string;
   brandName?: string;
   company?: string;
+  customFields?: { key: string; label: string; value: string }[];
   id?: string;
   name: string;
   slug: string;
@@ -665,6 +666,9 @@ export default function AdminPage() {
                               copyFrom: project.id,
                             company:project.company,
                             brandName:project.brandName,
+                            customFields: project.customFields
+                              ? project.customFields.map((f) => ({ ...f }))
+                              : [],
                               name: project.name.slice(0, 77) + "_副本",
                               description: project.description,
                               slug:
@@ -942,6 +946,8 @@ export default function AdminPage() {
             onSubmit={saveProject}
             className="mt-4"
           >
+            <div style={{ border: "1px solid var(--color-border-secondary)", borderRadius: 8, padding: "16px 16px 4px", marginBottom: 16 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text-primary)", marginBottom: 12 }}>项目信息</div>
             <Form.Item label="项目名称" required>
               <Input
                 autoFocus
@@ -999,6 +1005,82 @@ export default function AdminPage() {
                 placeholder="向读者介绍这个项目"
               />
             </Form.Item>
+            </div>
+            <div style={{ border: "1px solid var(--color-border-secondary)", borderRadius: 8, padding: "16px 16px 4px", marginBottom: 16, background: "var(--color-fill-1, rgba(0,0,0,0.015))" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: "var(--color-text-primary)" }}>自定义字段（变量）</div>
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<Plus size={14} />}
+                  onClick={() =>
+                    setProjectForm({
+                      ...projectForm,
+                      customFields: [
+                        ...(projectForm.customFields || []),
+                        { key: "", label: "", value: "" },
+                      ],
+                    })
+                  }
+                >
+                  添加字段
+                </Button>
+              </div>
+              <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginBottom: 12 }}>
+                文档正文中用 {"{{变量名}}"} 引用，不同项目渲染各自的值；brand_name / company_name 为内置变量
+              </div>
+              {(projectForm.customFields || []).length === 0 ? (
+                <div style={{ fontSize: 12, color: "var(--color-text-tertiary)", padding: "4px 0 12px" }}>
+                  暂无自定义字段，点右上角"添加字段"
+                </div>
+              ) : (
+                (projectForm.customFields || []).map((f, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "flex-start" }}>
+                    <Input
+                      style={{ width: 140 }}
+                      placeholder="变量名 support_phone"
+                      value={f.key}
+                      onChange={(key) => {
+                        const next = [...(projectForm.customFields || [])];
+                        next[i] = { ...f, key };
+                        setProjectForm({ ...projectForm, customFields: next });
+                      }}
+                    />
+                    <Input
+                      style={{ width: 130 }}
+                      placeholder="显示名 支持电话"
+                      value={f.label}
+                      onChange={(label) => {
+                        const next = [...(projectForm.customFields || [])];
+                        next[i] = { ...f, label };
+                        setProjectForm({ ...projectForm, customFields: next });
+                      }}
+                    />
+                    <Input
+                      style={{ flex: 1 }}
+                      placeholder="值 400-123-4567"
+                      value={f.value}
+                      onChange={(value) => {
+                        const next = [...(projectForm.customFields || [])];
+                        next[i] = { ...f, value };
+                        setProjectForm({ ...projectForm, customFields: next });
+                      }}
+                    />
+                    <Button
+                      type="text"
+                      shape="square"
+                      aria-label="删除字段"
+                      icon={<Trash2 size={14} />}
+                      onClick={() => {
+                        const next = [...(projectForm.customFields || [])];
+                        next.splice(i, 1);
+                        setProjectForm({ ...projectForm, customFields: next });
+                      }}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
             <div className="modal-form-footer">
               <Button disabled={busy} onClick={closeForm}>
                 取消

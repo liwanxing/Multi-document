@@ -28,6 +28,8 @@ model Project {
   hiddenProductGroups Json? // string[]
   groupIcons          Json? // Record<string,string>
   legacyAliases       Json? // [{alias, productId}]，原 legacyProjectAliases（旧链接跳转用）
+  /// 项目自定义字段/变量 [{key,label,value}]，文档里可用 {{key}} 引用，随项目渲染
+  customFields        Json?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime
   products            Product[]
