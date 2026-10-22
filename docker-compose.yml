@@ -1,0 +1,63 @@
+# Multi-document 生产部署（一键启动）
+#
+#   docker compose up -d --build     # 首次构建并启动
+#   docker compose up -d             # 日常启动（migrate 会自动追平新迁移）
+#   docker compose logs -f app       # 看应用日志
+#
+# 结构：db（MySQL 8）→ migrate（prisma migrate deploy，跑完退出）→ app（Next standalone）
+# 说明：
+# - db 不映射宿主机端口，最小暴露面；维护用 docker compose exec db mysql -uroot -p
+# - 首次启动空库时应用会在首次请求自动写入默认角色与账号（admin/admin123），无需 seed
+# - 上传文件持久化在 uploads-data 卷（/app/data/uploads）
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-multidoc123}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-multi_document}
+      TZ: Asia/Shanghai
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+      target: deps   # 全量依赖阶段：含 prisma CLI 与迁移文件
+    command: npx prisma migrate deploy
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    build:
+      context: .
+      target: runner
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
+      DATA_BACKEND: mysql
+      # 生产环境请修改会话签名密钥：docker compose 会在同目录 .env 读取覆盖值
+      ADMIN_AUTH_SECRET: ${ADMIN_AUTH_SECRET:-multidoc-secret-change-me}
+      TZ: Asia/Shanghai
+    volumes:
+      - uploads-data:/app/data/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  uploads-data:
