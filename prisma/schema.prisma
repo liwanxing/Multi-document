@@ -16,6 +16,17 @@ datasource db {
   // 连接串在 prisma.config.ts 里配（Prisma 7 起 url 不再写在 schema）
 }
 
+// 状态枚举：DB 层拒绝非法值，比字符串列多一道硬约束（应用层已只用这些取值）
+enum DocStatus {
+  draft
+  published
+}
+
+enum UserStatus {
+  active
+  disabled
+}
+
 // ── 项目（辅助层）──────────────────────────────────────────
 model Project {
   id                  String    @id // "proj-xxx" / 沿用原 slug 风格
@@ -33,6 +44,7 @@ model Project {
   createdAt           DateTime  @default(now())
   updatedAt           DateTime
   products            Product[]
+  placements          DocPlacement[]
 
   @@map("projects")
 }
@@ -41,7 +53,8 @@ model Project {
 model Product {
   id          String        @id
   projectId   String
-  project     Project       @relation(fields: [projectId], references: [id])
+  // 级联删除：删项目时连带产品（及产品下的分类/文档/挂载点，各自再级联）
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
   slug        String
   name        String
   description String        @db.Text
@@ -49,7 +62,7 @@ model Product {
   media       Json? // { url, type: "image"|"video" }
   docOrder    Json? // string[]，目录内文档排序
   categories  DocCategory[]
-  documents   Document[]
+  placements  DocPlacement[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime
 
@@ -57,50 +70,39 @@ model Product {
   @@map("products")
 }
 
+
 // ── 目录树（原 DocCategory，挂在产品下）────────────────────
 model DocCategory {
   id        String        @id
   productId String
-  product   Product       @relation(fields: [productId], references: [id])
+  // 级联删除：删产品时连带分类
+  product   Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
   name      String
   icon      String?
   hidden    Boolean       @default(false)
   parentId  String?
   parent    DocCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
   children  DocCategory[] @relation("CategoryTree")
+  placements DocPlacement[]
 
   @@index([productId])
   @@map("doc_categories")
 }
 
-// ── 阅读侧导航树（原 trees: Record<productId, DocTreeNode[]>）──
-model DocTreeNode {
-  id        String        @id
-  productId String
-  parentId  String?
-  parent    DocTreeNode?  @relation("Tree", fields: [parentId], references: [id])
-  children  DocTreeNode[] @relation("Tree")
-  title     String
-  slug      String
-  type      String // folder | doc
-  status    String? // published | draft（仅 doc 节点）
-  order     Int       @default(0) // 同级排序（原数组顺序）
-
-  @@index([productId])
-  @@map("doc_tree_nodes")
-}
-
 // ── 文档主表（核心：只存"当前态"）──────────────────────────
 // 同一 (productId, slug) 最多两行：published（已发布态）+ draft（编辑中草稿）
+// 两行 id 不同（草稿独立 id，发布时沿用已发布行 id）——id 是主键，不能两行共用
 model Document {
   id          String         @id
+  // 存储位置键：真实产品 id，或文档库的虚拟锚点 "library"（后台新建文档/复制项目
+  // 都用它）。与 doc_tree_nodes.productId 同一语义——逻辑引用，不做外键，
+  // 否则 library 文档根本写不进库。真实归属关系在 placements 里（那里有外键）。
   productId   String
-  product     Product        @relation(fields: [productId], references: [id])
   slug        String
   title       String
   description String?        @db.Text
   content     String         @db.LongText // 纯 Markdown 源
-  status      String         @default("draft") // draft | published
+  status      DocStatus      @default(draft) // draft | published
   version     Int            @default(1)
   breadcrumbs Json? // string[]
   hidden      Boolean        @default(false)
@@ -121,8 +123,12 @@ model DocPlacement {
   documentId String
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
   projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   categoryId String?
+  // 挂载点只在锚点存在时有意义：分类被删则该挂载行随之删除（文档本体不受影响）
+  category   DocCategory? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@index([documentId])
   @@index([projectId, productId])
@@ -142,9 +148,13 @@ model DocRevision {
   content     String   @db.LongText // 发布时的正文快照
   appearance  Json?
   baseline    Boolean  @default(false) // 基线版本（迁移自旧系统的首个版本）
+  /// 发布人（用户名），留痕审计用；迁移基线等历史行可为空
+  createdBy   String?
   publishedAt DateTime
 
-  @@unique([docId, version])
+  // 按条目 id 去重，不按 (docId, version) 唯一：这张表既存发布快照也存"绑定已有文档"
+  // 这类动态条目，后者沿用 published.version，同 (docId, version) 多条是原生语义
+  @@index([docId, version])
   @@index([docId, publishedAt])
   @@map("doc_revisions")
 }
@@ -181,7 +191,7 @@ model User {
   salt         String
   roleId       String
   role         Role      @relation(fields: [roleId], references: [id])
-  status       String    @default("active") // active | disabled
+  status       UserStatus @default(active) // active | disabled
   customPermissions Json? // 用户级权限覆盖（原 AdminUser.customPermissions）
   lastLoginAt  DateTime?
   createdAt    DateTime  @default(now())
