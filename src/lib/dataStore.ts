@@ -68,6 +68,8 @@ export interface DocRevision {
   content: string;
   appearance?: import("./editor").DocAppearance;
   baseline?: boolean;
+  /** 发布人（用户名），落库到 doc_revisions.createdBy；旧数据与 JSON 后端可缺省 */
+  publishedBy?: string;
 }
 export interface ProjectCustomField {
   /** 变量名：文档里用 {{key}} 引用，限字母/数字/下划线 */
@@ -943,6 +945,31 @@ export async function saveStore(data: DocStoreData): Promise<void> {
   } catch (err) {
     throw err;
   }
+}
+
+/**
+ * 文档保存/发布专用出口（save 与 publish 路由使用）。
+ * MySQL 后端走定向写入：只写当前文档行、它的挂载点与（发布时）新版本快照，
+ * 不跑全量对账——既消除"并发时把别人刚写的行当多余删掉"的丢失更新问题，
+ * 也把保存从全库对账的秒级降到毫秒级。DB 层用 updatedAt 做条件更新关掉
+ * "读→写"窗口内的竞态，命中即返回 conflict，由路由转成 409。
+ * JSON 后端没有行级写入能力，保持整文件写（单机单人用，行为不变）。
+ * 其他管理路由仍走 saveStore 全量对账，后续按需逐个迁移。
+ */
+export async function persistDocumentChange(
+  store: DocStoreData,
+  doc: DocDetail,
+  opts: { publish: boolean; expectedUpdatedAt?: string },
+): Promise<{ ok: true } | { ok: false; conflict: true }> {
+  if (useMysqlBackend()) {
+    const { persistDocumentToDb } = await import("./dbStore");
+    const result = await persistDocumentToDb(store, doc, opts);
+    // 定向写入绕过了 saveStore，需手动使缓存失效，保证本进程写完立即一致
+    if (result.ok) cacheTime = 0;
+    return result;
+  }
+  await saveStore(store);
+  return { ok: true };
 }
 
 export async function listUsers(): Promise<SafeAdminUser[]> {

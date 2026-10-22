@@ -7,7 +7,7 @@ import {
   type ProjectProduct,
 } from "@/lib/dataStore";
 import { isBound, sortDocsByCatalog } from "@/lib/projectModel";
-import { library } from "@/lib/documents";
+import { library, findDocById, publishedIdOf, documentKey } from "@/lib/documents";
 
 export async function POST(request: Request) {
   try {
@@ -134,11 +134,19 @@ export async function POST(request: Request) {
     }
     if (body.action === "set-document-visibility") {
       if (typeof body.hidden !== "boolean") return fail("状态无效");
-      const matches = allDocs.filter(
-        (d) => d.id === body.docId && isBound(d, project.id, body.productId),
+      // 传入 id 可能指向草稿或已发布任一行；上下架语义是"这篇文档"整体生效，
+      // 所以按 key 把同 key 的两行一起改，而不是只改命中的那一行
+      const target = findDocById(store, String(body.docId));
+      if (
+        !target ||
+        !isBound(target, project.id, body.productId)
+      )
+        return fail("文档不存在", 404);
+      const key = documentKey(target);
+      const rows = [store.docs[key], store.drafts?.[key]].filter(
+        (d): d is (typeof allDocs)[number] => !!d,
       );
-      if (!matches.length) return fail("文档不存在", 404);
-      matches.forEach((d) => {
+      rows.forEach((d) => {
         d.hidden = body.hidden;
         d.updatedAt = new Date().toISOString();
       });
@@ -228,17 +236,19 @@ export async function POST(request: Request) {
         !product.categories.some((c) => c.id === filter)
       )
         return fail("分类不存在", 404);
-      const peers = sortDocsByCatalog(
-        library(store).filter((d) =>
-          isBound(d, project.id, product.id, filter),
-        ),
-        product,
-      );
+      // 目录排序排序的是前台可见内容：每一篇文档取一行代表（有草稿显示草稿，
+      // 与 library 的覆盖合并一致），但行的 id 统一锚定到已发布行的 id——
+      // docOrder 消费方（前台文档列表）按已发布 id 匹配，锚错人排序就静默失效。
+      const repDocs = library(store)
+        .map((d) => ({ ...d, id: publishedIdOf(store, d.id) ?? d.id }))
+        .filter((d) => isBound(d, project.id, product.id, filter));
+      const peers = sortDocsByCatalog(repDocs, product);
       const index = peers.findIndex((d) => d.id === body.docId);
       if (index < 0) return fail("文档不存在", 404);
       const target = peers[index + body.offset];
       if (target) {
         product.docOrder ||= library(store)
+          .map((d) => ({ ...d, id: publishedIdOf(store, d.id) ?? d.id }))
           .filter((d) => isBound(d, project.id, product.id))
           .map((d) => d.id);
         const order = product.docOrder;

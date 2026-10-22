@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getStore, saveStore } from "@/lib/dataStore";
+import { getStore, persistDocumentChange } from "@/lib/dataStore";
 import { validateDocument, persistDocument } from "@/lib/documents";
 import { requirePermission } from "@/lib/auth";
 
@@ -11,7 +11,9 @@ export async function POST(request: Request) {
     const body = await request.json();
     const store = await getStore();
     const key = `${body.productId}/${body.slug}`;
-    const existing = store.drafts?.[key] || store.docs[key];
+    // 乐观锁基准要在 persistDocument 覆盖内存态之前取
+    const existingDraft = store.drafts?.[key];
+    const existing = existingDraft || store.docs[key];
     if (existing && body.updatedAt !== existing.updatedAt)
       return NextResponse.json(
         {
@@ -25,7 +27,21 @@ export async function POST(request: Request) {
     if (error)
       return NextResponse.json({ code: 400, message: error }, { status: 400 });
     const doc = persistDocument(store, body, false);
-    await saveStore(store);
+    const result = await persistDocumentChange(store, doc, {
+      publish: false,
+      // DB 层乐观锁基准：写的是草稿行，取草稿行读到的 updatedAt；
+      // 尚无草稿行则走插入路径，无需基准
+      expectedUpdatedAt: existingDraft?.updatedAt,
+    });
+    if (!result.ok)
+      return NextResponse.json(
+        {
+          code: 409,
+          message:
+            "文档已在其他窗口更新，请先导出当前正文，再重新打开文档合并修改",
+        },
+        { status: 409 },
+      );
     return NextResponse.json({ code: 0, data: doc });
   } catch {
     return NextResponse.json(

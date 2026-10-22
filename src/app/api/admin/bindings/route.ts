@@ -6,13 +6,14 @@ import {
   type DocDetail,
   type DocPlacement,
 } from "@/lib/dataStore";
-import { documentKey, library } from "@/lib/documents";
+import { documentKey, findDocById, representativeDoc } from "@/lib/documents";
 import { placementKey } from "@/lib/projectModel";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const store = await getStore();
-    const source = library(store).find((d) => d.id === body.docId);
+    // 草稿覆盖合并下 library() 找不到被覆盖的已发布行，必须全行寻址
+    const source = findDocById(store, String(body.docId));
     const project = store.projects?.find((p) => p.id === body.projectId);
     const product = project?.products?.find((p) => p.id === body.productId);
     if (
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
       await saveStore(store);
       return NextResponse.json({
         code: 0,
-        data: library(store).find((d) => d.id === source.id),
+        data: representativeDoc(store, source.id),
       });
     }
     const changed = versions.filter((doc) =>
@@ -121,7 +122,7 @@ export async function POST(request: Request) {
     await saveStore(store);
     return NextResponse.json({
       code: 0,
-      data: library(store).find((d) => d.id === source.id),
+      data: representativeDoc(store, source.id),
     });
   } catch {
     return NextResponse.json(

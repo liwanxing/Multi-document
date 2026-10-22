@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStore, saveStore } from "@/lib/dataStore";
-import { library, documentKey } from "@/lib/documents";
+import { library, documentKey, findDocById } from "@/lib/documents";
 import { requirePermission } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -29,15 +29,25 @@ export async function DELETE(request: Request) {
   try {
     const { id } = await request.json();
     const store = await getStore();
-    const doc = library(store).find((doc) => doc.id === id);
+    // 全行寻址：传入 id 可能指向草稿或已发布任一行
+    const doc = findDocById(store, id);
     if (!doc)
       return NextResponse.json(
         { code: 404, message: "文档不存在" },
         { status: 404 },
       );
-    delete store.docs[documentKey(doc)];
-    if (store.drafts) delete store.drafts[documentKey(doc)];
-    store.history = store.history?.filter((entry) => entry.docId !== id);
+    // 草稿与已发布是两行、两个 id，但历史只挂已发布行的 id。
+    // 传入的 id 可能是草稿 id，所以要把同 key 两行的 id 都收进来再过滤历史，
+    // 否则删草稿 id 时历史残留在库里，落库时外键指向已删除的文档行直接失败。
+    const key = documentKey(doc);
+    const relatedIds = new Set([doc.id]);
+    if (store.docs[key]) relatedIds.add(store.docs[key]!.id);
+    if (store.drafts?.[key]) relatedIds.add(store.drafts[key]!.id);
+    delete store.docs[key];
+    if (store.drafts) delete store.drafts[key];
+    store.history = store.history?.filter(
+      (entry) => !relatedIds.has(entry.docId),
+    );
     await saveStore(store);
     return NextResponse.json({ code: 0, message: "删除成功" });
   } catch {
@@ -54,7 +64,7 @@ export async function PATCH(request: Request) {
   try {
     const { id, hidden } = await request.json();
     const store = await getStore();
-    const doc = library(store).find((doc) => doc.id === id);
+    const doc = findDocById(store, id);
     if (!doc)
       return NextResponse.json(
         { code: 404, message: "文档不存在" },

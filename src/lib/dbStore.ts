@@ -38,16 +38,26 @@ function fmt(d: Date | null | undefined): string {
 const str = (v: unknown): string | null =>
   v === null || v === undefined ? null : String(v);
 
+// 挂载行主键：由"文档id + 三个锚点"拼成。全量对账与定向写入必须用同一套拼法，
+// 否则两条路径交替写时同一挂载点会生成两个 id，对账时互相误判为多余行
+function placementId(
+  documentId: string,
+  projectId: string,
+  productId: string,
+  categoryId: string | null | undefined,
+): string {
+  return `${documentId}:${projectId}:${productId}:${categoryId ?? ""}`;
+}
+
 // ── 组装：DB → DocStoreData ─────────────────────────────────
 export async function getStoreFromDb(): Promise<DocStoreData> {
-  const [roles, users, projects, treeNodes, docs, revisions, settings] =
+  const [roles, users, projects, docs, revisions, settings] =
     await Promise.all([
       prisma.role.findMany(),
       prisma.user.findMany(),
       prisma.project.findMany({
         include: { products: { include: { categories: true } } },
       }),
-      prisma.docTreeNode.findMany({ orderBy: { order: "asc" } }),
       prisma.document.findMany({ include: { placements: true } }),
       prisma.docRevision.findMany(),
       prisma.appSetting.findMany(),
@@ -176,6 +186,7 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
     content: r.content,
     appearance: (r.appearance ?? undefined) as DocRevision["appearance"],
     baseline: r.baseline || undefined,
+    publishedBy: r.createdBy ?? undefined,
   }));
 
   const storeUsers: AdminUser[] = users.map((u) => ({
@@ -589,6 +600,9 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
       for (const d of allDocs) {
         const ex = docMap.get(d.id);
         if (ex) {
+          // updatedAt 必须进 changed 判断：绑定调整这类操作只改 placements 与 updatedAt，
+          // 内容字段全没变——不比 updatedAt 的话这次"文档已更新"就落不了库，
+          // 下一次按时间戳做的冲突检测会拿着旧值误判 409。
           const changed =
             ex.title !== d.title ||
             ex.description !== (d.description ?? null) ||
@@ -598,7 +612,8 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
             !sameJson2(ex.breadcrumbs, d.breadcrumbs) ||
             ex.hidden !== (d.hidden ?? false) ||
             ex.changeNote !== (d.changeNote ?? null) ||
-            !sameJson2(ex.appearance, d.appearance);
+            !sameJson2(ex.appearance, d.appearance) ||
+            ex.updatedAt.getTime() !== toDate(d.updatedAt, now).getTime();
           if (changed) {
             await tx.document.update({
               where: { id: d.id },
@@ -636,7 +651,7 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
         }
         for (const pl of d.placements ?? []) {
           placementRows.push({
-            id: `${d.id}:${pl.projectId}:${pl.productId}:${pl.categoryId ?? ""}`,
+            id: placementId(d.id, pl.projectId, pl.productId, pl.categoryId),
             documentId: d.id,
             projectId: pl.projectId,
             productId: pl.productId,
@@ -662,23 +677,20 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
       if (newPlacementRows.length > 0)
         await tx.docPlacement.createMany({ data: newPlacementRows });
 
-      // ── 历史版本：按 (docId, version) 对账，版本不可变，只增不更 ──
-      const keepRevKeys = (store.history ?? []).map((r) => ({
-        docId: r.docId,
-        version: r.version,
-      }));
-      const keepSet = new Set(keepRevKeys.map((k) => `${k.docId}:${k.version}`));
+      // ── 历史版本：不可变，只增不删 ──
+      // 不做"库里多出来的当 stale 删"：全量对账的 store 是某次请求开头读的快照，
+      // 并发期间别人刚发布的版本不在快照里，删 stale 会把别人的历史删掉。
+      // 删除文档时其历史由 documents 的级联外键带走，这里无需也不会清理。
+      // 判重按条目 id（每条历史生成时都是新 UUID）：同 (docId, version) 允许
+      // 多条——"绑定已有文档"这类动态条目沿用 published.version，按 (docId, version)
+      // 判重会把它静默吞掉（历史上唯一约束就是这么丢绑定动态的）。
       const existingRevs = await tx.docRevision.findMany({
-        select: { docId: true, version: true },
+        select: { id: true },
       });
-      const stale = existingRevs.filter((e) => !keepSet.has(`${e.docId}:${e.version}`));
-      for (const e of stale) {
-        await tx.docRevision.deleteMany({ where: { docId: e.docId, version: e.version } });
-      }
-      const existingRevSet = new Set(existingRevs.map((e) => `${e.docId}:${e.version}`));
+      const existingRevSet = new Set(existingRevs.map((e) => e.id));
       const revRows: Prisma.DocRevisionCreateManyInput[] = [];
       for (const r of store.history ?? []) {
-        if (existingRevSet.has(`${r.docId}:${r.version}`)) continue; // 版本快照不可变
+        if (existingRevSet.has(r.id)) continue; // 条目已落库，不可变不再写
         revRows.push({
           id: r.id,
           docId: r.docId,
@@ -690,6 +702,7 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
           content: r.content,
           appearance: j(r.appearance) as Prisma.InputJsonValue,
           baseline: r.baseline ?? false,
+          createdBy: r.publishedBy ?? null,
           publishedAt: toDate(r.publishedAt, now),
         });
       }
@@ -723,4 +736,110 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
     },
     { timeout: 60000, maxWait: 10000 }
   );
+}
+
+// ── 定向写入：文档保存/发布热路径 ──────────────────────────
+// 与 saveStoreToDb 的全量对账相对：只写当前文档行、它的挂载点与（发布时）新版本快照。
+// 走这条路的理由见 persistDocumentChange（dataStore.ts）的注释——并发安全 + 毫秒级延迟。
+export async function persistDocumentToDb(
+  store: DocStoreData,
+  doc: DocDetail,
+  opts: { publish: boolean; expectedUpdatedAt?: string },
+): Promise<{ ok: true } | { ok: false; conflict: true }> {
+  const now = new Date();
+  const updatedAtDate = toDate(doc.updatedAt, now);
+
+  // 行字段：create 与 update 共用一份（id 由 where/主键决定，不进 update data）
+  const fields = {
+    productId: doc.productId,
+    slug: doc.slug,
+    title: doc.title,
+    description: doc.description ?? null,
+    content: doc.content,
+    status: doc.status,
+    version: doc.version,
+    breadcrumbs: j(doc.breadcrumbs ?? []) as Prisma.InputJsonValue,
+    hidden: doc.hidden ?? false,
+    changeNote: doc.changeNote ?? null,
+    appearance: j(doc.appearance) as Prisma.InputJsonValue,
+  };
+  const placementRows = (doc.placements ?? []).map((pl) => ({
+    id: placementId(doc.id, pl.projectId, pl.productId, pl.categoryId),
+    documentId: doc.id,
+    projectId: pl.projectId,
+    productId: pl.productId,
+    categoryId: pl.categoryId ?? null,
+  }));
+
+  try {
+    return await prisma.$transaction(
+      async (tx): Promise<{ ok: true } | { ok: false; conflict: true }> => {
+        // 文档行：带 updatedAt 乐观锁条件更新。命中 0 行且行仍在库，
+        // 说明"读→写"窗口内别人先写了 → 冲突，由路由转 409。
+        const updated = await tx.document.updateMany({
+          where: {
+            id: doc.id,
+            ...(opts.expectedUpdatedAt
+              ? { updatedAt: toDate(opts.expectedUpdatedAt) }
+              : {}),
+          },
+          data: { ...fields, updatedAt: updatedAtDate },
+        });
+        if (updated.count === 0) {
+          const exists = await tx.document.findUnique({
+            where: { id: doc.id },
+            select: { id: true },
+          });
+          if (exists) return { ok: false, conflict: true };
+          await tx.document.create({
+            data: { id: doc.id, ...fields, createdAt: updatedAtDate, updatedAt: updatedAtDate },
+          });
+        }
+
+        if (opts.publish) {
+          // 清草稿行：按 key 定位（草稿 id 与已发布行不同），其挂载点随外键级联删除
+          await tx.document.deleteMany({
+            where: { productId: doc.productId, slug: doc.slug, status: "draft" },
+          });
+          // 动态/快照条目按 id 判重（同 docId+version 允许多条，见对账段注释）
+          const rev = store.history?.[store.history.length - 1];
+          if (rev && rev.docId === doc.id) {
+            const dup = await tx.docRevision.findUnique({
+              where: { id: rev.id },
+              select: { id: true },
+            });
+            if (!dup) {
+              await tx.docRevision.create({
+                data: {
+                  id: rev.id,
+                  docId: rev.docId,
+                  version: rev.version,
+                  title: rev.title,
+                  summary: rev.summary,
+                  changes: rev.changes as unknown as Prisma.InputJsonValue,
+                  placements: rev.placements as unknown as Prisma.InputJsonValue,
+                  content: rev.content,
+                  appearance: j(rev.appearance) as Prisma.InputJsonValue,
+                  baseline: rev.baseline ?? false,
+                  createdBy: rev.publishedBy ?? null,
+                  publishedAt: toDate(rev.publishedAt, now),
+                },
+              });
+            }
+          }
+        }
+
+        // 挂载点定向重建：只动当前文档的行，不扫全表
+        await tx.docPlacement.deleteMany({ where: { documentId: doc.id } });
+        if (placementRows.length > 0)
+          await tx.docPlacement.createMany({ data: placementRows });
+        return { ok: true };
+      },
+      { timeout: 15000 },
+    );
+  } catch (e: unknown) {
+    // 唯一约束 (productId, slug, status) 冲突 = 并发窗口里另一请求抢先建了同一行
+    if ((e as { code?: string })?.code === "P2002") return { ok: false, conflict: true };
+    throw e;
+  }
 }
