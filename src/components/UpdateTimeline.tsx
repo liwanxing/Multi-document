@@ -13,7 +13,6 @@ import { IconRight, IconHistory } from "@arco-design/web-react/icon";
 import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
 import type { DocRevision, Project } from "@/lib/dataStore";
 import { renderVariables } from "@/lib/variables";
 
@@ -30,8 +29,6 @@ export default function UpdateTimeline({
 }) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<DocRevision | null>(null);
-  const searchParams = useSearchParams();
-  const paramValues = Object.fromEntries(searchParams.entries());
 
   const filtered = history.filter((e) =>
     (e.title + e.summary + e.changes.join(" "))
@@ -170,13 +167,18 @@ export default function UpdateTimeline({
         }
         unmountOnExit
         maskClosable={false}
-        className="public-revision-modal workspace-arco-modal"
+        alignCenter
+        // 注意：不要加 workspace-arco-modal 类。它是后台表单向导的样式，
+        // 含 overflow:visible !important，会顶掉下方 .public-revision-modal
+        // 的 max-height+overflow:auto 约束，导致长文档溢出弹窗、页面错乱
+        //（且后台 CSS 在从前台跳进过后会残留全局生效）。
+        className="public-revision-modal"
         style={{ width: 880, maxWidth: "calc(100vw - 32px)" }}
       >
         {selected && (
           <article>
             <MarkdownRenderer
-              content={renderVariables(selected.content, project, paramValues)}
+              content={renderVariables(selected.content, project)}
               appearance={selected.appearance}
             />
           </article>

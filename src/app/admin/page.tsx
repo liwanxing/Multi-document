@@ -74,6 +74,21 @@ type ProjectForm = {
   slug: string;
   description: string;
 };
+
+// 自定义字段是否未填写完整：变量名/值为必填，且变量名不可重复
+function customFieldsIncomplete(
+  fields: { key: string; label: string; value: string }[] | undefined,
+): boolean {
+  const list = fields || [];
+  return list.some((f, i) => {
+    const k = f.key.trim();
+    return (
+      !k ||
+      !f.value.trim() ||
+      list.findIndex((x) => x.key.trim() === k) !== i
+    );
+  });
+}
 export default function AdminPage() {
   const [currentUser, setCurrentUser] = useState<SafeAdminUser | null>(null);
   const [view, setView] = useState<"projects" | "documents" | "users">("projects");
@@ -163,10 +178,22 @@ export default function AdminPage() {
       e.preventDefault();
     }
     if (!projectForm || busy) return;
+    // 自定义字段校验：整行全空自动丢弃；其余行变量名和值均必填，且变量名不可重复
+    let payload = projectForm;
+    if (projectForm.customFields?.length) {
+      const cleaned = projectForm.customFields.filter(
+        (f) => f.key.trim() || f.label.trim() || f.value.trim(),
+      );
+      if (customFieldsIncomplete(cleaned)) {
+        Message.error("自定义字段的变量名和值均为必填，且变量名不能重复");
+        return;
+      }
+      payload = { ...projectForm, customFields: cleaned };
+    }
     setBusy(true);
     setError("");
     try {
-      await mutate("/api/admin/projects", "POST", projectForm);
+      await mutate("/api/admin/projects", "POST", payload);
       setProjectForm(null);
       await load();
     } catch (err) {
@@ -1008,7 +1035,7 @@ export default function AdminPage() {
                 </Button>
               </div>
               <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginBottom: 12 }}>
-                文档正文中用 {"{{变量名}}"} 引用，按项目渲染各自的值；brand_name / company_name 为系统内置变量，值留空时按提示自动兜底；自定义变量无值时保留 {"{{变量名}}"} 原文，可在模板中写 {"{{变量名|默认文字}}"} 兜底
+                文档正文用 {"{{变量名}}"} 引用，按项目渲染对应值。brand_name 和 company_name 为系统内置变量：brand_name 为空时用项目名称；company_name 为空时用品牌名称，品牌也为空时用项目名称。
               </div>
               <div style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "center" }}>
                 <div style={{ width: 140, fontSize: 12, color: "var(--color-text-secondary)", fontFamily: "monospace" }}>brand_name</div>
@@ -1027,7 +1054,7 @@ export default function AdminPage() {
                 <div style={{ width: 130, fontSize: 12, color: "var(--color-text-secondary)" }}>公司 / 品牌名称（内置）</div>
                 <Input
                   style={{ flex: 1 }}
-                  placeholder="留空默认使用品牌名称，均未填时使用项目名称"
+                  placeholder="留空默认使用品牌名称"
                   value={projectForm.company || ""}
                   onChange={(company) =>
                     setProjectForm({ ...projectForm, company })
@@ -1082,6 +1109,11 @@ export default function AdminPage() {
                     />
                   </div>
                   ))}
+                  {customFieldsIncomplete(projectForm.customFields) && (
+                    <div style={{ fontSize: 12, color: "rgb(var(--red-6))", margin: "-2px 0 10px" }}>
+                      变量名和值为必填，且变量名不能重复：请修正或删除多余字段后再保存
+                    </div>
+                  )}
                 </>
               )}
             </div>
@@ -1089,7 +1121,12 @@ export default function AdminPage() {
               <Button disabled={busy} onClick={closeForm}>
                 取消
               </Button>
-              <Button type="primary" htmlType="submit" loading={busy}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={busy}
+                disabled={customFieldsIncomplete(projectForm.customFields)}
+              >
                 {projectForm.copyFrom
                   ? "复制项目"
                   : projectForm.id

@@ -17,9 +17,7 @@ import TableOfContents from "@/components/TableOfContents";
 export const dynamic = "force-dynamic";
 export default async function DocumentPage({
   params,
-  searchParams,
 }: {
-  searchParams: Record<string, string | string[] | undefined>;
   params: { projectSlug: string; productSlug: string; docId: string };
 }) {
   const { project, product, documents, history } = await publicProduct(
@@ -30,7 +28,7 @@ export default async function DocumentPage({
   if (!original) notFound();
   const doc = {
     ...original,
-    content: renderVariables(original.content, project, searchParams),
+    content: renderVariables(original.content, project),
   };
   const base = productHref(project, product);
   const publishedAt =
