@@ -115,7 +115,14 @@ export default function UserManager({ currentUser }: UserManagerProps) {
       Message.success("用户创建成功");
       setCreateVisible(false);
       createForm.resetFields();
-      void reloadAll();
+      // 先用接口返回的用户数据立刻插入列表，再后台重新拉取对账。
+      // 不能只用 reloadAll：若这次 GET 因缓存/并发拿到旧数据，
+      // 新用户会从列表里"消失"，只能手动刷新页面才出现。
+      const created = data.data as SafeAdminUser | undefined;
+      if (created && !users.some((u) => u.id === created.id)) {
+        setUsers([created, ...users]);
+      }
+      await reloadAll();
     } catch (err: any) {
       Message.error(err.message || "创建用户异常");
     } finally {
