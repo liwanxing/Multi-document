@@ -1,6 +1,29 @@
 import { randomUUID } from "crypto";
 import type { DocDetail, DocStoreData } from "./dataStore";
 import { defaultAppearance, stylePresets } from "./editor";
+import { placementKey } from "./projectModel";
+
+// 绑定目录语义比较：按 placementKey 集合比较，与数组顺序、对象键序无关。
+// 不能用 JSON.stringify：DB 加载后挂载点顺序按 placement id 排（与创建序不同），
+// MySQL JSON 列还会重排对象键序——字符串比较会产生假差异，
+// 导致 placementOnlyPublish 误判（内容没变却递增版本 / 或反之）。
+function samePlacements(
+  a: DocDetail["placements"],
+  b: DocDetail["placements"],
+): boolean {
+  const keys = (list: DocDetail["placements"]) =>
+    (list ?? []).map(placementKey).sort();
+  const ka = keys(a);
+  const kb = keys(b);
+  return ka.length === kb.length && ka.every((x, i) => x === kb[i]);
+}
+
+function sameAppearance(
+  a: DocDetail["appearance"],
+  b: NonNullable<DocDetail["appearance"]>,
+): boolean {
+  return a?.theme === b.theme && a?.density === b.density;
+}
 
 export function documentKey(doc: Pick<DocDetail, "productId" | "slug">) {
   return `${doc.productId}/${doc.slug}`;
@@ -136,8 +159,8 @@ export function persistDocument(
     published.title === body.title.trim() &&
     published.content === body.content &&
     (published.description || "") === (body.description || "") &&
-    JSON.stringify(published.appearance) === JSON.stringify(nextAppearance) &&
-    JSON.stringify(published.placements) !== JSON.stringify(body.placements);
+    sameAppearance(published.appearance, nextAppearance) &&
+    !samePlacements(published.placements, body.placements);
   const doc: DocDetail = {
     hidden: published?.hidden ?? existing?.hidden ?? false,
     id: docId,
@@ -173,12 +196,10 @@ export function persistDocument(
           ...(published.title !== doc.title ? ["标题"] : []),
           ...(published.content !== doc.content ? ["正文"] : []),
           ...(published.description !== doc.description ? ["摘要"] : []),
-          ...(JSON.stringify(published.appearance) !==
-          JSON.stringify(doc.appearance)
+          ...(!sameAppearance(published.appearance, doc.appearance || defaultAppearance)
             ? ["排版样式"]
             : []),
-          ...(JSON.stringify(published.placements) !==
-          JSON.stringify(doc.placements)
+          ...(!samePlacements(published.placements, doc.placements)
             ? ["绑定目录"]
             : []),
         ]
