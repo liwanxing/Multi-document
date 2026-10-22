@@ -567,7 +567,12 @@ export interface DocStoreData {
   >;
 }
 
+// MySQL 路径下的内存缓存：getStore 被每个页面请求调用，若每次都全量组装
+// （6 张表查询 + 全量 JSON 拼装）单次约 110ms。缓存窗口 3 秒内直接复用，
+// saveStore 会同步刷新缓存，本进程写入立即可见；其他进程最多滞后 3 秒。
 let cachedData: DocStoreData | null = null;
+let cacheTime = 0;
+const CACHE_TTL_MS = 3000;
 
 export function createDefaultRoles(): RoleDefinition[] {
   const now = new Date().toISOString();
@@ -660,6 +665,10 @@ function useMysqlBackend(): boolean {
 
 export async function getStore(): Promise<DocStoreData> {
   if (useMysqlBackend()) {
+    const now = Date.now();
+    if (cachedData && now - cacheTime < CACHE_TTL_MS) {
+      return cachedData;
+    }
     // 动态引入避免与 dbStore 的循环依赖
     const { getStoreFromDb } = await import("./dbStore");
     const data = await getStoreFromDb();
@@ -674,6 +683,7 @@ export async function getStore(): Promise<DocStoreData> {
     }
     if (changed) await saveStore(data);
     cachedData = data;
+    cacheTime = now;
     return data;
   }
 
@@ -756,6 +766,7 @@ export async function getStore(): Promise<DocStoreData> {
 
 export async function saveStore(data: DocStoreData): Promise<void> {
   cachedData = data;
+  cacheTime = Date.now();
   if (useMysqlBackend()) {
     const { saveStoreToDb } = await import("./dbStore");
     await saveStoreToDb(data);
