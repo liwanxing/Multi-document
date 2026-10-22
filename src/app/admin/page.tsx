@@ -1034,13 +1034,10 @@ export default function AdminPage() {
                   }
                 />
               </div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-secondary)", margin: "4px 0 10px" }}>自定义字段（可增删）</div>
-              {(projectForm.customFields || []).length === 0 ? (
-                <div style={{ fontSize: 12, color: "var(--color-text-tertiary)", padding: "4px 0 12px" }}>
-                  暂无自定义字段，点右上角"添加字段"
-                </div>
-              ) : (
-                (projectForm.customFields || []).map((f, i) => (
+              {(projectForm.customFields || []).length > 0 && (
+                <>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-secondary)", margin: "4px 0 10px" }}>自定义字段</div>
+                  {(projectForm.customFields || []).map((f, i) => (
                   <div key={i} style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "flex-start" }}>
                     <Input
                       style={{ width: 140 }}
@@ -1084,7 +1081,8 @@ export default function AdminPage() {
                       }}
                     />
                   </div>
-                ))
+                  ))}
+                </>
               )}
             </div>
             <div className="modal-form-footer">
