@@ -1008,7 +1008,7 @@ export default function AdminPage() {
                 </Button>
               </div>
               <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginBottom: 12 }}>
-                文档正文中用 {"{{变量名}}"} 引用，按项目渲染各自的值；brand_name / company_name 为系统内置变量
+                文档正文中用 {"{{变量名}}"} 引用，按项目渲染各自的值；brand_name / company_name 为系统内置变量，值留空时按提示自动兜底；自定义变量无值时保留 {"{{变量名}}"} 原文，可在模板中写 {"{{变量名|默认文字}}"} 兜底
               </div>
               <div style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "center" }}>
                 <div style={{ width: 140, fontSize: 12, color: "var(--color-text-secondary)", fontFamily: "monospace" }}>brand_name</div>
@@ -1027,7 +1027,7 @@ export default function AdminPage() {
                 <div style={{ width: 130, fontSize: 12, color: "var(--color-text-secondary)" }}>公司 / 品牌名称（内置）</div>
                 <Input
                   style={{ flex: 1 }}
-                  placeholder="在项目首页和文档页中展示"
+                  placeholder="留空默认使用品牌名称，均未填时使用项目名称"
                   value={projectForm.company || ""}
                   onChange={(company) =>
                     setProjectForm({ ...projectForm, company })

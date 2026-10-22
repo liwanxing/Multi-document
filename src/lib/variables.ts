@@ -6,7 +6,7 @@ export function renderVariables(
 ) {
   const values: Record<string, string> = {
     brand_name: project.brandName || project.name,
-    company_name: project.company || project.name,
+    company_name: project.company || project.brandName || project.name,
   };
   // 项目自定义字段：文档里 {{key}} 引用；内置两个变量优先，不允许被覆盖
   for (const f of project.customFields ?? []) {
