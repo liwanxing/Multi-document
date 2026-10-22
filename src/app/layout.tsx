@@ -6,6 +6,7 @@ import "./document-reference.css";
 import "./document-dark.css";
 import Header from "@/components/Header";
 import ClientConfigProvider from "@/components/ClientConfigProvider";
+import { getAuthenticatedUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "中广云 - 文档中心",
@@ -31,11 +32,13 @@ r.style.colorScheme=d;
 if(document.body)document.body.setAttribute("arco-theme",d==="dark"?"dark":"light");
 }catch(e){}})();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // 站点级顶栏的"管理后台"入口仅对已登录的后管用户渲染（访客不可见）
+  const adminUser = await getAuthenticatedUser();
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body suppressHydrationWarning className="min-h-screen bg-white text-gray-900 flex flex-col antialiased">
@@ -47,7 +50,7 @@ export default function RootLayout({
           跳至主要内容
         </a>
         <ClientConfigProvider>
-          <Header />
+          <Header showAdmin={!!adminUser} />
           <main id="main-content" className="flex-1 flex flex-col">{children}</main>
         </ClientConfigProvider>
       </body>

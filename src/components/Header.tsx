@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Layers3, ArrowUpRight } from "lucide-react";
 import ThemeModeSwitch from "./ThemeModeSwitch";
-export default function Header() {
+export default function Header({ showAdmin = false }: { showAdmin?: boolean }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -41,13 +41,15 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-3">
           <ThemeModeSwitch />
-          <Link
-            href="/admin"
-            className="text-xs font-medium text-slate-500 hover:text-[#1664FF] flex gap-1 items-center px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors active:scale-95"
-          >
-            管理后台
-            <ArrowUpRight size={14} />
-          </Link>
+          {showAdmin && (
+            <Link
+              href="/admin"
+              className="text-xs font-medium text-slate-500 hover:text-[#1664FF] flex gap-1 items-center px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors active:scale-95"
+            >
+              管理后台
+              <ArrowUpRight size={14} />
+            </Link>
+          )}
         </div>
       </div>
     </header>

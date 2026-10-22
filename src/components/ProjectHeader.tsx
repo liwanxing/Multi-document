@@ -5,7 +5,13 @@ import { BookOpen, ArrowUpRight } from "lucide-react";
 import ThemeModeSwitch from "./ThemeModeSwitch";
 import type { Project } from "@/lib/dataStore";
 
-export default function ProjectHeader({ project }: { project: Project }) {
+export default function ProjectHeader({
+  project,
+  showAdmin = false,
+}: {
+  project: Project;
+  showAdmin?: boolean;
+}) {
   const pathname = usePathname();
 
   const isFavorites = pathname === "/favorites";
@@ -48,13 +54,15 @@ export default function ProjectHeader({ project }: { project: Project }) {
           >
             全部产品
           </Link>
-          <Link
-            href="/admin"
-            className="hover:text-[#1664FF] transition-colors py-1 px-2.5 rounded-md flex items-center gap-1 active:scale-95"
-          >
-            管理后台
-            <ArrowUpRight size={13} />
-          </Link>
+          {showAdmin && (
+            <Link
+              href="/admin"
+              className="hover:text-[#1664FF] transition-colors py-1 px-2.5 rounded-md flex items-center gap-1 active:scale-95"
+            >
+              管理后台
+              <ArrowUpRight size={13} />
+            </Link>
+          )}
         </nav>
       </div>
     </header>

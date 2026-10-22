@@ -2,9 +2,14 @@ import {visibleDocument} from "@/lib/visibility";
 import Link from "next/link";
 import { FolderOpen, ArrowUpRight } from "lucide-react";
 import { getStore } from "@/lib/dataStore";
+import { getAuthenticatedUser } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 export default async function HomePage() {
-  const store = await getStore();
+  const [store, adminUser] = await Promise.all([
+    getStore(),
+    // 仅已登录的后管用户可见"管理后台"入口（未登录访客不可见）
+    getAuthenticatedUser(),
+  ]);
   return (
     <div className="project-portal max-w-[1360px] mx-auto px-6 py-10 w-full">
       <section className="portal-hero mb-10">
@@ -20,9 +25,11 @@ export default async function HomePage() {
       </section>
       <div className="portal-section-title">
         <h2>所有项目</h2>
-        <Link href="/admin" className="hover:text-[#1664FF] transition-colors flex items-center gap-1">
-          管理工作空间 →
-        </Link>
+        {adminUser && (
+          <Link href="/admin" className="hover:text-[#1664FF] transition-colors flex items-center gap-1">
+            管理工作空间 →
+          </Link>
+        )}
       </div>
       <div className="portal-doc-grid">
         {store.projects?.map((project) => (
@@ -53,14 +60,20 @@ export default async function HomePage() {
       {!store.projects?.length && (
         <div className="portal-empty flex flex-col items-center justify-center">
           <p className="text-base font-medium text-slate-700 mb-1">暂无可用项目</p>
-          <p className="text-sm text-slate-500 mb-4">请前往管理后台创建首个文档项目或导入产品与分类。</p>
-          <Link
-            href="/admin"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1664FF] hover:bg-[#3882ff] active:scale-95 text-white text-xs font-medium rounded-lg transition-all shadow-sm"
-          >
-            进入后台创建
-            <ArrowUpRight size={14} />
-          </Link>
+          <p className="text-sm text-slate-500 mb-4">
+            {adminUser
+              ? "请前往管理后台创建首个文档项目或导入产品与分类。"
+              : "项目文档正在准备中，敬请期待。"}
+          </p>
+          {adminUser && (
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1664FF] hover:bg-[#3882ff] active:scale-95 text-white text-xs font-medium rounded-lg transition-all shadow-sm"
+            >
+              进入后台创建
+              <ArrowUpRight size={14} />
+            </Link>
+          )}
         </div>
       )}
     </div>
