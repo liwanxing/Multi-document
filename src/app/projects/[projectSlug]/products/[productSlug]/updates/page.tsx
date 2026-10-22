@@ -18,7 +18,11 @@ export default async function UpdatesPage({
         <h1>产品动态</h1>
         <p>查看文档发布与修改记录，及时了解产品内容的变化。</p>
       </header>
-      <UpdateTimeline history={history} base={productHref(project, product)} />
+      <UpdateTimeline
+        history={history}
+        base={productHref(project, product)}
+        project={project}
+      />
     </div>
   );
 }

@@ -13,19 +13,25 @@ import { IconRight, IconHistory } from "@arco-design/web-react/icon";
 import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import type { DocRevision } from "@/lib/dataStore";
+import { useSearchParams } from "next/navigation";
+import type { DocRevision, Project } from "@/lib/dataStore";
+import { renderVariables } from "@/lib/variables";
 
 const MarkdownRenderer = dynamic(() => import("./MarkdownRenderer"));
 
 export default function UpdateTimeline({
   history,
   base,
+  project,
 }: {
   history: DocRevision[];
   base: string;
+  project: Project;
 }) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<DocRevision | null>(null);
+  const searchParams = useSearchParams();
+  const paramValues = Object.fromEntries(searchParams.entries());
 
   const filtered = history.filter((e) =>
     (e.title + e.summary + e.changes.join(" "))
@@ -170,7 +176,7 @@ export default function UpdateTimeline({
         {selected && (
           <article>
             <MarkdownRenderer
-              content={selected.content}
+              content={renderVariables(selected.content, project, paramValues)}
               appearance={selected.appearance}
             />
           </article>
