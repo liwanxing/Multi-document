@@ -362,174 +362,6 @@ const initialCategories: Category[] = [
   },
 ];
 
-const initialArkTree: DocTreeNode[] = [
-  {
-    id: "group-entry",
-    title: "入门",
-    slug: "entry",
-    type: "folder",
-    children: [
-      {
-        id: "doc-intro",
-        title: "产品简介",
-        slug: "product-intro",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-quickstart",
-        title: "快速入门",
-        slug: "quick-start",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-pricing",
-        title: "模型价格",
-        slug: "pricing",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-agent-practice",
-        title: "Agent 场景模型调用的正确姿势",
-        slug: "agent-best-practice",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-migrate-sdk",
-        title: "迁移到方舟官方 SDK",
-        slug: "migrate-sdk",
-        type: "doc",
-        status: "published",
-      },
-    ],
-  },
-  {
-    id: "group-model",
-    title: "模型",
-    slug: "model",
-    type: "folder",
-    children: [
-      {
-        id: "doc-models",
-        title: "模型列表",
-        slug: "model-list",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-seed-evolving",
-        title: "Seed-Evolving",
-        slug: "seed-evolving",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-deepseek-flash",
-        title: "DeepSeek-V4.1-Flash",
-        slug: "deepseek-v4-flash",
-        type: "doc",
-        status: "published",
-      },
-    ],
-  },
-  {
-    id: "group-invoke",
-    title: "调用",
-    slug: "invoke",
-    type: "folder",
-    children: [
-      {
-        id: "doc-text-gen",
-        title: "文本生成",
-        slug: "text-generation",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "folder-multimodal",
-        title: "多模态理解",
-        slug: "multimodal",
-        type: "folder",
-        children: [
-          {
-            id: "doc-image-understanding",
-            title: "图片理解",
-            slug: "image-understanding",
-            type: "doc",
-            status: "published",
-          },
-          {
-            id: "doc-video-understanding",
-            title: "视频理解",
-            slug: "video-understanding",
-            type: "doc",
-            status: "published",
-          },
-          {
-            id: "doc-file-understanding",
-            title: "文档理解",
-            slug: "doc-understanding",
-            type: "doc",
-            status: "published",
-          },
-          {
-            id: "doc-audio-understanding",
-            title: "音频理解",
-            slug: "audio-understanding",
-            type: "doc",
-            status: "published",
-          },
-        ],
-      },
-      {
-        id: "doc-video-gen",
-        title: "视频生成",
-        slug: "video-generation",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-image-gen",
-        title: "图片生成",
-        slug: "image-generation",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-domain-model",
-        title: "领域模型",
-        slug: "domain-models",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-tools",
-        title: "工具调用",
-        slug: "tool-calling",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-advanced",
-        title: "进阶使用",
-        slug: "advanced",
-        type: "doc",
-        status: "published",
-      },
-      {
-        id: "doc-thirdparty",
-        title: "接入三方工具",
-        slug: "third-party",
-        type: "doc",
-        status: "published",
-      },
-    ],
-  },
-];
-
 const imageUnderstandingMarkdown = `部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。
 
 > [!NOTE]
@@ -722,7 +554,6 @@ main();
 
 export interface DocStoreData {
   categories: Category[];
-  trees: Record<string, DocTreeNode[]>;
   docs: Record<string, DocDetail>;
   drafts?: Record<string, DocDetail>;
   projects?: Project[];
@@ -873,9 +704,6 @@ export async function getStore(): Promise<DocStoreData> {
     users: createDefaultUsers(),
     roles: createDefaultRoles(),
     categories: initialCategories,
-    trees: {
-      ark: initialArkTree,
-    },
     docs: {
       "ark/image-understanding": {
         id: "doc-image-understanding",

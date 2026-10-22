@@ -12,7 +12,6 @@ import type {
   DocStoreData,
   DocDetail,
   DocRevision,
-  DocTreeNode,
   Project,
   ProjectProduct,
   DocCategory,
@@ -115,33 +114,6 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
     }
   }
 
-  // trees：行 → 嵌套 DocTreeNode[]
-  const trees: Record<string, DocTreeNode[]> = {};
-  const nodeMap = new Map<string, DocTreeNode>();
-  for (const t of treeNodes) {
-    (trees[t.productId] ??= []);
-    nodeMap.set(t.id, {
-      id: t.id,
-      title: t.title,
-      slug: t.slug,
-      type: t.type as DocTreeNode["type"],
-      status: (t.status as DocTreeNode["status"]) ?? undefined,
-    });
-  }
-  const childMap = new Map<string | null, DocTreeNode[]>();
-  for (const t of treeNodes) {
-    const node = nodeMap.get(t.id)!;
-    const list = childMap.get(t.parentId) ?? [];
-    list.push(node);
-    childMap.set(t.parentId, list);
-  }
-  for (const t of treeNodes) {
-    const node = nodeMap.get(t.id)!;
-    const children = childMap.get(t.id);
-    if (children && children.length > 0) node.children = children;
-    if (!t.parentId) trees[t.productId]?.push(node);
-  }
-
   // docs / drafts：status 区分 published 与 draft，键 "productId/slug"
   const storeDocs: Record<string, DocDetail> = {};
   const storeDrafts: Record<string, DocDetail> = {};
@@ -216,7 +188,6 @@ export async function getStoreFromDb(): Promise<DocStoreData> {
 
   return {
     categories,
-    trees,
     docs: storeDocs,
     drafts: Object.keys(storeDrafts).length > 0 ? storeDrafts : undefined,
     projects: storeProjects,
@@ -524,61 +495,6 @@ export async function saveStoreToDb(store: DocStoreData): Promise<void> {
         }
         if (catRows.length > 0) await tx.docCategory.createMany({ data: catRows });
       }
-
-      // ── 阅读侧导航树：定向对账（扁平化后按 id 比对，只写变化）──
-      const flatRows: Prisma.DocTreeNodeCreateManyInput[] = [];
-      const flattenTree = (
-        productId: string,
-        nodes: DocTreeNode[] | undefined,
-        parentId: string | null
-      ) => {
-        const list = nodes ?? [];
-        for (let i = 0; i < list.length; i++) {
-          const n = list[i];
-          flatRows.push({
-            id: n.id,
-            productId,
-            parentId,
-            title: n.title,
-            slug: n.slug,
-            type: n.type,
-            status: n.status ?? null,
-            order: i,
-          });
-          flattenTree(productId, n.children, n.id);
-        }
-      };
-      for (const [productId, nodes] of Object.entries(store.trees ?? {})) {
-        flattenTree(productId, nodes, null);
-      }
-      const existingNodes = await tx.docTreeNode.findMany();
-      const nodeMap = new Map(existingNodes.map((n) => [n.id, n]));
-      const desiredNodeIds = new Set(flatRows.map((n) => n.id));
-      const staleNodes = existingNodes.filter((n) => !desiredNodeIds.has(n.id));
-      if (staleNodes.length > 0)
-        await tx.docTreeNode.deleteMany({
-          where: { id: { in: staleNodes.map((n) => n.id) } },
-        });
-      const treeRows: Prisma.DocTreeNodeCreateManyInput[] = [];
-      for (const n of flatRows) {
-        const ex = nodeMap.get(n.id);
-        if (!ex) {
-          treeRows.push(n);
-          continue;
-        }
-        if (
-          ex.productId !== n.productId ||
-          ex.parentId !== n.parentId ||
-          ex.title !== n.title ||
-          ex.slug !== n.slug ||
-          ex.type !== n.type ||
-          ex.status !== n.status ||
-          ex.order !== n.order
-        ) {
-          await tx.docTreeNode.update({ where: { id: n.id }, data: n });
-        }
-      }
-      if (treeRows.length > 0) await tx.docTreeNode.createMany({ data: treeRows });
 
       // ── 文档（published + draft）与挂载点 ──
       const allDocs: DocDetail[] = [

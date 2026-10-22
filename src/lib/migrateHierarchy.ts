@@ -12,6 +12,11 @@ import type {
 // Existing user-created projects and all document/draft content are preserved.
 export function migrateHierarchy(store: DocStoreData): boolean {
   if (store.schemaVersion === 2) return false;
+  // 旧版（schemaVersion 1）JSON 才带 trees 字段；v2 起 trees 已彻底移除，
+  // 这里仅从遗留数据中取值，不依赖数据库表
+  const legacyTrees =
+    (store as DocStoreData & { trees?: Record<string, DocTreeNode[]> }).trees ??
+    {};
   const allProducts = store.categories.flatMap((c) =>
     c.products.map((product) => ({ ...product, group: c.name })),
   );
@@ -40,7 +45,7 @@ export function migrateHierarchy(store: DocStoreData): boolean {
     name: product.name,
     description: product.description,
     group: product.group,
-    categories: folders(store.trees[product.code] || []),
+    categories: folders(legacyTrees[product.code] || []),
   }));
   const primary: Project = {
     id: projectId,
@@ -95,7 +100,7 @@ export function migrateHierarchy(store: DocStoreData): boolean {
       if (alias)
         return {
           ...alias,
-          categoryId: locate(store.trees[oldId] || [], doc) || null,
+          categoryId: locate(legacyTrees[oldId] || [], doc) || null,
         };
       const custom = store.projects!.find((p) => p.id === oldId);
       return {
