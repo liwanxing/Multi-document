@@ -146,19 +146,19 @@ try {
   assert.equal((await publicData(c)).history[0].content, "PUBLIC_V1");
   assert.equal(draft.content, "PRIVATE_DRAFT_V2");
   doc = await req("/api/admin/docs/publish", "POST", draft);
-  assert.equal(doc.version, 1, "Repeated publishing must preserve the version");
+  assert.equal(doc.version, 2, "Republishing must auto-increment the version");
   const history = (await publicData(a)).history;
   assert.equal(history[0].summary, "补充操作步骤");
   assert.equal(history[1].content, "PUBLIC_V1");
   draft = await req("/api/admin/docs/save", "POST", { ...doc, version: 7 });
-  assert.equal(draft.version, 7, "Manual version changes must survive draft saves");
-  assert.equal((await publicData(a)).documents[0].version, 1);
+  assert.equal(draft.version, 7, "Draft saves keep the submitted version field");
+  assert.equal((await publicData(a)).documents[0].version, 2);
   doc = await req("/api/admin/docs/publish", "POST", draft);
-  assert.equal(doc.version, 7);
-  assert.equal((await publicData(a)).history[0].version, 7);
+  assert.equal(doc.version, 3, "Publish must ignore the draft version and auto-increment");
+  assert.equal((await publicData(a)).history[0].version, 3);
   const { version: omittedVersion, ...withoutVersion } = doc;
   doc = await req("/api/admin/docs/publish", "POST", withoutVersion);
-  assert.equal(doc.version, 7, "Omitted versions must retain the existing version");
+  assert.equal(doc.version, 4, "Publishing without a version must auto-increment from the published row");
   for (const version of [-1, 1.5, "2", null, Number.MAX_SAFE_INTEGER + 1]) {
     await req("/api/admin/docs/save", "POST", { ...doc, version }, 400);
     await req("/api/admin/docs/publish", "POST", { ...doc, version }, 400);

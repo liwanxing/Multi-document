@@ -1066,8 +1066,9 @@ export default function DocumentEditor({
                   <Input.TextArea aria-label="文档摘要" value={doc.description || ""} autoSize={{ minRows: 2, maxRows: 4 }}
                     placeholder="简要介绍文档内容（可选）" onChange={(description) => setDoc(current => ({ ...current, description }))} />
                 </Form.Item>
-                <Form.Item label="版本号" extra="非负整数；保存和发布不会自动递增。">
+                <Form.Item label="版本号" extra="由系统在发布时自动递增；保存草稿不改变版本号。">
                   <InputNumber aria-label="版本号" value={doc.version} min={0} max={Number.MAX_SAFE_INTEGER} precision={0}
+                    disabled
                     onChange={(version) => setDoc(current => ({ ...current, version: version ?? current.version }))} />
                 </Form.Item>
                 <div className="editor-binding-summary">

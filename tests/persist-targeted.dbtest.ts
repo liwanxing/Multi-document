@@ -97,28 +97,33 @@ async function main() {
     const draftRow3 = await prisma.document.findUnique({ where: { id: draft.id } });
     check("草稿行未被过期写入覆盖", draftRow3?.content === "草稿");
 
-    console.log("场景四：发布 v2（清草稿 + 新快照 + published 行更新）");
-    const v2 = persistDocument(store, makeBody({ content: "v2", version: 2 }) as never, true, { actor: "dbtest" });
+    console.log("场景四：发布 v2（自动递增：清草稿 + 新快照 + published 行更新）");
+    const v2 = persistDocument(store, makeBody({ content: "v2" }) as never, true, { actor: "dbtest" });
+    check("版本自动递增为 2", v2.version === 2, `实际 ${v2.version}`);
     const r4 = await persistDocumentToDb(store, v2, {
       publish: true,
       expectedUpdatedAt: (await prisma.document.findUnique({ where: { id: pub.id } }))!.updatedAt.toISOString(),
     });
     check("写入成功", r4.ok);
-    check("已发布行更新到 v2", (await prisma.document.findUnique({ where: { id: pub.id } }))?.content === "v2");
+    const pubRow4 = await prisma.document.findUnique({ where: { id: pub.id } });
+    check("已发布行更新到 v2", pubRow4?.content === "v2");
+    check("库中版本号为 2", pubRow4?.version === 2, `实际 ${pubRow4?.version}`);
     check("草稿行已被清除",
       (await prisma.document.findMany({ where: { productId, slug, status: "draft" } })).length === 0);
     const revs = await prisma.docRevision.findMany({ where: { docId: pub.id } });
     check("两条历史快照", revs.length === 2);
 
-    console.log("场景五：重发布同版本号追加动态条目（同 docId+version 允许多条）");
-    const again = persistDocument(store, makeBody({ content: "v2", version: 2 }) as never, true, { actor: "dbtest" });
+    console.log("场景五：再次发布自动递增 v3（历史按条目 id 判重追加第三条）");
+    const again = persistDocument(store, makeBody({ content: "v2 修订" }) as never, true, { actor: "dbtest" });
+    check("版本自动递增为 3", again.version === 3, `实际 ${again.version}`);
     const r5 = await persistDocumentToDb(store, again, {
       publish: true,
       expectedUpdatedAt: (await prisma.document.findUnique({ where: { id: pub.id } }))!.updatedAt.toISOString(),
     });
     check("写入成功", r5.ok);
     const revs5 = await prisma.docRevision.findMany({ where: { docId: pub.id } });
-    check("追加第三条（不再按 docId+version 吞条目）", revs5.length === 3, `实际 ${revs5.length}`);
+    check("追加第三条（按条目 id 判重，不吞历史）", revs5.length === 3, `实际 ${revs5.length}`);
+    check("版本快照各不同（v1/v2/v3）", new Set(revs5.map((x) => x.version)).size === 3);
     check("条目 id 互不相同（按 id 判重）", new Set(revs5.map((x) => x.id)).size === revs5.length);
   } catch (e) {
     // 异常必须显式报出来：静默吞掉会让一次失败的验证看起来像通过

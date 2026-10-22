@@ -75,10 +75,12 @@ console.log("场景三：发布带草稿的文档（版本升级）");
   const publishedId = store.docs[key].id;
 
   persistDocument(store, makeBody({ content: "草稿" }), false);
-  const doc = persistDocument(store, makeBody({ content: "v2", version: 2 }), true);
+  // 不传 version：发布时系统自动递增（v1 → v2），忽略客户端传入值
+  const doc = persistDocument(store, makeBody({ content: "v2" }), true);
 
   check("发布后已发布行 id 保持不变", store.docs[key].id === publishedId, `new=${store.docs[key].id} old=${publishedId}`);
   check("已发布内容更新为草稿内容", store.docs[key].content === "v2");
+  check("版本号自动递增为 2", doc.version === 2, `实际 ${doc.version}`);
   check("草稿已被清除", store.drafts?.[key] === undefined);
   check("两条历史的 docId 一致且都指向已发布行",
     store.history?.length === 2 && store.history.every((r) => r.docId === publishedId));
@@ -93,6 +95,7 @@ console.log("场景四：未发布文档的草稿直接首次发布（转正）"
 
   const doc = persistDocument(store, makeBody({ content: "定稿", version: 1 }), true, { actor: "admin" });
   check("转正后沿用草稿行的 id", store.docs[key]?.id === draftId, `pub=${store.docs[key]?.id} draft=${draftId}`);
+  check("首次发布版本为草稿版本 1", doc.version === 1, `实际 ${doc.version}`);
   check("状态变为 published", store.docs[key]?.status === "published");
   check("草稿已清除", store.drafts?.[key] === undefined);
   check("历史的 docId 指向转正后的行", store.history?.[0]?.docId === draftId);
@@ -102,6 +105,10 @@ console.log("场景四：未发布文档的草稿直接首次发布（转正）"
     persistDocument(s2, makeBody(), true);
     return s2.history?.[0]?.publishedBy === undefined;
   })());
+  // 已转正文档再次发布：版本自动 +1（不再依赖手填）
+  const again = persistDocument(store, makeBody({ content: "修订" }), true);
+  check("再发布自动递增为 2", again.version === 2, `实际 ${again.version}`);
+  check("再发布产生第二条历史", store.history?.length === 2);
 }
 
 if (failures > 0) {
