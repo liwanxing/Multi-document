@@ -169,17 +169,19 @@ export function persistDocument(
     ? published?.id ?? existingDraft?.id ?? randomUUID()
     : existingDraft?.id ?? randomUUID();
   const nextAppearance = body.appearance || defaultAppearance;
-  // 仅绑定目录变更：相对已发布版本，标题/正文/摘要/排版均未变、只有绑定目录不同。
-  // 此类发布不递增版本号——绑定是后台组织结构信息，不构成读者可见的内容新版本；
-  // 历史记录仍照常写入并挂在原版本号下（doc_revisions 的 (docId,version) 已是普通索引，
-  // 支持同版本多条记录），审计可追溯，与"绑定已有文档"路径的行为保持一致。
-  const placementOnlyPublish =
+  // 内容未变更：相对已发布版本，标题/正文/摘要/排版均未变（绑定目录是否变化另行判断）。
+  // 此类发布不递增版本号——版本号对读者意味着"内容有了新版本"，重复点发布
+  // 或仅调整后台组织信息都不构成新内容；历史记录仍照常写入并挂在原版本号下
+  // （doc_revisions 的 (docId,version) 已是普通索引，支持同版本多条记录），审计可追溯。
+  // 其中"仅绑定目录变更"（内容未变 + 绑定有差异）与"绑定已有文档"路径
+  // （同版本挂历史不 bump）的行为保持一致。
+  const contentUnchanged =
     !!published &&
     published.title === body.title.trim() &&
     published.content === body.content &&
     (published.description || "") === (body.description || "") &&
-    sameAppearance(published.appearance, nextAppearance) &&
-    !samePlacements(published.placements, body.placements);
+    sameAppearance(published.appearance, nextAppearance);
+  const placementsChanged = !samePlacements(published.placements, body.placements);
   const doc: DocDetail = {
     hidden: published?.hidden ?? existing?.hidden ?? false,
     id: docId,
@@ -195,11 +197,11 @@ export function persistDocument(
     status: publish ? "published" : "draft",
     // 版本号由系统在发布时自动管理（需求：version 自增）：
     // 对已发布文档再发布 → 已发布版本 +1，忽略客户端传入值；
-    // 例外：仅绑定目录变更的发布沿用原版本号（见 placementOnlyPublish）；
+    // 例外：内容未变更的发布沿用原版本号（含"仅绑定目录变更"，见 contentUnchanged）；
     // 首次发布（无已发布行）→ 沿用草稿版本（新建文档草稿为 1）；存草稿不递增
     version: publish
       ? published
-        ? placementOnlyPublish
+        ? contentUnchanged
           ? published.version
           : published.version + 1
         : (existingDraft?.version ?? 1)
@@ -223,26 +225,30 @@ export function persistDocument(
             : []),
         ]
       : ["首次发布"];
-    store.history ||= [];
-    store.history.push({
-      id: randomUUID(),
-      docId: doc.id,
-      version: doc.version,
-      title: doc.title,
-      publishedAt: doc.updatedAt,
-      summary:
-        body.changeNote?.trim() ||
-        (published
-          ? changes.length
-            ? `更新了${changes.join("、")}`
-            : "重新发布文档"
-          : "文档首次发布"),
-      changes,
-      placements: doc.placements || [],
-      content: doc.content,
-      appearance: doc.appearance,
-      publishedBy: opts?.actor,
-    });
+    // 完全无变更的重复发布（内容与绑定都没动）：不写历史快照——读者视角什么都没
+    // 发生，写了只会让时间线出现同版本的重复条目；文档行的 updatedAt 照常刷新。
+    if (!contentUnchanged || placementsChanged) {
+      store.history ||= [];
+      store.history.push({
+        id: randomUUID(),
+        docId: doc.id,
+        version: doc.version,
+        title: doc.title,
+        publishedAt: doc.updatedAt,
+        summary:
+          body.changeNote?.trim() ||
+          (published
+            ? changes.length
+              ? `更新了${changes.join("、")}`
+              : "重新发布文档"
+            : "文档首次发布"),
+        changes,
+        placements: doc.placements || [],
+        content: doc.content,
+        appearance: doc.appearance,
+        publishedBy: opts?.actor,
+      });
+    }
     doc.changeNote = "";
     store.docs[key] = doc;
     delete store.drafts[key];
