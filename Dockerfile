@@ -18,6 +18,9 @@ RUN npm ci && npm cache clean --force
 # Prisma 配置与迁移文件（migrate deploy 需要；npm ci 本身不需要故放其后）
 COPY prisma ./prisma
 COPY prisma.config.ts ./
+# 演示数据种子（compose 的 seed 服务在 SEED_DEMO=true 时执行 scripts/seed-demo.mjs）
+COPY scripts ./scripts
+COPY seed ./seed
 
 # ── 阶段 2：构建（生成 Prisma client + Next standalone 产物）──
 FROM node:22-alpine AS builder

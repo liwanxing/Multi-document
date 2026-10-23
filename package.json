@@ -8,6 +8,8 @@
     "start": "next start -p 4000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "seed:export": "node scripts/export-demo-seed.mjs",
+    "seed:run": "node scripts/seed-demo.mjs",
     "test:integration": "node tests/workspace.integration.mjs",
     "test:media": "node tests/media-editor.integration.mjs",
     "test:groups": "node tests/product-groups.integration.mjs",

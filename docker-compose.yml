@@ -4,10 +4,12 @@
 #   docker compose up -d             # 日常启动（migrate 会自动追平新迁移）
 #   docker compose logs -f app       # 看应用日志
 #
-# 结构：db（MySQL 8）→ migrate（prisma migrate deploy，跑完退出）→ app（Next standalone）
+# 结构：db（MySQL 8）→ migrate（prisma migrate deploy，跑完退出）→ seed（可选，灌入演示数据）→ app（Next standalone）
 # 说明：
 # - db 不映射宿主机端口，最小暴露面；维护用 docker compose exec db mysql -uroot -p
-# - 首次启动空库时应用会在首次请求自动写入默认角色与账号（admin/admin123），无需 seed
+# - 首次启动空库时应用会在首次请求自动写入默认角色与账号（admin/admin123）
+# - SEED_DEMO=true（默认）时 seed 服务会在空库灌入"中广云 + 大数据"演示数据，开箱即看；
+#   不需要演示数据时设 SEED_DEMO=false，即可获得纯空库
 # - 上传文件持久化在 uploads-data 卷（/app/data/uploads）
 
 services:
@@ -37,6 +39,24 @@ services:
       db:
         condition: service_healthy
 
+  # 演示数据种子：全新空库时灌入"中广云 + 大数据"两个演示站点（产品/文档/挂载/版本快照）。
+  # 开关：SEED_DEMO=false 关闭；库非空时自动跳过（幂等），强制重灌设 SEED_DEMO_FORCE=1。
+  # 角色与账号不在此灌入——应用首次读取会自动初始化默认角色与 admin/operator。
+  seed:
+    build:
+      context: .
+      target: deps
+    command: sh -c "if [ \"$$SEED_DEMO\" = \"true\" ]; then node scripts/seed-demo.mjs; else echo '[seed] SEED_DEMO 未开启，跳过演示数据'; fi"
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
+      SEED_DEMO: ${SEED_DEMO:-true}
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"   # 一次性任务，跑完即退出
+
   app:
     build:
       context: .
@@ -55,6 +75,8 @@ services:
       db:
         condition: service_healthy
       migrate:
+        condition: service_completed_successfully
+      seed:
         condition: service_completed_successfully
     restart: unless-stopped
 

@@ -1,0 +1,1145 @@
+{
+  "exportedAt": "2026-10-23T00:58:34.710Z",
+  "projects": [
+    {
+      "id": "zhongguang",
+      "slug": "zhongguang",
+      "name": "中广云",
+      "description": "中广云产品文档中心，统一查阅产品指南、开发文档与产品动态。",
+      "company": "",
+      "brandName": "",
+      "productGroups": [],
+      "hiddenProductGroups": [],
+      "groupIcons": {},
+      "legacyAliases": [
+        {
+          "alias": "ark",
+          "productId": "ark"
+        },
+        {
+          "alias": "trans",
+          "productId": "trans"
+        },
+        {
+          "alias": "content_custom",
+          "productId": "content_custom"
+        },
+        {
+          "alias": "matrix",
+          "productId": "matrix"
+        },
+        {
+          "alias": "rec",
+          "productId": "rec"
+        },
+        {
+          "alias": "ml",
+          "productId": "ml"
+        },
+        {
+          "alias": "audio",
+          "productId": "audio"
+        },
+        {
+          "alias": "kickart",
+          "productId": "kickart"
+        },
+        {
+          "alias": "risk",
+          "productId": "risk"
+        },
+        {
+          "alias": "doubao_speech",
+          "productId": "doubao_speech"
+        },
+        {
+          "alias": "viking_db",
+          "productId": "viking_db"
+        },
+        {
+          "alias": "ecs",
+          "productId": "ecs"
+        },
+        {
+          "alias": "gpu",
+          "productId": "gpu"
+        },
+        {
+          "alias": "as",
+          "productId": "as"
+        },
+        {
+          "alias": "tos",
+          "productId": "tos"
+        },
+        {
+          "alias": "ve_mysql",
+          "productId": "ve_mysql"
+        },
+        {
+          "alias": "vke",
+          "productId": "vke"
+        },
+        {
+          "alias": "vpc",
+          "productId": "vpc"
+        },
+        {
+          "alias": "vod",
+          "productId": "vod"
+        },
+        {
+          "alias": "cdn_serv",
+          "productId": "cdn_serv"
+        },
+        {
+          "alias": "las",
+          "productId": "las"
+        },
+        {
+          "alias": "waf",
+          "productId": "waf"
+        },
+        {
+          "alias": "iam",
+          "productId": "iam"
+        },
+        {
+          "alias": "ticket",
+          "productId": "ticket"
+        }
+      ],
+      "customFields": [],
+      "createdAt": "2026-10-20T22:52:12.817Z",
+      "updatedAt": "2026-10-22T00:34:28.926Z"
+    },
+    {
+      "id": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "zhongguang-copy-mvhkjybk",
+      "name": "大数据",
+      "description": "大数据产品文档中心，统一查阅产品指南、开发文档与产品动态。",
+      "company": "",
+      "brandName": "",
+      "productGroups": [],
+      "hiddenProductGroups": [],
+      "groupIcons": {},
+      "legacyAliases": null,
+      "customFields": [
+        {
+          "key": "support_phone",
+          "label": "支持电话",
+          "value": "400-999-1111"
+        }
+      ],
+      "createdAt": "2026-10-20T22:52:17.622Z",
+      "updatedAt": "2026-10-22T00:17:30.396Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "ark",
+      "name": "大数据方舟",
+      "description": "方舟提供模型推理、微调、评测等全流程服务，帮助您快速构建大模型应用。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "3e2fec00-1732-4065-a5ff-c12d3fa65a8b",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "las",
+      "name": "湖仓一体分析服务 LAS",
+      "description": "海量数据秒级交互式查询与全托管大数据计算引擎。",
+      "group": "大数据",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "2df466fc-724e-4b32-8763-b5773dc86277",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "ml",
+      "name": "机器学习平台",
+      "description": "一站式模型开发、训练、托管和部署平台。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "76507d84-3c88-4cc1-afbe-b6dde767aa49",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "rec",
+      "name": "智能推荐平台",
+      "description": "字节跳动同款推荐算法与架构，快速构建个性化推荐系统。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "40f8cae8-bcbb-48d1-aee2-64166e6dd747",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "risk",
+      "name": "业务风险识别",
+      "description": "全方位防护账号安全、反作弊、营销反欺诈与内容合规。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "46decd06-a299-40c0-b46b-75c67ebd990c",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "ve-mysql",
+      "name": "云数据库 MySQL",
+      "description": "高可用、强一致性的企业级关系型数据库。",
+      "group": "数据库",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "5c8275ab-a46e-4736-80bf-842e823f86b5",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "slug": "viking-db",
+      "name": "向量数据库VikingDB",
+      "description": "高可用、千亿级高性能企业向量检索引擎，专为RAG应用打造。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "ark",
+      "projectId": "zhongguang",
+      "slug": "ark",
+      "name": "中广云方舟",
+      "description": "方舟提供模型推理、微调、评测等全流程服务，帮助您快速构建大模型应用。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "as",
+      "projectId": "zhongguang",
+      "slug": "as",
+      "name": "弹性伸缩",
+      "description": "根据业务需求自动调整计算资源，保障业务平稳运行并节省成本。",
+      "group": "计算",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "audio",
+      "projectId": "zhongguang",
+      "slug": "audio",
+      "name": "音频技术",
+      "description": "领先的语音降噪、音频分离、音质增强与音频理解技术。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "cdn_serv",
+      "projectId": "zhongguang",
+      "slug": "cdn-serv",
+      "name": "内容分发网络 CDN",
+      "description": "全球海量加速节点，显著降低网络访问延迟。",
+      "group": "CDN与边缘",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "content_custom",
+      "projectId": "zhongguang",
+      "slug": "content-custom",
+      "name": "内容定制",
+      "description": "面向企业业务场景的内容精准生成与智能定制服务。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "doubao_speech",
+      "projectId": "zhongguang",
+      "slug": "doubao-speech",
+      "name": "豆包语音",
+      "description": "自然拟真的人声合成、高准确率语音识别与双工通话。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "ecs",
+      "projectId": "zhongguang",
+      "slug": "ecs",
+      "name": "云服务器",
+      "description": "弹性计算实例，提供卓越计算性能与高可用网络。",
+      "group": "计算",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "gpu",
+      "projectId": "zhongguang",
+      "slug": "gpu",
+      "name": "GPU云服务器",
+      "description": "搭载最新高性能加速卡，为深度学习与大模型训练提供澎湃算力。",
+      "group": "计算",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "iam",
+      "projectId": "zhongguang",
+      "slug": "iam",
+      "name": "访问控制 IAM",
+      "description": "细粒度管理云资源的访问身份与权限授权。",
+      "group": "企业应用",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "kickart",
+      "projectId": "zhongguang",
+      "slug": "kickart",
+      "name": "Kickart",
+      "description": "智能图像创意合成与视觉设计工作流。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "las",
+      "projectId": "zhongguang",
+      "slug": "las",
+      "name": "湖仓一体分析服务 LAS",
+      "description": "海量数据秒级交互式查询与全托管大数据计算引擎。",
+      "group": "大数据",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "matrix",
+      "projectId": "zhongguang",
+      "slug": "matrix",
+      "name": "矩阵管家",
+      "description": "多账号矩阵一站式内容分发与智能资产管理运营平台。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "ml",
+      "projectId": "zhongguang",
+      "slug": "ml",
+      "name": "机器学习平台",
+      "description": "一站式模型开发、训练、托管和部署平台。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "rec",
+      "projectId": "zhongguang",
+      "slug": "rec",
+      "name": "智能推荐平台",
+      "description": "字节跳动同款推荐算法与架构，快速构建个性化推荐系统。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "risk",
+      "projectId": "zhongguang",
+      "slug": "risk",
+      "name": "业务风险识别",
+      "description": "全方位防护账号安全、反作弊、营销反欺诈与内容合规。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "ticket",
+      "projectId": "zhongguang",
+      "slug": "ticket",
+      "name": "工单系统",
+      "description": "7x24 小时技术专家团队响应与问题追踪服务。",
+      "group": "服务支持",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "tos",
+      "projectId": "zhongguang",
+      "slug": "tos",
+      "name": "对象存储 TOS",
+      "description": "海量、安全、低成本的高可靠云端对象存储服务。",
+      "group": "存储",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "trans",
+      "projectId": "zhongguang",
+      "slug": "trans",
+      "name": "机器翻译",
+      "description": "基于海量数据的深度学习翻译技术，支持百余种语言互译。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "ve_mysql",
+      "projectId": "zhongguang",
+      "slug": "ve-mysql",
+      "name": "云数据库 MySQL",
+      "description": "高可用、强一致性的企业级关系型数据库。",
+      "group": "数据库",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "viking_db",
+      "projectId": "zhongguang",
+      "slug": "viking-db",
+      "name": "向量数据库VikingDB",
+      "description": "高可用、千亿级高性能企业向量检索引擎，专为RAG应用打造。",
+      "group": "人工智能与算法",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "vke",
+      "projectId": "zhongguang",
+      "slug": "vke",
+      "name": "容器服务 VKE",
+      "description": "完全兼容 Kubernetes 规范的高性能容器托管集群服务。",
+      "group": "容器与中间件",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "vod",
+      "projectId": "zhongguang",
+      "slug": "vod",
+      "name": "视频点播",
+      "description": "端到端音视频上传、智能转码、分发播放与版权保护服务。",
+      "group": "视频云",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "vpc",
+      "projectId": "zhongguang",
+      "slug": "vpc",
+      "name": "私有网络 VPC",
+      "description": "隔离的虚拟网络环境，提供弹性的网络路由与安全策略。",
+      "group": "网络",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    },
+    {
+      "id": "waf",
+      "projectId": "zhongguang",
+      "slug": "waf",
+      "name": "Web应用防火墙 WAF",
+      "description": "智能拦截SQL注入、XSS、WebShell等常见网络攻击。",
+      "group": "安全",
+      "media": null,
+      "docOrder": null,
+      "createdAt": "2026-10-20T22:52:11.991Z",
+      "updatedAt": "2026-10-21T00:46:52.379Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "170daa1c-3685-4f6f-b692-4d093d4ce20e",
+      "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "name": "多模态理解",
+      "icon": null,
+      "hidden": 0,
+      "parentId": "3e135218-1c1d-4b4a-8b4a-8b9813a6c8ec"
+    },
+    {
+      "id": "3c0b5d06-73d4-4bbd-9413-4662dba11db4",
+      "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "name": "模型",
+      "icon": null,
+      "hidden": 0,
+      "parentId": null
+    },
+    {
+      "id": "3e135218-1c1d-4b4a-8b4a-8b9813a6c8ec",
+      "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "name": "调用",
+      "icon": null,
+      "hidden": 0,
+      "parentId": null
+    },
+    {
+      "id": "6c695104-8980-4c06-b24f-4ffe0e97e77c",
+      "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "name": "入门",
+      "icon": null,
+      "hidden": 0,
+      "parentId": null
+    },
+    {
+      "id": "folder-multimodal",
+      "productId": "ark",
+      "name": "多模态理解",
+      "icon": null,
+      "hidden": 0,
+      "parentId": "group-invoke"
+    },
+    {
+      "id": "group-entry",
+      "productId": "ark",
+      "name": "入门",
+      "icon": null,
+      "hidden": 0,
+      "parentId": null
+    },
+    {
+      "id": "group-invoke",
+      "productId": "ark",
+      "name": "调用",
+      "icon": null,
+      "hidden": 0,
+      "parentId": null
+    },
+    {
+      "id": "group-model",
+      "productId": "ark",
+      "name": "模型",
+      "icon": null,
+      "hidden": 0,
+      "parentId": null
+    }
+  ],
+  "documents": [
+    {
+      "id": "doc-image-understanding",
+      "productId": "ark",
+      "slug": "image-understanding",
+      "title": "图片理解",
+      "description": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。",
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n\n{{brand_name}}\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "status": "published",
+      "version": 3,
+      "breadcrumbs": [
+        "文档中心",
+        "图片理解"
+      ],
+      "hidden": 0,
+      "changeNote": "",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "createdAt": "2026-09-18T00:50:00.000Z",
+      "updatedAt": "2026-10-22T16:50:49.754Z"
+    },
+    {
+      "id": "doc-image-understanding-bigdata",
+      "productId": "library",
+      "slug": "image-understanding-bigdata",
+      "title": "图片理解（大数据专属版）",
+      "description": "大数据项目专属的图片理解接入指南：参数与示例按本项目模型配置裁剪。",
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "status": "published",
+      "version": 4,
+      "breadcrumbs": [
+        "文档中心",
+        "图片理解（专属副本）"
+      ],
+      "hidden": 0,
+      "changeNote": "",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "createdAt": "2026-10-21T23:59:21.076Z",
+      "updatedAt": "2026-10-23T00:57:04.515Z"
+    },
+    {
+      "id": "doc-intro",
+      "productId": "ark",
+      "slug": "product-intro",
+      "title": "产品简介",
+      "description": "中广云方舟是大模型服务平台，提供模型推理、微调、评测等全流程服务。",
+      "content": "中广云方舟提供海量前沿大模型推理与精调服务，具备极速冷启动、高可用吞吐与多层级安全防护能力。\n\n> [!IMPORTANT]\n> **核心优势**：支持字节跳动自研豆包大模型全系列，全面兼容业界开源生态（DeepSeek、Llama、Qwen 等）。\n\n## 核心功能概述\n\n- **模型推理**：秒级冷启动与千卡级并发调度。\n- **模型精调**：提供 LoRA、Full Fine-tuning 全链路微调套件。\n- **安全互信**：芯片级机密计算与端到端敏感信息脱敏。\n\n\n---\n\n## 变量渲染演示\n\n> 同一份文档，在不同项目下打开，下面几行会显示各自项目的值。\n\n- 当前项目品牌名：{{brand_name}}\n- 当前项目公司名：{{company_name}}\n- 带默认值的变量：{{slogan|欢迎使用本文档中心}}\n- æ”¯æŒç”µè¯ï¼š{{support_phone}}\n- 支持电话：{{support_phone}}\n",
+      "status": "published",
+      "version": 2,
+      "breadcrumbs": [
+        "文档首页",
+        "中广云方舟",
+        "入门",
+        "产品简介"
+      ],
+      "hidden": 0,
+      "changeNote": null,
+      "appearance": null,
+      "createdAt": "2026-09-17T23:30:00.000Z",
+      "updatedAt": "2026-10-22T08:00:22.595Z"
+    },
+    {
+      "id": "doc-las-quickstart",
+      "productId": "las",
+      "slug": "las-quickstart",
+      "title": "湖仓一体分析服务 LAS 快速入门",
+      "description": "从创建实例到跑通第一个批处理作业，10 分钟完成 LAS 接入。",
+      "content": "LAS（Lakehouse Analytics Service）提供存算分离的湖仓一体分析能力，兼容标准 SQL，支持批流一体作业。\n\n> [!NOTE]\n> 说明：首次使用请先在控制台开通 LAS 服务，并创建工作空间。本文假设你已完成上述准备。\n\n## 核心概念\n\n| 概念 | 说明 |\n| --- | --- |\n| 工作空间 | 资源与权限的隔离单元，作业以工作空间为单位提交 |\n| 数据目录 | 统一管理库、表、视图的元数据，供批流作业共用 |\n| 作业 | 一次 SQL 或 JAR 提交的执行单元，支持周期调度 |\n\n## 快速开始\n\n### 1. 创建数据目录与表\n\n```sql\nCREATE DATABASE IF NOT EXISTS demo_db;\n\nCREATE TABLE demo_db.user_events (\n  user_id     VARCHAR(64),\n  event_type  VARCHAR(32),\n  event_time  TIMESTAMP(3),\n  WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'user_events',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'format' = 'json'\n);\n```\n\n### 2. 提交批处理作业\n\n:::tabs\n```sql\n-- 每小时活跃用户统计\nSELECT\n  DATE_FORMAT(event_time, 'yyyy-MM-dd HH') AS hour,\n  COUNT(DISTINCT user_id)                   AS active_users\nFROM demo_db.user_events\nGROUP BY DATE_FORMAT(event_time, 'yyyy-MM-dd HH');\n```\n```python\n# 通过 SDK 提交作业\nfrom las_sdk import Client\n\nclient = Client(workspace=\"demo-ws\", api_key=os.environ[\"LAS_API_KEY\"])\njob = client.jobs.submit_sql(sql_path=\"./hourly_active.sql\")\nprint(job.status)  # PENDING -> RUNNING -> SUCCEEDED\n```\n:::\n\n:::compare\n### 输入\nuser_events 原始事件流（Kafka topic）\n### 输出预览\nhour=10:00, active_users=15230\nhour=11:00, active_users=16402\n:::\n\n## 下一步\n\n- 配置周期调度与依赖：参见 [作业调度](#)\n- 湖仓表性能优化：参见 [表格式与分区设计](#)\n\n如有疑问，联系 {{support_phone}}。\n",
+      "status": "published",
+      "version": 1,
+      "breadcrumbs": [
+        "大数据",
+        "大数据产品文档",
+        "湖仓一体分析服务 LAS"
+      ],
+      "hidden": 0,
+      "changeNote": null,
+      "appearance": null,
+      "createdAt": "2026-10-23T00:57:04.526Z",
+      "updatedAt": "2026-10-23T00:57:04.526Z"
+    },
+    {
+      "id": "doc-vikingdb-guide",
+      "productId": "viking-db",
+      "slug": "vikingdb-guide",
+      "title": "向量数据库 VikingDB 实践指南",
+      "description": "向量入库、索引选型与检索调优的完整实践路径。",
+      "content": "VikingDB 是面向大规模向量检索的云原生数据库，适用于语义搜索、推荐召回、RAG 知识库等场景。\n\n> [!NOTE]\n> 说明：本文示例使用 Python SDK，安装方式 `pip install vikingdb`。\n\n## 索引选型\n\n| 索引类型 | 数据规模 | 延迟 | 适用场景 |\n| --- | --- | --- | --- |\n| FLAT | < 10 万 | 最低 | 小规模精确检索 |\n| HNSW | 百万级 | 低 | 通用语义检索 |\n| IVF | 千万级以上 | 中 | 大规模召回、成本敏感 |\n\n## 快速开始\n\n### 1. 写入向量\n\n```python\nimport vikingdb\n\nservice = vikingdb.Service(host=\"api.vikingdb.xxx\", region=\"cn-north-1\", ak=os.environ[\"VK_AK\"], sk=os.environ[\"VK_SK\"])\ncollection = service.get_collection(\"demo_docs\")\ncollection.insert([\n    {\"id\": \"doc-1\", \"text\": \"如何开通模型服务\", \"vector\": embedding(\"如何开通模型服务\")},\n    {\"id\": \"doc-2\", \"text\": \"计费方式说明\",     \"vector\": embedding(\"计费方式说明\")},\n])\n```\n\n### 2. 相似检索\n\n```python\nresults = collection.search_by_vector(embedding(\"怎么接入图片理解\"), limit=5)\nfor item in results:\n    print(item.id, item.score, item.fields[\"text\"])\n```\n\n:::compare\n### 输入\n“怎么接入图片理解”\n### 输出预览\ndoc-1 (0.92) 如何开通模型服务\ndoc-7 (0.85) 视觉模型调用示例\n:::\n\n## 调优建议\n\n1. 向量维度与模型输出保持一致，写入前统一归一化\n2. 召回阶段用 IVF 控制成本，精排阶段用 HNSW 保证体验\n3. 利用标量过滤（如 doc_type）缩小检索范围\n\n接入问题请联系 {{support_phone}}。\n",
+      "status": "published",
+      "version": 1,
+      "breadcrumbs": [
+        "大数据",
+        "大数据产品文档",
+        "向量数据库VikingDB"
+      ],
+      "hidden": 0,
+      "changeNote": null,
+      "appearance": null,
+      "createdAt": "2026-10-23T00:57:04.526Z",
+      "updatedAt": "2026-10-23T00:57:04.526Z"
+    }
+  ],
+  "placements": [
+    {
+      "id": "doc-image-understanding:fd897dde-b197-4f3f-a76f-073df8177888:32ea3eab-c332-45f8-9f31-78dcb3ec235a:",
+      "documentId": "doc-image-understanding",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "categoryId": null
+    },
+    {
+      "id": "doc-image-understanding:zhongguang:ark:folder-multimodal",
+      "documentId": "doc-image-understanding",
+      "projectId": "zhongguang",
+      "productId": "ark",
+      "categoryId": "folder-multimodal"
+    },
+    {
+      "id": "d50975e4-9327-4828-b042-0b50e8f06a56:fd897dde-b197-4f3f-a76f-073df8177888:0285fafa-1add-46b6-8bc8-02160eff7d54:",
+      "documentId": "doc-image-understanding-bigdata",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "productId": "76507d84-3c88-4cc1-afbe-b6dde767aa49",
+      "categoryId": null
+    },
+    {
+      "id": "d50975e4-9327-4828-b042-0b50e8f06a56:fd897dde-b197-4f3f-a76f-073df8177888:2129219d-b744-4daa-a430-5720ea361315:",
+      "documentId": "doc-image-understanding-bigdata",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "productId": "2df466fc-724e-4b32-8763-b5773dc86277",
+      "categoryId": null
+    },
+    {
+      "id": "doc-intro:fd897dde-b197-4f3f-a76f-073df8177888:32ea3eab-c332-45f8-9f31-78dcb3ec235a:",
+      "documentId": "doc-intro",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+      "categoryId": null
+    },
+    {
+      "id": "doc-intro:zhongguang:ark:group-entry",
+      "documentId": "doc-intro",
+      "projectId": "zhongguang",
+      "productId": "ark",
+      "categoryId": "group-entry"
+    },
+    {
+      "id": "a9ce3487-ce7c-11f1-a7a8-ba0d7c5dd2f7",
+      "documentId": "doc-las-quickstart",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "productId": "3e2fec00-1732-4065-a5ff-c12d3fa65a8b",
+      "categoryId": null
+    },
+    {
+      "id": "a9ce3720-ce7c-11f1-a7a8-ba0d7c5dd2f7",
+      "documentId": "doc-vikingdb-guide",
+      "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+      "productId": "5c8275ab-a46e-4736-80bf-842e823f86b5",
+      "categoryId": null
+    }
+  ],
+  "revisions": [
+    {
+      "id": "baseline-doc-image-understanding-1",
+      "docId": "doc-image-understanding",
+      "version": 1,
+      "title": "图片理解",
+      "summary": "已有发布版本收录；更早的修改记录未保存。",
+      "changes": [
+        "已有版本"
+      ],
+      "placements": [
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "folder-multimodal"
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": null,
+      "baseline": 1,
+      "createdBy": null,
+      "publishedAt": "2026-09-18T00:50:00.000Z"
+    },
+    {
+      "id": "3058bd66-8c84-4055-aec3-ddafbb1a18da",
+      "docId": "doc-image-understanding",
+      "version": 2,
+      "title": "图片理解",
+      "summary": "更新了版本号、正文、排版样式",
+      "changes": [
+        "版本号",
+        "正文",
+        "排版样式"
+      ],
+      "placements": [
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "folder-multimodal"
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-21T23:54:02.483Z"
+    },
+    {
+      "id": "68458072-40fe-480c-8bb7-a7f58ae9f1e4",
+      "docId": "doc-image-understanding",
+      "version": 3,
+      "title": "图片理解",
+      "summary": "更新了版本号、正文",
+      "changes": [
+        "版本号",
+        "正文"
+      ],
+      "placements": [
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "folder-multimodal"
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n\n{{brand_name}}\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T00:07:47.097Z"
+    },
+    {
+      "id": "720d6ead-03af-4e94-a66b-6255917d23a3",
+      "docId": "doc-image-understanding",
+      "version": 3,
+      "title": "图片理解",
+      "summary": "更新了绑定目录",
+      "changes": [
+        "绑定目录"
+      ],
+      "placements": [
+        {
+          "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        },
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "folder-multimodal"
+        },
+        {
+          "productId": "2b72f00c-e325-46a8-aeb0-1bfddab8f410",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n\n{{brand_name}}\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T16:50:49.754Z"
+    },
+    {
+      "id": "7f531051-63ad-45fb-a520-72be6ce4dde8",
+      "docId": "doc-image-understanding",
+      "version": 3,
+      "title": "图片理解",
+      "summary": "绑定已有文档至大数据方舟",
+      "changes": [
+        "关联文档"
+      ],
+      "placements": [
+        {
+          "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n\n{{brand_name}}\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": null,
+      "publishedAt": "2026-10-22T00:08:41.812Z"
+    },
+    {
+      "id": "efbc72e0-c6b0-44ef-af3a-67b181713752",
+      "docId": "doc-image-understanding",
+      "version": 3,
+      "title": "图片理解",
+      "summary": "更新了绑定目录",
+      "changes": [
+        "绑定目录"
+      ],
+      "placements": [
+        {
+          "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        },
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "folder-multimodal"
+        },
+        {
+          "productId": "as",
+          "projectId": "zhongguang",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n\n{{brand_name}}\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T00:23:17.399Z"
+    },
+    {
+      "id": "8986bae4-6dd5-416b-8cb9-fe3ad750ae03",
+      "docId": "doc-image-understanding-bigdata",
+      "version": 1,
+      "title": "图片理解（专属副本）",
+      "summary": "文档首次发布",
+      "changes": [
+        "首次发布"
+      ],
+      "placements": [
+        {
+          "productId": "2129219d-b744-4daa-a430-5720ea361315",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-21T23:59:21.076Z"
+    },
+    {
+      "id": "6a216139-9645-480e-9ade-6963e05c2690",
+      "docId": "doc-image-understanding-bigdata",
+      "version": 2,
+      "title": "图片理解（专属副本）",
+      "summary": "更新了版本号、绑定目录",
+      "changes": [
+        "版本号",
+        "绑定目录"
+      ],
+      "placements": [
+        {
+          "productId": "as",
+          "projectId": "zhongguang",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-21T23:59:57.323Z"
+    },
+    {
+      "id": "ea1325d5-7592-4a96-bb2a-c1ac4591a85b",
+      "docId": "doc-image-understanding-bigdata",
+      "version": 3,
+      "title": "图片理解（专属副本）",
+      "summary": "更新了版本号",
+      "changes": [
+        "版本号"
+      ],
+      "placements": [
+        {
+          "productId": "as",
+          "projectId": "zhongguang",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T00:00:13.361Z"
+    },
+    {
+      "id": "52c0fc9a-8b4a-435e-8341-bbf53b6a25f3",
+      "docId": "doc-image-understanding-bigdata",
+      "version": 4,
+      "title": "图片理解（大数据专属版）",
+      "summary": "更新了版本号、绑定目录",
+      "changes": [
+        "版本号",
+        "绑定目录"
+      ],
+      "placements": [
+        {
+          "productId": "2df466fc-724e-4b32-8763-b5773dc86277",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        },
+        {
+          "productId": "76507d84-3c88-4cc1-afbe-b6dde767aa49",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T00:19:29.024Z"
+    },
+    {
+      "id": "7a8ee8e9-f746-4d4d-98ed-686cc70d8504",
+      "docId": "doc-image-understanding-bigdata",
+      "version": 4,
+      "title": "图片理解（大数据专属版）",
+      "summary": "更新了绑定目录",
+      "changes": [
+        "绑定目录"
+      ],
+      "placements": [
+        {
+          "productId": "2df466fc-724e-4b32-8763-b5773dc86277",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        },
+        {
+          "productId": "76507d84-3c88-4cc1-afbe-b6dde767aa49",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "部分大模型具备图片视觉理解能力，支持本地文件和图片 URL 方式传入图片，适用于图片描述、分类、视觉定位等场景。\n\n\n{{brand_name}}\n\n\n> [!NOTE]\n> 说明：方舟平台的新用户？获取 API Key 及 开通模型等准备工作，请参见 [快速入门](#)。\n\n## 快速开始\n\n通过图片 URL 方式传入模型体验图片理解效果。Responses API 示例代码如下。\n\n:::compare\n### 输入\n支持输入图片的模型系列是哪个？\n### 输出预览\n• 思考：用户现在需要找支持输入图片的大模型系列，看表格里的输入列中的图片那一行。表格里系列Doubao-Seed-1.8对应输入图片列是√，其他DeepSeek-V3.2和GLM-4.7对应的输入图片都是×，所以答案应该是Doubao-Seed-1.8。\n• 回答：支持输入图片的模型系列是 Doubao-Seed-1.8。\n:::\n\n:::tabs\n```curl\ncurl https://ark.cn-beijing.volces.com/api/v3/responses \\\n  -H \"Authorization: Bearer $ARK_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"doubao-seed-2-1-pro-260628\",\n    \"input\": [\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_image\",\n            \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"支持输入图片的模型系列是哪个？\"\n          }\n        ]\n      }\n    ]\n  }'\n```\n```python\nimport os\nfrom volcenginesdkarkruntime import Ark\n\nclient = Ark(\n    api_key=os.environ.get(\"ARK_API_KEY\"),\n    base_url=\"https://ark.cn-beijing.volces.com/api/v3\"\n)\n\nresponse = client.responses.create(\n    model=\"doubao-seed-2-1-pro-260628\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\n                \"type\": \"input_image\",\n                \"image_url\": \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"\n            },\n            {\n                \"type\": \"input_text\",\n                \"text\": \"支持输入图片的模型系列是哪个？\"\n            }\n        ]\n    }]\n)\n\nprint(response.output.choices[0].message.content)\n```\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"os\"\n\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime\"\n\t\"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model\"\n)\n\nfunc main() {\n\tclient := arkruntime.NewClientWithApiKey(os.Getenv(\"ARK_API_KEY\"))\n\tctx := context.Background()\n\n\tresp, err := client.CreateResponse(ctx, model.ResponseRequest{\n\t\tModel: \"doubao-seed-2-1-pro-260628\",\n\t\tInput: []model.ResponseInput{\n\t\t\t{\n\t\t\t\tRole: \"user\",\n\t\t\t\tContent: []model.ResponseContentPart{\n\t\t\t\t\t{Type: \"input_image\", ImageUrl: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\"},\n\t\t\t\t\t{Type: \"input_text\", Text: \"支持输入图片的模型系列是哪个？\"},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(resp.Output.Choices[0].Message.Content)\n}\n```\n```java\nimport com.volcengine.ark.runtime.service.ArkService;\nimport com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;\n\npublic class ImageUnderstandingDemo {\n    public static void main(String[] args) {\n        String apiKey = System.getenv(\"ARK_API_KEY\");\n        ArkService service = new ArkService(apiKey);\n        \n        System.out.println(\"Java SDK 正在发起多模态图片理解请求...\");\n    }\n}\n```\n```openai-sdk\nimport OpenAI from \"openai\";\n\nconst openai = new OpenAI({\n  apiKey: process.env.ARK_API_KEY,\n  baseURL: \"https://ark.cn-beijing.volces.com/api/v3\",\n});\n\nasync function main() {\n  const response = await openai.chat.completions.create({\n    model: \"doubao-seed-2-1-pro-260628\",\n    messages: [\n      {\n        role: \"user\",\n        content: [\n          { type: \"text\", text: \"支持输入图片的模型系列是哪个？\" },\n          { type: \"image_url\", image_url: { url: \"https://ark-project.tos-cn-beijing.volces.com/doc_image/ark_demo_img_1.png\" } }\n        ]\n      }\n    ]\n  });\n\n  console.log(response.choices[0].message.content);\n}\n\nmain();\n```\n:::\n\n## 支持模型\n\n多模态大模型矩阵持续升级，目前已全面开放 Doubao-Seed-2.1-Pro、Doubao-Vision-Pro、DeepSeek-VL2 等模型的图片理解与精准推理能力。\n\n| 模型名称 | 模型规格 | 上下文长度 | 最大支持图片分辨率 | 支持格式 |\n| :--- | :--- | :--- | :--- | :--- |\n| **doubao-seed-2-1-pro-260628** | 256k | 256,000 Tokens | 4096 x 4096 px | PNG / JPG / WEBP / BMP |\n| **doubao-vision-pro-32k** | 32k | 32,768 Tokens | 3840 x 2160 px | PNG / JPEG / GIF / WEBP |\n| **deepseek-vl2-16k** | 16k | 16,384 Tokens | 2048 x 2048 px | PNG / JPEG |\n\n## API 接口\n\n通过 HTTP POST 方式调用多模态 Responses 接口：`https://ark.cn-beijing.volces.com/api/v3/responses`。请求头需携带 Authorization Token。\n\n## 图片传入方式\n\n### 本地文件上传\n\n支持通过中广云 TOS 对象存储先完成文件秒传并换取签名 URL，或通过 Files API 提前预热缓存，以大幅节省高频请求带宽。\n\n### Base64 编码传入\n\n若图片存储在客户端且不便暴露外部公共 URL，可将二进制文件转为标准 Data URL 格式（例如 `data:image/jpeg;base64,...`）直接内联在请求包体中。\n\n### 图片 URL 传入\n\n推荐方式：直接传入可在公网访问的 CDN 或 TOS 对象存储链接，服务端将自动采用高速流式管道拉取解码。\n\n## 使用场景\n\n### 多图输入\n\n支持在单轮对话中同时传入多张关联图片，模型将自主对比多图间的异同点并总结连续变化规律。\n\n### 视觉定位 (Visual Grounding)\n\n模型能够返回目标物体在图像中的归一化坐标框 `[ymin, xmin, ymax, xmax]`，赋能 UI 自动化测试与工业缺陷质检。\n\n## 使用说明\n\n- **图片像素说明**：单张图像建议尺寸在 512x512 至 4096x4096 之间，超出将自动进行双线性等比缩放。\n- **图片 token 用量说明**：系统根据图片实际切片数量动态计费，标准切片为 512x512 像素，约消耗 256~512 tokens。\n- **图片文件容量**：单张图片文件体积不得超过 20MB。\n",
+      "appearance": {
+        "theme": "classic",
+        "density": "comfortable"
+      },
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T00:25:21.229Z"
+    },
+    {
+      "id": "baseline-doc-intro-1",
+      "docId": "doc-intro",
+      "version": 1,
+      "title": "产品简介",
+      "summary": "已有发布版本收录；更早的修改记录未保存。",
+      "changes": [
+        "已有版本"
+      ],
+      "placements": [
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "group-entry"
+        }
+      ],
+      "content": "中广云方舟提供海量前沿大模型推理与精调服务，具备极速冷启动、高可用吞吐与多层级安全防护能力。\n\n> [!IMPORTANT]\n> **核心优势**：支持字节跳动自研豆包大模型全系列，全面兼容业界开源生态（DeepSeek、Llama、Qwen 等）。\n\n## 核心功能概述\n\n- **模型推理**：秒级冷启动与千卡级并发调度。\n- **模型精调**：提供 LoRA、Full Fine-tuning 全链路微调套件。\n- **安全互信**：芯片级机密计算与端到端敏感信息脱敏。\n",
+      "appearance": null,
+      "baseline": 1,
+      "createdBy": null,
+      "publishedAt": "2026-09-17T23:30:00.000Z"
+    },
+    {
+      "id": "a1d150fa-cdee-11f1-b5ce-ee37a15b7590",
+      "docId": "doc-intro",
+      "version": 2,
+      "title": "产品简介",
+      "summary": "补充变量渲染演示与项目专属支持电话",
+      "changes": [
+        "正文"
+      ],
+      "placements": [
+        {
+          "productId": "32ea3eab-c332-45f8-9f31-78dcb3ec235a",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        },
+        {
+          "productId": "ark",
+          "projectId": "zhongguang",
+          "categoryId": "group-entry"
+        }
+      ],
+      "content": "中广云方舟提供海量前沿大模型推理与精调服务，具备极速冷启动、高可用吞吐与多层级安全防护能力。\n\n> [!IMPORTANT]\n> **核心优势**：支持字节跳动自研豆包大模型全系列，全面兼容业界开源生态（DeepSeek、Llama、Qwen 等）。\n\n## 核心功能概述\n\n- **模型推理**：秒级冷启动与千卡级并发调度。\n- **模型精调**：提供 LoRA、Full Fine-tuning 全链路微调套件。\n- **安全互信**：芯片级机密计算与端到端敏感信息脱敏。\n\n\n---\n\n## 变量渲染演示\n\n> 同一份文档，在不同项目下打开，下面几行会显示各自项目的值。\n\n- 当前项目品牌名：{{brand_name}}\n- 当前项目公司名：{{company_name}}\n- 带默认值的变量：{{slogan|欢迎使用本文档中心}}\n- æ”¯æŒç”µè¯ï¼š{{support_phone}}\n- 支持电话：{{support_phone}}\n",
+      "appearance": null,
+      "baseline": 0,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-22T08:00:22.592Z"
+    },
+    {
+      "id": "a9ce3e74-ce7c-11f1-a7a8-ba0d7c5dd2f7",
+      "docId": "doc-las-quickstart",
+      "version": 1,
+      "title": "湖仓一体分析服务 LAS 快速入门",
+      "summary": "首次发布：核心概念、建表与作业提交示例。",
+      "changes": [
+        "首次发布"
+      ],
+      "placements": [
+        {
+          "productId": "3e2fec00-1732-4065-a5ff-c12d3fa65a8b",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "LAS（Lakehouse Analytics Service）提供存算分离的湖仓一体分析能力，兼容标准 SQL，支持批流一体作业。\n\n> [!NOTE]\n> 说明：首次使用请先在控制台开通 LAS 服务，并创建工作空间。本文假设你已完成上述准备。\n\n## 核心概念\n\n| 概念 | 说明 |\n| --- | --- |\n| 工作空间 | 资源与权限的隔离单元，作业以工作空间为单位提交 |\n| 数据目录 | 统一管理库、表、视图的元数据，供批流作业共用 |\n| 作业 | 一次 SQL 或 JAR 提交的执行单元，支持周期调度 |\n\n## 快速开始\n\n### 1. 创建数据目录与表\n\n```sql\nCREATE DATABASE IF NOT EXISTS demo_db;\n\nCREATE TABLE demo_db.user_events (\n  user_id     VARCHAR(64),\n  event_type  VARCHAR(32),\n  event_time  TIMESTAMP(3),\n  WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND\n) WITH (\n  'connector' = 'kafka',\n  'topic' = 'user_events',\n  'properties.bootstrap.servers' = 'kafka:9092',\n  'format' = 'json'\n);\n```\n\n### 2. 提交批处理作业\n\n:::tabs\n```sql\n-- 每小时活跃用户统计\nSELECT\n  DATE_FORMAT(event_time, 'yyyy-MM-dd HH') AS hour,\n  COUNT(DISTINCT user_id)                   AS active_users\nFROM demo_db.user_events\nGROUP BY DATE_FORMAT(event_time, 'yyyy-MM-dd HH');\n```\n```python\n# 通过 SDK 提交作业\nfrom las_sdk import Client\n\nclient = Client(workspace=\"demo-ws\", api_key=os.environ[\"LAS_API_KEY\"])\njob = client.jobs.submit_sql(sql_path=\"./hourly_active.sql\")\nprint(job.status)  # PENDING -> RUNNING -> SUCCEEDED\n```\n:::\n\n:::compare\n### 输入\nuser_events 原始事件流（Kafka topic）\n### 输出预览\nhour=10:00, active_users=15230\nhour=11:00, active_users=16402\n:::\n\n## 下一步\n\n- 配置周期调度与依赖：参见 [作业调度](#)\n- 湖仓表性能优化：参见 [表格式与分区设计](#)\n\n如有疑问，联系 {{support_phone}}。\n",
+      "appearance": null,
+      "baseline": 1,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-23T00:57:04.532Z"
+    },
+    {
+      "id": "a9ce46fa-ce7c-11f1-a7a8-ba0d7c5dd2f7",
+      "docId": "doc-vikingdb-guide",
+      "version": 1,
+      "title": "向量数据库 VikingDB 实践指南",
+      "summary": "首次发布：索引选型、写入与检索示例。",
+      "changes": [
+        "首次发布"
+      ],
+      "placements": [
+        {
+          "productId": "5c8275ab-a46e-4736-80bf-842e823f86b5",
+          "projectId": "fd897dde-b197-4f3f-a76f-073df8177888",
+          "categoryId": null
+        }
+      ],
+      "content": "VikingDB 是面向大规模向量检索的云原生数据库，适用于语义搜索、推荐召回、RAG 知识库等场景。\n\n> [!NOTE]\n> 说明：本文示例使用 Python SDK，安装方式 `pip install vikingdb`。\n\n## 索引选型\n\n| 索引类型 | 数据规模 | 延迟 | 适用场景 |\n| --- | --- | --- | --- |\n| FLAT | < 10 万 | 最低 | 小规模精确检索 |\n| HNSW | 百万级 | 低 | 通用语义检索 |\n| IVF | 千万级以上 | 中 | 大规模召回、成本敏感 |\n\n## 快速开始\n\n### 1. 写入向量\n\n```python\nimport vikingdb\n\nservice = vikingdb.Service(host=\"api.vikingdb.xxx\", region=\"cn-north-1\", ak=os.environ[\"VK_AK\"], sk=os.environ[\"VK_SK\"])\ncollection = service.get_collection(\"demo_docs\")\ncollection.insert([\n    {\"id\": \"doc-1\", \"text\": \"如何开通模型服务\", \"vector\": embedding(\"如何开通模型服务\")},\n    {\"id\": \"doc-2\", \"text\": \"计费方式说明\",     \"vector\": embedding(\"计费方式说明\")},\n])\n```\n\n### 2. 相似检索\n\n```python\nresults = collection.search_by_vector(embedding(\"怎么接入图片理解\"), limit=5)\nfor item in results:\n    print(item.id, item.score, item.fields[\"text\"])\n```\n\n:::compare\n### 输入\n“怎么接入图片理解”\n### 输出预览\ndoc-1 (0.92) 如何开通模型服务\ndoc-7 (0.85) 视觉模型调用示例\n:::\n\n## 调优建议\n\n1. 向量维度与模型输出保持一致，写入前统一归一化\n2. 召回阶段用 IVF 控制成本，精排阶段用 HNSW 保证体验\n3. 利用标量过滤（如 doc_type）缩小检索范围\n\n接入问题请联系 {{support_phone}}。\n",
+      "appearance": null,
+      "baseline": 1,
+      "createdBy": "admin",
+      "publishedAt": "2026-10-23T00:57:04.532Z"
+    }
+  ]
+}

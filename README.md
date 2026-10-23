@@ -222,3 +222,17 @@ TEST_BASE_URL=http://localhost:4000 npm run test:expansion
 - [详细使用指南](docs/USER_GUIDE.md)：组件语法、媒体限制、共享绑定、变量替换及上下架规则。
 - 本仓库上传源码与静态资源，真实业务数据由各部署环境独立维护。
 - 示例文档用于展示阅读与编辑能力，其中的产品描述和 API 示例不应作为第三方服务的最新规范。
+
+## 演示数据种子（seed）
+
+Docker 全新部署默认自带一套开箱可看的演示数据，交付演示时不需要手工建任何内容：
+
+- **两个演示站点**：中广云（全量产品线）与大数据（收敛后的 7 个主题产品），产品、文档、挂载、版本快照齐全；
+- **五篇文档**：产品简介、图片理解（共享版 / 大数据专属版各一篇）、湖仓一体 LAS 快速入门、VikingDB 实践指南；
+- **开关**：`SEED_DEMO=false docker compose up -d` 即可跳过灌入，得到纯空库；
+- **幂等**：seed 只在 `projects` 表为空时执行，重复 `docker compose up` 不会重复灌入；强制重灌设 `SEED_DEMO_FORCE=1`；
+- **不含账号**：默认角色与 admin/operator 账号仍由应用首次读取时自动初始化。
+
+维护方式：本地把数据调整满意后运行 `npm run seed:export`，当前库的演示内容会固化到 `seed/demo-seed.json`（提交入库）；Docker 部署时 seed 服务读取该文件灌入。手动向本地库灌一遍可用 `npm run seed:run`。
+
+若交付目标是不允许出现演示数据的环境，设 `SEED_DEMO=false`，或部署后在页面上直接删除对应项目即可。
