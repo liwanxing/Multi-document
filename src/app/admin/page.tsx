@@ -403,9 +403,7 @@ export default function AdminPage() {
           <Menu
             selectedKeys={[managedProject ? "projects" : view]}
             onClickMenuItem={(key) => {
-              if (key === "create") {
-                setProjectForm({ name: "", slug: "", description: "" });
-              } else if (key === "projects") {
+              if (key === "projects") {
                 setManaging(null);
                 setManagerLocation({ productId: "", showUpdates: false });
                 switchView("projects");
@@ -424,12 +422,6 @@ export default function AdminPage() {
               <LayoutGrid size={17} />
               项目管理<span className="menu-count">{projects.length}</span>
             </Menu.Item>
-            {hasUserPermission(currentUser, "projects:edit") && (
-              <Menu.Item key="create">
-                <Plus size={17} />
-                新建项目
-              </Menu.Item>
-            )}
             <Menu.Item key="documents">
               <BookOpen size={17} />
               文档中心<span className="menu-count">{documents.length}</span>
@@ -1037,6 +1029,7 @@ export default function AdminPage() {
               <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginBottom: 12 }}>
                 文档正文用 {"{{变量名}}"} 引用，按项目渲染对应值。brand_name 和 company_name 为系统内置变量：brand_name 为空时用项目名称；company_name 为空时用品牌名称，品牌也为空时用项目名称。
               </div>
+              <div style={{ maxHeight: 264, overflowY: "auto", paddingRight: 6, marginRight: -10 }}>
               <div style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "center" }}>
                 <div style={{ width: 140, fontSize: 12, color: "var(--color-text-secondary)", fontFamily: "monospace" }}>brand_name</div>
                 <div style={{ width: 130, fontSize: 12, color: "var(--color-text-secondary)" }}>品牌名称（内置）</div>
@@ -1116,6 +1109,7 @@ export default function AdminPage() {
                   )}
                 </>
               )}
+              </div>
             </div>
             <div className="modal-form-footer">
               <Button disabled={busy} onClick={closeForm}>

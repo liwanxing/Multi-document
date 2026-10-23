@@ -1,5 +1,6 @@
 import {visibleDocument} from "@/lib/visibility";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { FolderOpen, ArrowUpRight } from "lucide-react";
 import { getStore } from "@/lib/dataStore";
 import { getAuthenticatedUser } from "@/lib/auth";
@@ -7,9 +8,10 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const [store, adminUser] = await Promise.all([
     getStore(),
-    // 仅已登录的后管用户可见"管理后台"入口（未登录访客不可见）
+    // 项目列表属于内部信息：必须登录后管账号才能访问，未登录一律 404
     getAuthenticatedUser(),
   ]);
+  if (!adminUser) notFound();
   return (
     <div className="project-portal max-w-[1360px] mx-auto px-6 py-10 w-full">
       <section className="portal-hero mb-10">
