@@ -22,7 +22,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$${MYSQL_ROOT_PASSWORD}"]
+      # 必须走 TCP（--protocol=TCP + 127.0.0.1），不能用默认的 localhost。
+      # mysqladmin 默认走 socket，而 MySQL 初始化阶段会先起一个只监听 socket 的临时实例，
+      # 那时 ping 已经返回成功 → 容器被判健康 → migrate 立刻启动 → P1001 连不上 db:3306，
+      # 表现为"首次部署/重启后建表偶发失败，再跑一次又好了"。TCP 探测只会在真正可连接后通过。
+      test: ["CMD", "mysqladmin", "ping", "--protocol=TCP", "-h", "127.0.0.1", "-p$${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -61,8 +65,11 @@ services:
     build:
       context: .
       target: runner
-    ports:
-      - "4000:4000"
+    # 不直接对外映射端口，统一经 web（nginx）进入。
+    # 原因见 deploy/nginx.conf 顶部说明：该链路新建连接首字节固定慢约 9.5 秒，
+    # 需要由 nginx 统一维持长连接，避免浏览器每次点击都重新建连。
+    expose:
+      - "4000"
     environment:
       DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
       DATA_BACKEND: mysql
@@ -78,6 +85,18 @@ services:
         condition: service_completed_successfully
       seed:
         condition: service_completed_successfully
+    restart: unless-stopped
+
+  # 对外入口：nginx 长连接反代。部署原因见 deploy/nginx.conf 顶部说明——
+  # 该网络每条新建 TCP 连接首字节固定慢约 9.5 秒，必须由这里统一维持长连接。
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
     restart: unless-stopped
 
 volumes:

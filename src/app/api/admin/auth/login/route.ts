@@ -55,7 +55,8 @@ export async function POST(request: Request) {
 
     response.cookies.set(SESSION_COOKIE_NAME, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      // 仅在显式启用 HTTPS 时设置 Secure，否则纯 HTTP 部署下浏览器会丢弃该 Cookie
+      secure: process.env.COOKIE_SECURE === "true",
       sameSite: "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60,
