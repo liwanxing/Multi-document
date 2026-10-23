@@ -10,11 +10,15 @@
 #   由 compose 的 migrate 服务（target: deps，全量依赖）一次性执行
 
 # ── 阶段 1：依赖安装（全量，含 devDependencies，供 builder 与 migrate 复用）──
+# 国内服务器构建慢时，可在 build 时切淘宝源：
+#   docker compose build --build-arg NPM_REGISTRY=https://registry.npmmirror.com
+#   或在 compose 的 build 下加 args: [ "NPM_REGISTRY=https://registry.npmmirror.com" ]
 FROM node:22-alpine AS deps
+ARG NPM_REGISTRY=https://registry.npmjs.org
 WORKDIR /app
 # 仅当依赖清单变化时才重新安装（层缓存友好）；清缓存控制镜像体积
 COPY package.json package-lock.json ./
-RUN npm ci && npm cache clean --force
+RUN npm config set registry "$NPM_REGISTRY" && npm ci && npm cache clean --force
 # Prisma 配置与迁移文件（migrate deploy 需要；npm ci 本身不需要故放其后）
 COPY prisma ./prisma
 COPY prisma.config.ts ./
