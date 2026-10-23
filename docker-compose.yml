@@ -1,80 +1,86 @@
-# Multi-document 生产部署（一键启动）
+# Multi-document 生产编排（服务器上只用这一份）
 #
-#   docker compose up -d --build     # 首次构建并启动
-#   docker compose up -d             # 日常启动（migrate 会自动追平新迁移）
-#   docker compose logs -f app       # 看应用日志
+# 目录约定（服务器）：
+#   /opt/multi-document/
+#   ├── docker-compose.yml      ← 本文件
+#   ├── .env                    ← 密钥与开关（600，不进 git）
+#   ├── data/mysql/             ← 数据库文件（bind mount，备份就是拷这个目录）
+#   ├── data/uploads/           ← 上传文件
+#   └── images/*.tar.gz         ← 传上来的镜像包（load 完可删）
 #
-# 结构：db（MySQL 8）→ migrate（prisma migrate deploy，跑完退出）→ seed（可选，灌入演示数据）→ app（Next standalone）
-# 说明：
-# - db 不映射宿主机端口，最小暴露面；维护用 docker compose exec db mysql -uroot -p
-# - 首次启动空库时应用会在首次请求自动写入默认角色与账号（admin/admin123）
-# - SEED_DEMO=true（默认）时 seed 服务会在空库灌入"中广云 + 大数据"演示数据，开箱即看；
-#   不需要演示数据时设 SEED_DEMO=false，即可获得纯空库
-# - 上传文件持久化在 uploads-data 卷（/app/data/uploads）
+# 常用命令：
+#   docker compose up -d                    # 启动（前提：镜像已 load）
+#   docker compose logs -f app              # 应用日志
+#   docker compose down                     # 停止（数据在 data/ 里，不会丢）
+#   docker compose ps                       # 看状态
+#
+# ⚠️ 本文件没有 build: 段。镜像在开发机/CI 构建好后传上来（scripts/build-image.sh），
+#    服务器上不装 node、不跑 next build，避免在 4 核小机器上跟其他容器抢 CPU/内存。
+#
+# 结构：db（MySQL 8）→ init（迁移 + 可选种子，跑完退出）→ app（Next standalone）
+
+name: multi-document
 
 services:
   db:
     image: mysql:8.0
+    container_name: multi-document-db
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-multidoc123}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:?请在 .env 中设置 MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-multi_document}
       TZ: Asia/Shanghai
     volumes:
-      - mysql-data:/var/lib/mysql
+      # bind mount 而非命名卷：备份 = tar data/mysql，数据在哪一眼看得见。
+      # 首次启动时目录必须为空，MySQL 会自己初始化并 chown（镜像内 uid 999）。
+      - ./data/mysql:/var/lib/mysql
     healthcheck:
       # 必须走 TCP（--protocol=TCP + 127.0.0.1），不能用默认的 localhost。
       # mysqladmin 默认走 socket，而 MySQL 初始化阶段会先起一个只监听 socket 的临时实例，
-      # 那时 ping 已经返回成功 → 容器被判健康 → migrate 立刻启动 → P1001 连不上 db:3306，
+      # 那时 ping 已经返回成功 → 容器被判健康 → init 立刻启动 → P1001 连不上 db:3306，
       # 表现为"首次部署/重启后建表偶发失败，再跑一次又好了"。TCP 探测只会在真正可连接后通过。
       test: ["CMD", "mysqladmin", "ping", "--protocol=TCP", "-h", "127.0.0.1", "-p$${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 3s
       retries: 20
     restart: unless-stopped
+    networks:
+      - multi-document-net
 
-  migrate:
-    build:
-      context: .
-      target: deps   # 全量依赖阶段：含 prisma CLI 与迁移文件
-    command: npx prisma migrate deploy
+  # 迁移 + 演示种子，合并成一个一次性任务（原来是 migrate、seed 两个服务两个镜像）。
+  # 两条命令都幂等：迁移只追平未应用的版本，种子在 projects 表非空时自动跳过。
+  init:
+    image: multi-document-tools:${IMAGE_TAG:-latest}
+    container_name: multi-document-init
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             if [ \"$$SEED_DEMO\" = \"true\" ]; then node scripts/seed-demo.mjs;
+             else echo '[seed] SEED_DEMO 未开启，跳过'; fi"
     environment:
-      DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
-    depends_on:
-      db:
-        condition: service_healthy
-
-  # 演示数据种子：全新空库时灌入"中广云 + 大数据"两个演示站点（产品/文档/挂载/版本快照）。
-  # 开关：SEED_DEMO=false 关闭；库非空时自动跳过（幂等），强制重灌设 SEED_DEMO_FORCE=1。
-  # 角色与账号不在此灌入——应用首次读取会自动初始化默认角色与 admin/operator。
-  seed:
-    build:
-      context: .
-      target: deps
-    command: sh -c "if [ \"$$SEED_DEMO\" = \"true\" ]; then node scripts/seed-demo.mjs; else echo '[seed] SEED_DEMO 未开启，跳过演示数据'; fi"
-    environment:
-      DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
+      DATABASE_URL: mysql://root:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE:-multi_document}
       SEED_DEMO: ${SEED_DEMO:-true}
+      SEED_DEMO_FORCE: ${SEED_DEMO_FORCE:-0}
+      TZ: Asia/Shanghai
     depends_on:
       db:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
-    restart: "no"   # 一次性任务，跑完即退出
+    restart: "no"
+    networks:
+      - multi-document-net
 
   app:
-    build:
-      context: .
-      target: runner
+    image: multi-document-app:${IMAGE_TAG:-latest}
+    container_name: multi-document-app
     ports:
       - "8080:4000"
     environment:
-      DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
+      DATABASE_URL: mysql://root:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE:-multi_document}
       DATA_BACKEND: mysql
-      # 生产环境请修改会话签名密钥：docker compose 会在同目录 .env 读取覆盖值
-      ADMIN_AUTH_SECRET: ${ADMIN_AUTH_SECRET:-multidoc-secret-change-me}
+      ADMIN_AUTH_SECRET: ${ADMIN_AUTH_SECRET:?请在 .env 中设置 ADMIN_AUTH_SECRET}
+      # 纯 HTTP 访问时必须为 false，否则浏览器会丢弃带 Secure 的 Cookie，表现为"登录了但不跳转"
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
       TZ: Asia/Shanghai
     volumes:
-      - uploads-data:/app/data/uploads
+      - ./data/uploads:/app/data/uploads
     healthcheck:
       # 只探测端口是否在监听，不请求业务路由。
       # 原因：首页对未登录用户返回 404（登录门槛），若 healthcheck 打 / 会恒判不健康。
@@ -86,12 +92,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
-      seed:
+      init:
         condition: service_completed_successfully
     restart: unless-stopped
+    networks:
+      - multi-document-net
 
-volumes:
-  mysql-data:
-  uploads-data:
+# 专属网络：不与服务器上其他项目的 compose 默认网络混在一起
+networks:
+  multi-document-net:
+    name: multi-document-net
+    driver: bridge

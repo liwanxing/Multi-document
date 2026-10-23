@@ -12,13 +12,14 @@ node_modules
 .next-dev3
 .next-dev4
 *.tsbuildinfo
+dist
+backups
 
-# 本地数据与上传文件（生产数据来自 MySQL 卷与 uploads 卷，不进镜像）
+# 数据目录（生产数据来自 ./data 的 bind mount，不进镜像）
 data
 
 # 开发与测试材料（不参与生产构建）
 tests
-docs/images
 e2e
 *.log
 README.md

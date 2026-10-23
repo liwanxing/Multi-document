@@ -8,7 +8,7 @@
 
 > 本页截图来自项目自动生成的初始示例环境。仓库不包含本机已有的文档数据、用户数据或上传附件。
 
-[快速开始](#快速开始) · [界面展示](#界面展示) · [功能一览](#功能一览) · [使用流程](#使用流程) · [部署与数据](#部署与数据) · [详细使用指南](docs/USER_GUIDE.md)
+[快速开始](#快速开始) · [界面展示](#界面展示) · [功能一览](#功能一览) · [使用流程](#使用流程) · [部署](#部署) · [详细使用指南](docs/USER_GUIDE.md)
 
 ## 快速开始
 
@@ -146,53 +146,36 @@ flowchart LR
 5. **发布更新**：填写更新说明，生成发布版本和历史快照。
 6. **查阅与维护**：前台搜索阅读，后台调整目录、复制项目和控制上下架。
 
-## 部署与数据
+## 部署
 
-### 生产模式
-
-```bash
-cp .env.example .env.local
-# 编辑 .env.local，为 ADMIN_AUTH_SECRET 设置独立随机值。
-npm run build
-npm start
-```
-
-可用以下命令生成随机会话密钥，再将结果填入 `.env.local`：
+生产环境跑在 Docker 里（MySQL + Next standalone），**镜像在开发机构建，服务器只 load 不编译**：
 
 ```bash
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+bash scripts/deploy-remote.sh      # 构建 → 上传 → load → 重启 → 自检，一条命令
 ```
 
-默认端口为 `4000`。需要独立开发端口时：
+服务器上的目录只有四项：`docker-compose.yml`、`.env`、`data/`（MySQL 文件 + 上传文件）、`images/`（镜像包）。数据全在 `data/` 下，**备份就是拷这个目录**。
 
-```bash
-NEXT_DIST_DIR=.next-dev npx next dev -p 4001
-```
-
-### 数据存储与备份
-
-| 路径 | 内容 |
-| --- | --- |
-| `data/store.json` | 项目、产品、目录、文档、草稿、发布历史、后台用户与角色 |
-| `data/uploads/` | 图片、视频和附件文件 |
-| `.env.local` | 本地配置与会话签名密钥 |
-
-`data/` 和环境配置文件均被 Git 忽略。迁移或备份时，应在停止写入后同时备份 `store.json` 和 `uploads/`；不要将真实账号数据和附件提交到公开仓库。
-
-当前实现使用本地 JSON 文件和原子替换保存，面向 **单实例、可写磁盘** 的运行方式。部署时挂载持久化磁盘；多实例共享写入需要先改造存储层。收藏保存在访客浏览器内，不跨设备同步。
+- 完整部署步骤、备份恢复、排障表 → [docs/DEPLOY.md](docs/DEPLOY.md)
+- 本地开发与测试 → [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
+- 组件语法与使用说明 → [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
 
 ### 项目结构
 
 ```text
-src/
-  app/            页面、后台与 API 路由
-  components/     门户、阅读、编辑器与管理组件
-  lib/            数据存储、权限、Markdown、安全过滤与主题逻辑
+src/              页面、后台与 API 路由、组件、数据访问
+prisma/           数据模型与迁移
+seed/             演示数据（seed:export 导出，init 服务灌入）
+scripts/          构建打包、远程部署、开发启动、种子导入导出
+deploy/           部署手册（服务器侧操作）
+docs/             部署、开发、使用指南，archive/ 存历史需求
 public/images/    门户静态插图
-tests/          组件与集成测试
-docs/            图文说明、截图和详细使用指南
-data/            首次启动生成的本地数据（不提交）
+tests/            组件与集成测试
 ```
+
+### 数据存储
+
+持久化在 MySQL 8，通过 Prisma 访问；上传文件落 `data/uploads`（容器内 `/app/data/uploads`）。两者在服务器上都是 bind mount，容器重建、升级都不丢。收藏保存在访客浏览器内，不跨设备同步。
 
 ## 开发与验证
 
@@ -233,6 +216,6 @@ Docker 全新部署默认自带一套开箱可看的演示数据，交付演示�
 - **幂等**：seed 只在 `projects` 表为空时执行，重复 `docker compose up` 不会重复灌入；强制重灌设 `SEED_DEMO_FORCE=1`；
 - **不含账号**：默认角色与 admin/operator 账号仍由应用首次读取时自动初始化。
 
-维护方式：本地把数据调整满意后运行 `npm run seed:export`，当前库的演示内容会固化到 `seed/demo-seed.json`（提交入库）；Docker 部署时 seed 服务读取该文件灌入。手动向本地库灌一遍可用 `npm run seed:run`。
+维护方式：本地把数据调整满意后运行 `npm run seed:export`，当前库的演示内容会固化到 `seed/demo-seed.json`（提交入库）；Docker 部署时由 `init` 服务先迁移再灌入。手动向本地库灌一遍可用 `npm run seed:run`。
 
 若交付目标是不允许出现演示数据的环境，设 `SEED_DEMO=false`，或部署后在页面上直接删除对应项目即可。
