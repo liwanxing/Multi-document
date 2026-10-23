@@ -319,6 +319,9 @@
 }
 .workspace-arco-modal .arco-modal-content {
   padding: 24px;
+  /* 弹窗整体限高：字段再多时内容区内部滚动，弹窗不无限长 */
+  max-height: 56vh;
+  overflow-y: auto;
 }
 .arco-workspace-form {
   display: grid;

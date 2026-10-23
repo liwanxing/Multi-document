@@ -263,6 +263,19 @@ export default function ProjectManager({
     if (categoryId !== undefined) body.categoryId = categoryId;
     return action(body);
   }
+  function moveProductOrder(productId: string, offset: -1 | 1) {
+    // 以"当前显示列表"的相邻行为准：过滤/搜索时相邻两行在数组里可能不相邻，
+    // 由 API 的 targetProductId 精确落位
+    const i = displayedProducts.findIndex((p) => p.id === productId);
+    const neighbor = displayedProducts[i + offset];
+    const body: Record<string, unknown> = {
+      action: "reorder-product",
+      productId,
+      offset,
+    };
+    if (neighbor) body.targetProductId = neighbor.id;
+    return action(body);
+  }
   async function selectMedia(file?: File) {
     if (!file || !form) return;
     setBusy(true);
@@ -502,6 +515,39 @@ export default function ProjectManager({
                     {documents.filter((d) => isBound(d, project.id, p.id)).length} 篇 / {p.categories.length} 分类
                   </Tag>
                 ),
+              },
+              {
+                title: "排序",
+                width: 84,
+                render: (_: unknown, p: ProjectProduct) => {
+                  const index = displayedProducts.findIndex(
+                    (item) => item.id === p.id,
+                  );
+                  return (
+                    <div className="table-actions">
+                      <Button
+                        type="text"
+                        className="icon-button"
+                        title="上移"
+                        disabled={busy || index <= 0}
+                        onClick={() => moveProductOrder(p.id, -1)}
+                      >
+                        <ArrowUp size={13} />
+                      </Button>
+                      <Button
+                        type="text"
+                        className="icon-button"
+                        title="下移"
+                        disabled={
+                          busy || index >= displayedProducts.length - 1
+                        }
+                        onClick={() => moveProductOrder(p.id, 1)}
+                      >
+                        <ArrowDown size={13} />
+                      </Button>
+                    </div>
+                  );
+                },
               },
               {
                 title: "操作",

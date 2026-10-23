@@ -260,6 +260,25 @@ export async function POST(request: Request) {
           body.docId,
         );
       }
+    } else if (body.action === "reorder-product") {
+      // 产品目录排序：整体上移/下移一位（前台按产品数组顺序展示）。
+      // 传 targetProductId 时精确移到相邻显示项位置——列表被分类/搜索过滤时，
+      // 显示相邻的两行在数组里可能不相邻。
+      if (typeof body.productId !== "string" || !product)
+        return fail("产品不存在", 404);
+      const from = products.findIndex((p) => p.id === body.productId);
+      if (from < 0) return fail("产品不存在", 404);
+      let to: number;
+      if (typeof body.targetProductId === "string") {
+        to = products.findIndex((p) => p.id === body.targetProductId);
+      } else {
+        if (![-1, 1].includes(body.offset)) return fail("排序参数无效");
+        to = from + body.offset;
+      }
+      if (to < 0 || to >= products.length) return fail("排序参数无效");
+      const [moved] = products.splice(from, 1);
+      products.splice(to, 0, moved);
+      project.products = products;
     } else return fail("未知操作");
     project.updatedAt = new Date().toISOString();
     await saveStore(store);

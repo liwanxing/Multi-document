@@ -143,6 +143,32 @@ export default function AdminPage() {
             doc.productId === query.get("product"),
         );
         if (target) setEditing(target);
+        // URL 没有明确指示时，恢复上次的工作现场（sessionStorage）
+        if (!query.has("view") && !query.has("doc")) {
+          try {
+            const saved = JSON.parse(
+              sessionStorage.getItem("admin-ui-state") || "null",
+            );
+            if (saved && typeof saved === "object") {
+              if (
+                saved.view === "projects" ||
+                saved.view === "documents" ||
+                saved.view === "users"
+              )
+                setView(saved.view);
+              if (
+                typeof saved.managing === "string" &&
+                result.data.projects.some((p: Project) => p.id === saved.managing)
+              )
+                setManaging(saved.managing);
+              if (
+                saved.managerLocation &&
+                typeof saved.managerLocation.productId === "string"
+              )
+                setManagerLocation(saved.managerLocation);
+            }
+          } catch {}
+        }
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "加载失败，请重试");
@@ -162,6 +188,16 @@ export default function AdminPage() {
   useEffect(() => {
     void load(true);
   }, []);
+  // 记住后台工作现场（所在页面/正在管理的项目/产品位置）：
+  // 刷新（F5）后原地恢复，不再被踢回"项目管理"首屏
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(
+        "admin-ui-state",
+        JSON.stringify({ view, managing, managerLocation }),
+      );
+    } catch {}
+  }, [view, managing, managerLocation]);
   async function mutate(url: string, method: string, body: unknown) {
     const response = await fetch(url, {
       method,
