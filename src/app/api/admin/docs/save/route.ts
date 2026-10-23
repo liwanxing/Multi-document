@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStore, persistDocumentChange } from "@/lib/dataStore";
-import { validateDocument, persistDocument } from "@/lib/documents";
+import { validateDocument, persistDocument, detectStaleEditor } from "@/lib/documents";
 import { requirePermission } from "@/lib/auth";
 
 export async function POST(request: Request) {
@@ -23,6 +23,9 @@ export async function POST(request: Request) {
         },
         { status: 409 },
       );
+    const stale = detectStaleEditor(body, store);
+    if (stale)
+      return NextResponse.json({ code: 409, message: stale }, { status: 409 });
     const error = validateDocument(body, store);
     if (error)
       return NextResponse.json({ code: 400, message: error }, { status: 400 });

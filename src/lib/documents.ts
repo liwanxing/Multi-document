@@ -69,6 +69,25 @@ export function publishedIdOf(store: DocStoreData, id: string): string | undefin
   if (!doc) return undefined;
   return store.docs[documentKey(doc)]?.id ?? doc.id;
 }
+// 编辑器陈旧状态守卫：文档在别处被改名/移动后，旧编辑器里的 productId/slug
+// 已对不上服务器当前 key。若不拦截，保存会绕过乐观锁（按旧 key 找不到 existing）
+// 并把这份旧状态当成"新文档"落库，产生重复数据。
+// 只拦"id 已存在但 key 不一致"：新建文档的 id 是客户端随机生成、库里必然没有，不能误伤。
+export function detectStaleEditor(
+  body: Partial<DocDetail>,
+  store: DocStoreData,
+): string | null {
+  if (typeof body.id !== "string" || !body.id) return null;
+  const all = { ...(store.docs ?? {}), ...(store.drafts ?? {}) };
+  const hit = Object.values(all).find((d) => d.id === body.id);
+  if (
+    hit &&
+    `${hit.productId}/${hit.slug}` !== `${body.productId}/${body.slug}`
+  )
+    return "文档已在其他窗口被重命名或移动，请刷新文档中心后重新打开";
+  return null;
+}
+
 export function validateDocument(
   body: Partial<DocDetail>,
   store: DocStoreData,
