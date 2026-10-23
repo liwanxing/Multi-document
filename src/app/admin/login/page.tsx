@@ -8,7 +8,6 @@ import {
   Button,
   Message,
   Alert,
-  Tag,
   Typography,
 } from "@arco-design/web-react";
 import {
@@ -18,7 +17,7 @@ import {
   IconCheckCircle,
 } from "@arco-design/web-react/icon";
 import Link from "next/link";
-import { BookOpen, ShieldCheck, ArrowLeft, Users, KeyRound } from "lucide-react";
+import { BookOpen, ArrowLeft } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -67,12 +66,6 @@ function LoginForm() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const fillAccount = (user: string, pass: string) => {
-    setUsername(user);
-    setPassword(pass);
-    setErrorMsg("");
   };
 
   return (
@@ -160,45 +153,6 @@ function LoginForm() {
               </Button>
             </div>
           </form>
-
-          {/* Quick Login Presets */}
-          <div className="mt-6 pt-5 border-t border-slate-100">
-            <div className="flex items-center justify-between text-xs text-slate-400 mb-2.5">
-              <span>快捷测试账号（点击快速填入）</span>
-              <ShieldCheck size={14} />
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => fillAccount("admin", "admin123")}
-                className="flex items-center justify-between px-3 py-2 text-left rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition-colors text-xs text-slate-700 bg-white cursor-pointer"
-              >
-                <div>
-                  <div className="font-medium text-slate-800 flex items-center gap-1">
-                    <KeyRound size={12} className="text-purple-600" />
-                    管理员
-                  </div>
-                  <div className="text-slate-400 text-[11px]">admin / admin123</div>
-                </div>
-                <Tag size="small" color="purple">全权限</Tag>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => fillAccount("operator", "operator123")}
-                className="flex items-center justify-between px-3 py-2 text-left rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition-colors text-xs text-slate-700 bg-white cursor-pointer"
-              >
-                <div>
-                  <div className="font-medium text-slate-800 flex items-center gap-1">
-                    <Users size={12} className="text-blue-600" />
-                    运营专员
-                  </div>
-                  <div className="text-slate-400 text-[11px]">operator / operator123</div>
-                </div>
-                <Tag size="small" color="blue">文档编辑</Tag>
-              </button>
-            </div>
-          </div>
         </Card>
 
         {/* Footer Back Link */}
