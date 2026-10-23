@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { getStore, persistDocumentChange } from "@/lib/dataStore";
-import { validateDocument, persistDocument, detectStaleEditor } from "@/lib/documents";
+import {
+  validateDocument,
+  persistDocument,
+  detectStaleEditor,
+  contentUnchangedWith,
+  placementsDifferFrom,
+} from "@/lib/documents";
 import { requirePermission } from "@/lib/auth";
 
 export async function POST(request: Request) {
@@ -27,6 +33,16 @@ export async function POST(request: Request) {
     const stale = detectStaleEditor(body, store);
     if (stale)
       return NextResponse.json({ code: 409, message: stale }, { status: 409 });
+    // 无变更发布直接原样返回，不落库：内容与绑定都未变（且无草稿）时，
+    // 任何写入都是无用功——重写文档行、重插挂载、刷新 updatedAt，
+    // 对前台而言与不点发布毫无区别；返回 unchanged 标记让前端给出如实提示。
+    if (
+      published &&
+      !existingDraft &&
+      contentUnchangedWith(published, body) &&
+      !placementsDifferFrom(published, body)
+    )
+      return NextResponse.json({ code: 0, data: published, unchanged: true });
     const error = validateDocument(body, store);
     if (error)
       return NextResponse.json({ code: 400, message: error }, { status: 400 });

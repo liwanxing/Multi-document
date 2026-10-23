@@ -25,6 +25,27 @@ function sameAppearance(
   return a?.theme === b.theme && a?.density === b.density;
 }
 
+/** 提交内容相对已发布行：标题/正文/摘要/排版是否全部未变。 */
+export function contentUnchangedWith(
+  published: DocDetail,
+  body: Partial<DocDetail>,
+): boolean {
+  return (
+    published.title === (body.title ?? "").trim() &&
+    published.content === body.content &&
+    (published.description || "") === (body.description || "") &&
+    sameAppearance(published.appearance, body.appearance || defaultAppearance)
+  );
+}
+
+/** 提交内容相对已发布行：绑定目录是否有差异（语义比较，与顺序无关）。 */
+export function placementsDifferFrom(
+  published: DocDetail,
+  body: Partial<DocDetail>,
+): boolean {
+  return !samePlacements(published.placements, body.placements);
+}
+
 export function documentKey(doc: Pick<DocDetail, "productId" | "slug">) {
   return `${doc.productId}/${doc.slug}`;
 }
@@ -176,12 +197,9 @@ export function persistDocument(
   // 其中"仅绑定目录变更"（内容未变 + 绑定有差异）与"绑定已有文档"路径
   // （同版本挂历史不 bump）的行为保持一致。
   const contentUnchanged =
-    !!published &&
-    published.title === body.title.trim() &&
-    published.content === body.content &&
-    (published.description || "") === (body.description || "") &&
-    sameAppearance(published.appearance, nextAppearance);
-  const placementsChanged = !samePlacements(published.placements, body.placements);
+    !!published && contentUnchangedWith(published, body);
+  const placementsChanged =
+    !!published && placementsDifferFrom(published, body);
   const doc: DocDetail = {
     hidden: published?.hidden ?? existing?.hidden ?? false,
     id: docId,

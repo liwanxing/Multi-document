@@ -530,7 +530,9 @@ export default function DocumentEditor({
       onSaved(result.data);
       setMessage(
         publish
-          ? `已发布 v${result.data.version}，绑定项目的文档中心已更新`
+          ? result.unchanged
+            ? "内容与已发布版本一致，未产生新版本"
+            : `已发布 v${result.data.version}，绑定项目的文档中心已更新`
           : "草稿已保存，前台已发布内容保持不变",
       );
     } catch (err) {
