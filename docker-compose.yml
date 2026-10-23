@@ -65,11 +65,8 @@ services:
     build:
       context: .
       target: runner
-    # 不直接对外映射端口，统一经 web（nginx）进入。
-    # 原因见 deploy/nginx.conf 顶部说明：该链路新建连接首字节固定慢约 9.5 秒，
-    # 需要由 nginx 统一维持长连接，避免浏览器每次点击都重新建连。
-    expose:
-      - "4000"
+    ports:
+      - "8080:4000"
     environment:
       DATABASE_URL: mysql://root:${MYSQL_PASSWORD:-multidoc123}@db:3306/${MYSQL_DATABASE:-multi_document}
       DATA_BACKEND: mysql
@@ -78,6 +75,14 @@ services:
       TZ: Asia/Shanghai
     volumes:
       - uploads-data:/app/data/uploads
+    healthcheck:
+      # 只探测端口是否在监听，不请求业务路由。
+      # 原因：首页对未登录用户返回 404（登录门槛），若 healthcheck 打 / 会恒判不健康。
+      test: ["CMD", "node", "-e", "const s=require('net').connect(4000,'127.0.0.1',()=>{s.end();process.exit(0)});s.on('error',()=>process.exit(1));setTimeout(()=>process.exit(1),3000)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
     depends_on:
       db:
         condition: service_healthy
@@ -85,18 +90,6 @@ services:
         condition: service_completed_successfully
       seed:
         condition: service_completed_successfully
-    restart: unless-stopped
-
-  # 对外入口：nginx 长连接反代。部署原因见 deploy/nginx.conf 顶部说明——
-  # 该网络每条新建 TCP 连接首字节固定慢约 9.5 秒，必须由这里统一维持长连接。
-  web:
-    image: nginx:1.27-alpine
-    ports:
-      - "8080:80"
-    volumes:
-      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - app
     restart: unless-stopped
 
 volumes:
