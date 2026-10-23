@@ -29,10 +29,11 @@ MODE="docker"
 # 访问端口（docker 模式下改端口请同时改仓库里 docker-compose.yml 的 ports）
 PORT=4000
 
-# 生产安全配置（务必修改！）
-ADMIN_AUTH_SECRET="请改成一段随机长字符串"    # 后台会话签名密钥
-MYSQL_PASSWORD="multidoc123"                 # docker 模式：数据库 root 密码
+# 生产安全配置（留占位值则脚本自动随机生成；已生成的 .env 不会被覆盖）
+ADMIN_AUTH_SECRET=""                          # 后台会话签名密钥，留空=自动生成
+MYSQL_PASSWORD=""                             # docker 模式：数据库 root 密码，留空=自动生成
 MYSQL_DATABASE="multi_document"
+SEED_DEMO="true"                              # true=空库自动灌入演示数据（中广云+大数据）
 
 # node 模式专用：宝塔面板所装 MySQL 的连接串（docker 模式忽略此项）
 NODE_DATABASE_URL="mysql://root:请改成数据库密码@127.0.0.1:3306/multi_document"
@@ -62,16 +63,32 @@ fetch_code() {
 }
 
 # ───────── docker 模式 ─────────
-deploy_docker() {
-  command -v docker >/dev/null || fail "服务器未安装 Docker，请在宝塔【Docker管理器】安装后重试"
+ensure_env() {
+  # 随机字符串生成（服务器无 openssl 时退回 /dev/urandom）
+  rand_hex() { openssl rand -hex 24 2>/dev/null || head -c 48 /dev/urandom | od -An -tx1 | tr -d ' \n'; }
 
-  info "写入生产环境变量 $APP_DIR/.env"
+  if [ -f "$APP_DIR/.env" ]; then
+    info ".env 已存在，沿用现有配置（不覆盖；需要重来请手动删除该文件）"
+    return
+  fi
+  # 占位/空值 → 自动生成，消除"带着默认密码上线"的隐患
+  [ -n "$ADMIN_AUTH_SECRET" ] || ADMIN_AUTH_SECRET="$(rand_hex)"
+  [ -n "$MYSQL_PASSWORD" ]    || MYSQL_PASSWORD="$(rand_hex)"
+  info "生成生产环境变量 $APP_DIR/.env"
   cat > "$APP_DIR/.env" <<EOF
 ADMIN_AUTH_SECRET=$ADMIN_AUTH_SECRET
 MYSQL_PASSWORD=$MYSQL_PASSWORD
 MYSQL_DATABASE=$MYSQL_DATABASE
+SEED_DEMO=$SEED_DEMO
 EOF
   chmod 600 "$APP_DIR/.env"
+  warn "随机生成的数据库密码与会话密钥在 .env 里，记得 cat 一份抄进你的密码笔记"
+}
+
+deploy_docker() {
+  command -v docker >/dev/null || fail "服务器未安装 Docker，请在宝塔【Docker管理器】安装后重试"
+
+  ensure_env
 
   info "构建镜像并启动（首次构建约 5-10 分钟）"
   docker compose -f "$APP_DIR/docker-compose.yml" --project-directory "$APP_DIR" up -d --build
@@ -90,11 +107,13 @@ EOF
 # ───────── node 模式（PM2）─────────
 deploy_node() {
   command -v pm2 >/dev/null || fail "未安装 PM2，请在宝塔【Node项目】或 npm install -g pm2 安装"
-  [ "$NODE_DATABASE_URL" != *"请改成数据库密码"* ] || warn "NODE_DATABASE_URL 仍是占位值，请先在配置区填写"
+  if [[ "$NODE_DATABASE_URL" == *"请改成数据库密码"* ]]; then
+    fail "NODE_DATABASE_URL 仍是占位值，请先在配置区填写"
+  fi
 
   cd "$APP_DIR"
-  info "安装依赖"
-  npm ci --omit=dev=false
+  info "安装依赖（含 devDependencies，next build 需要）"
+  npm ci
 
   info "执行数据库迁移"
   DATABASE_URL="$NODE_DATABASE_URL" npx prisma migrate deploy
@@ -141,7 +160,11 @@ stop_service() {
 
 # ───────── 入口 ─────────
 case "${1:-deploy}" in
-  deploy) fetch_code; [ "$MODE" = "docker" ] && deploy_docker || deploy_node ;;
+  deploy)
+    fetch_code
+    # 注意不能用 "[ cond ] && a || b" 写法：a 中途失败会继续执行 b
+    if [ "$MODE" = "docker" ]; then deploy_docker; else deploy_node; fi
+    ;;
   status) show_status ;;
   logs)   show_logs ;;
   stop)   stop_service ;;
