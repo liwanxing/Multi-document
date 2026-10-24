@@ -329,6 +329,14 @@
   display: flex !important;
   flex-direction: column;
 }
+/* 垂直居中弹窗（project-form-modal 均开启 alignCenter）：
+   强制 wrapper  flex 居中并禁止滚动，避免整页/弹窗随滚轮滑动 */
+.arco-modal-wrapper-align-center {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 /* arco 的结构是 .arco-modal > 中间包裹层 > header/content，
    让包裹层撑满弹窗并作为纵向 flex 容器 */
 .project-form-modal > div:nth-child(2) {
