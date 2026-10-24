@@ -23,7 +23,7 @@ import {
 } from "@arco-design/web-react/icon";
 import { displayDateTime } from "@/lib/dates";
 import { confirmAction } from "@/components/admin/DesignProvider";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   LayoutGrid,
@@ -97,6 +97,25 @@ export default function AdminPage() {
   const [editing, setEditing] = useState<DocDetail | null>(null);
   const [projectForm, setProjectForm] = useState<ProjectForm | null>(null);
   const [managing, setManaging] = useState<string | null>(null);
+  // 首次渲染时同步捕获上次的工作现场快照。必须在任何 setState 生效前完成——
+  // 否则下方"自动保存现场"的 effect 会用挂载时的默认值把它覆盖掉，
+  // 导致刷新后永远恢复不到原来的页面（"刷新跳转到其他页面" bug 的根因）。
+  const savedUiStateRef = useRef<{
+    view?: string;
+    managing?: string | null;
+    managerLocation?: ManagerLocation;
+    editingId?: string | null;
+  } | null>(null);
+  if (savedUiStateRef.current === null) {
+    try {
+      savedUiStateRef.current =
+        JSON.parse(sessionStorage.getItem("admin-ui-state") || "null") ?? {};
+    } catch {
+      savedUiStateRef.current = {};
+    }
+  }
+  // 首次加载完成前不写 sessionStorage（同上，防止默认值覆盖上次现场）
+  const uiStateLoadedRef = useRef(false);
   const [managerLocation, setManagerLocation] = useState<ManagerLocation>({
     productId: "",
     showUpdates: false,
@@ -143,12 +162,10 @@ export default function AdminPage() {
             doc.productId === query.get("product"),
         );
         if (target) setEditing(target);
-        // URL 没有明确指示时，恢复上次的工作现场（sessionStorage）
+        // URL 没有明确指示时，恢复上次的工作现场（首次渲染时捕获的快照）
         if (!query.has("view") && !query.has("doc")) {
           try {
-            const saved = JSON.parse(
-              sessionStorage.getItem("admin-ui-state") || "null",
-            );
+            const saved = savedUiStateRef.current;
             if (saved && typeof saved === "object") {
               if (
                 saved.view === "projects" ||
@@ -166,6 +183,13 @@ export default function AdminPage() {
                 typeof saved.managerLocation.productId === "string"
               )
                 setManagerLocation(saved.managerLocation);
+              // 恢复正在编辑的文档（未保存的新文档不在列表里，自然跳过）
+              if (!target && typeof saved.editingId === "string") {
+                const editingTarget = result.data.documents.find(
+                  (d: DocDetail) => d.id === saved.editingId,
+                );
+                if (editingTarget) setEditing(editingTarget);
+              }
             }
           } catch {}
         }
@@ -173,6 +197,7 @@ export default function AdminPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "加载失败，请重试");
     } finally {
+      if (initial) uiStateLoadedRef.current = true;
       setLoading(false);
     }
   }
@@ -188,16 +213,23 @@ export default function AdminPage() {
   useEffect(() => {
     void load(true);
   }, []);
-  // 记住后台工作现场（所在页面/正在管理的项目/产品位置）：
-  // 刷新（F5）后原地恢复，不再被踢回"项目管理"首屏
+  // 记住后台工作现场（所在页面/正在管理的项目/产品位置/正在编辑的文档）：
+  // 刷新（F5）后原地恢复，不再被踢回"项目管理"首屏。
+  // 注意：必须在首次加载完成后才开始写，否则挂载时的默认值会覆盖掉上次现场。
   useEffect(() => {
+    if (!uiStateLoadedRef.current) return;
     try {
       sessionStorage.setItem(
         "admin-ui-state",
-        JSON.stringify({ view, managing, managerLocation }),
+        JSON.stringify({
+          view,
+          managing,
+          managerLocation,
+          editingId: editing?.id ?? null,
+        }),
       );
     } catch {}
-  }, [view, managing, managerLocation]);
+  }, [view, managing, managerLocation, editing]);
   async function mutate(url: string, method: string, body: unknown) {
     const response = await fetch(url, {
       method,

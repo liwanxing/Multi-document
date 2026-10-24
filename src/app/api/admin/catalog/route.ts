@@ -87,6 +87,23 @@ export async function POST(request: Request) {
       await saveStore(store);
       return NextResponse.json({ code: 0, data: project });
     }
+    if (body.action === "reorder-group") {
+      // 产品分类排序：在"配置顺序 + 产品实际分类"合并后的列表里上移/下移一位，
+      // 然后把完整顺序写回 productGroups——否则仅来自产品的分类会丢失顺序信息。
+      if (typeof body.name !== "string" || !groups.includes(body.name))
+        return fail("分类不存在", 404);
+      if (![-1, 1].includes(body.offset)) return fail("排序参数无效");
+      const from = groups.indexOf(body.name);
+      const to = from + body.offset;
+      if (to < 0 || to >= groups.length) return fail("排序参数无效");
+      const reordered = [...groups];
+      const [moved] = reordered.splice(from, 1);
+      reordered.splice(to, 0, moved);
+      project.productGroups = reordered;
+      project.updatedAt = new Date().toISOString();
+      await saveStore(store);
+      return NextResponse.json({ code: 0, data: project });
+    }
     if (body.action === "save-product") {
       if (
         typeof body.name !== "string" ||

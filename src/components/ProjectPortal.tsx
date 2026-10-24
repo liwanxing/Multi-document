@@ -30,7 +30,19 @@ export default function ProjectPortal({
   const [active, setActive] = useState("");
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const products = project.products || [];
-  const groups = Array.from(new Set(products.map((p) => p.group)));
+  // 分组顺序以项目配置 productGroups 为准（后台"产品分类管理"可排序），
+  // 未收录进配置的分类排在最后，保持原有出现顺序。
+  const groupOrder = project.productGroups || [];
+  const groups = Array.from(new Set(products.map((p) => p.group))).sort(
+    (a, b) => {
+      const ia = groupOrder.indexOf(a);
+      const ib = groupOrder.indexOf(b);
+      if (ia === -1 && ib === -1) return 0;
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    },
+  );
   const filtered = products.filter((p) =>
     (p.name + p.description).toLowerCase().includes(search.toLowerCase()),
   );

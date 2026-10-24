@@ -19,7 +19,7 @@ import {
   IconEyeInvisible,
   IconPlus,
 } from "@arco-design/web-react/icon";
-import { ArrowLeft, FolderTree, Package, Search } from "lucide-react";
+import { ArrowLeft, ArrowUp, ArrowDown, FolderTree, Package, Search } from "lucide-react";
 import type { Project } from "@/lib/dataStore";
 import { resolveGroupIcon } from "@/lib/projectModel";
 
@@ -117,6 +117,31 @@ export default function ProductGroups({
       Message.success(`已更新「${group}」分类图标`);
     } catch (e) {
       Message.error(e instanceof Error ? e.message : "更新图标失败");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  // 分类排序：以完整分类列表（含未命中搜索过滤的项）为基准上移/下移一位，
+  // 保证搜索过滤状态下排序依然符合直觉，并把完整顺序持久化到 productGroups。
+  async function moveGroup(group: string, offset: -1 | 1) {
+    setBusy(true);
+    try {
+      const r = await fetch("/api/admin/catalog", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectId: project.id,
+          action: "reorder-group",
+          name: group,
+          offset,
+        }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw Error(j.message);
+      await onReload();
+    } catch (e) {
+      Message.error(e instanceof Error ? e.message : "排序失败");
     } finally {
       setBusy(false);
     }
@@ -273,14 +298,35 @@ export default function ProductGroups({
             },
             {
               title: "操作",
-              width: 200,
+              width: 280,
               render: (_, group: string) => {
                 const count =
                   project.products?.filter((p) => p.group === group).length || 0;
                 const isHidden = project.hiddenProductGroups?.includes(group);
+                const index = groups.indexOf(group);
 
                 return (
                   <Space size={6}>
+                    <Tooltip content="上移">
+                      <Button
+                        type="text"
+                        size="small"
+                        aria-label="上移"
+                        icon={<ArrowUp size={14} />}
+                        disabled={busy || index <= 0}
+                        onClick={() => void moveGroup(group, -1)}
+                      />
+                    </Tooltip>
+                    <Tooltip content="下移">
+                      <Button
+                        type="text"
+                        size="small"
+                        aria-label="下移"
+                        icon={<ArrowDown size={14} />}
+                        disabled={busy || index < 0 || index >= groups.length - 1}
+                        onClick={() => void moveGroup(group, 1)}
+                      />
+                    </Tooltip>
                     <Button
                       type="text"
                       size="small"
