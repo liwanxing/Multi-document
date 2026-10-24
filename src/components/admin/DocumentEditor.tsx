@@ -1158,6 +1158,58 @@ export default function DocumentEditor({
                     )}
                   </div>
                   <Input.Search aria-label="搜索组件" placeholder="搜索组件…" value={search} allowClear onChange={setSearch} />
+
+                  {/* 项目变量 section：展示当前预览项目的内置变量与自定义字段，点击插入 {{变量名}} */}
+                  {(() => {
+                    const previewProject = projects.find((p) => p.id === previewProjectId);
+                    if (!previewProject) return null;
+                    const vars: { key: string; label: string; hint: string; builtin?: boolean }[] = [
+                      { key: "brand_name", label: "品牌名称", hint: previewProject.brandName || previewProject.name, builtin: true },
+                      { key: "company_name", label: "公司名称", hint: previewProject.company || previewProject.brandName || previewProject.name, builtin: true },
+                      ...(previewProject.customFields || [])
+                        .filter((f) => f.key && f.key.trim())
+                        .map((f) => ({ key: f.key.trim(), label: f.label || f.key, hint: f.value || "未设置值" })),
+                    ];
+                    const filtered = vars.filter((v) =>
+                      (v.key + v.label + v.hint).toLowerCase().includes(search.toLowerCase()),
+                    );
+                    if (!filtered.length) return null;
+                    return (
+                      <section key="项目变量">
+                        <div className="flex items-center justify-between mb-1.5">
+                          <h4 className="component-group !mb-0 text-[#165dff] flex items-center gap-1.5 font-semibold">
+                            <Baseline size={14} /> 项目变量
+                          </h4>
+                          <span className="text-[11px] font-normal text-gray-400">
+                            {previewProject.name} · {filtered.length} 个
+                          </span>
+                        </div>
+                        <div className="component-grid">
+                          {filtered.map((v) => (
+                            <button
+                              key={v.key}
+                              className="component-card w-full"
+                              disabled={busy || uploading}
+                              onClick={() => insert(`{{${v.key}}}`)}
+                              title={`当前值：${v.hint}\n点击插入 {{${v.key}}}`}
+                            >
+                              <span className="component-icon icon-sparkles">
+                                <Baseline size={19} />
+                              </span>
+                              <strong>
+                                {`{{${v.key}}}`}
+                                {v.builtin && <Tag size="small" color="gray" style={{ marginLeft: 4 }}>内置</Tag>}
+                              </strong>
+                              <small>
+                                {v.label} · {v.hint}
+                              </small>
+                              <span className="insert-plus">+</span>
+                            </button>
+                          ))}
+                        </div>
+                      </section>
+                    );
+                  })()}
                   
                   {/* 自定义组件 section */}
                   {(() => {
