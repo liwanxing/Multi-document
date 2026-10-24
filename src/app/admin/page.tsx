@@ -1023,8 +1023,8 @@ export default function AdminPage() {
         unmountOnExit
         closable={!busy}
         escToExit={!busy}
-        className="workspace-arco-modal"
-        style={{ width: 620, maxWidth: "calc(100vw - 32px)" }}
+        className="workspace-arco-modal project-form-modal"
+        style={{ width: 620, maxWidth: "calc(100vw - 32px)", height: "70vh" }}
       >
         {error && <Alert type="error" content={error} />}
         {projectForm ? (
