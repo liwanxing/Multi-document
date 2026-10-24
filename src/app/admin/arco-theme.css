@@ -319,8 +319,8 @@
 }
 .workspace-arco-modal .arco-modal-content {
   padding: 24px;
-  /* 弹窗整体限高：字段再多时内容区内部滚动，弹窗不无限长 */
-  max-height: 56vh;
+  /* 弹窗内容限高：字段再多时内容区内部滚动，弹窗不无限长顶出屏幕 */
+  max-height: 60vh;
   overflow-y: auto;
 }
 /* 项目/文档表单弹窗：固定为视口高度的 70%（上下留白），
@@ -329,9 +329,12 @@
   display: flex !important;
   flex-direction: column;
 }
-/* 垂直居中弹窗（project-form-modal 均开启 alignCenter）：
-   强制 wrapper  flex 居中并禁止滚动，避免整页/弹窗随滚轮滑动 */
-.arco-modal-wrapper-align-center {
+/* 固定高度表单弹窗的包裹层：垂直水平居中并禁止滚动（仅作用于
+   显式加了 wrapClassName="fixed-form-modal-wrapper" 的弹窗；
+   不能全局作用于 .arco-modal-wrapper-align-center，也不能用 !important——
+   arco 关闭弹窗时靠 wrapper 的内联 display:none 隐藏，!important 会顶掉它） */
+.fixed-form-modal-wrapper {
+  /* 这两个弹窗都开启了 unmountOnExit，关闭即卸载，不存在 display:none 的内联冲突 */
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -1131,17 +1134,19 @@
   padding: 24px;
   overflow: visible;
 }
-/* Ensure dropdown menus, select popups, and triggers in modals are never clipped */
+/* Ensure dropdown menus, select popups, and triggers in modals are never clipped.
+   注意：弹层内容经 DesignProvider getChildrenPopupContainer 已 portal 到 body，
+   这里的 overflow: visible 只保留给弹窗本体（阴影等），内容区放开内部滚动，
+   否则超高弹窗（内容超过视口）无处滚动。 */
 .workspace-arco-modal,
-.workspace-arco-modal .arco-modal-content,
-.editor-config-modal,
-.editor-config-modal .arco-modal-content {
+.editor-config-modal {
   overflow: visible !important;
 }
 /* 项目/文档表单弹窗例外：固定 70vh 高度，内容超高时内部滚动。
-   该弹窗内没有下拉浮层被裁剪的诉求，故覆盖上面的"不裁剪"规则 */
+   该弹窗内没有下拉浮层被裁剪的诉求，故覆盖上面的"不裁剪"与限高规则 */
 .workspace-arco-modal.project-form-modal .arco-modal-content {
   overflow-y: auto !important;
+  max-height: none;
 }
 .arco-select-popup,
 .arco-dropdown,

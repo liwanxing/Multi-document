@@ -95,6 +95,8 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [documents, setDocuments] = useState<DocDetail[]>([]);
   const [editing, setEditing] = useState<DocDetail | null>(null);
+  // 打开编辑器时的项目上下文：预览里的 brand_name 等变量按这个项目的配置渲染
+  const [editingProjectId, setEditingProjectId] = useState("");
   const [projectForm, setProjectForm] = useState<ProjectForm | null>(null);
   const [managing, setManaging] = useState<string | null>(null);
   // 首次渲染时同步捕获上次的工作现场快照。必须在任何 setState 生效前完成——
@@ -338,6 +340,7 @@ export default function AdminPage() {
       return;
     }
     const id = crypto.randomUUID();
+    setEditingProjectId(bindings[0]?.projectId || "");
     setEditing({
       id,
       productId: "library",
@@ -402,6 +405,7 @@ export default function AdminPage() {
         key={`${editing.productId}/${editing.slug}`}
         initial={editing}
         projects={projects}
+        previewProjectId={editingProjectId}
         onBack={() => {
           setEditing(null);
           void load();
@@ -527,9 +531,13 @@ export default function AdminPage() {
               setManagerLocation({ productId: "", showUpdates: false });
             }}
             onReload={() => load()}
-            onEdit={setEditing}
+            onEdit={(doc) => {
+              setEditing(doc);
+              setEditingProjectId(managedProject.id);
+            }}
             onNew={(placement, source) => {
               const id = crypto.randomUUID();
+              setEditingProjectId(placement.projectId);
               setEditing({
                 id,
                 productId: "library",
@@ -1024,8 +1032,8 @@ export default function AdminPage() {
         closable={!busy}
         escToExit={!busy}
         className="workspace-arco-modal project-form-modal"
+        wrapClassName="fixed-form-modal-wrapper"
         style={{ width: 620, maxWidth: "calc(100vw - 32px)", height: "70vh" }}
-        alignCenter
       >
         {error && <Alert type="error" content={error} />}
         {projectForm ? (

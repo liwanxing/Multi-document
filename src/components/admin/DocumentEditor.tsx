@@ -133,11 +133,14 @@ export default function DocumentEditor({
   projects,
   onBack,
   onSaved,
+  previewProjectId: previewProjectIdProp,
 }: {
   initial: DocDetail;
   projects: Project[];
   onBack: () => void;
   onSaved: (doc: DocDetail) => void;
+  /** 预览变量渲染所用的项目（文档绑定多个项目时，决定 brand_name 等变量取谁的值） */
+  previewProjectId?: string;
 }) {
   const [doc, setDoc] = useState(initial);
   const [baseline, setBaseline] = useState(JSON.stringify(initial));
@@ -156,6 +159,15 @@ export default function DocumentEditor({
   const [panelOpen, setPanelOpen] = useState(true);
   const [full, setFull] = useState(false);
   const [bindingsDraft, setBindingsDraft] = useState<DocPlacement[] | null>(null);
+  // 预览按哪个项目渲染变量：优先取打开编辑器时传入的项目上下文，
+  // 否则取第一个绑定项目（文档可能同时绑定多个项目）
+  const [previewProjectId, setPreviewProjectId] = useState(
+    () =>
+      previewProjectIdProp ||
+      initial.placements?.[0]?.projectId ||
+      projects[0]?.id ||
+      "",
+  );
   const [styleDraft, setStyleDraft] = useState<{ className: string; style: string } | null>(null);
   const [customComponents, setCustomComponents] = useState<CustomComponentItem[]>([]);
   const [customDraft, setCustomDraft] = useState<CustomComponentItem | null>(null);
@@ -1019,20 +1031,34 @@ export default function DocumentEditor({
                 <div className="pane-label">
                   <span>实时预览</span>
                   <span className="live-dot">与发布样式一致</span>
+                  {(doc.placements?.length ?? 0) > 1 && (
+                    <Select
+                      size="mini"
+                      value={previewProjectId}
+                      onChange={(v) => setPreviewProjectId(String(v))}
+                      style={{ marginLeft: "auto", width: 150 }}
+                      triggerProps={{ autoAlignPopupWidth: false }}
+                    >
+                      {doc.placements!.map((p) => {
+                        const proj = projects.find((x) => x.id === p.projectId);
+                        return (
+                          <Select.Option key={p.projectId} value={p.projectId}>
+                            {proj?.name || p.projectId}
+                          </Select.Option>
+                        );
+                      })}
+                    </Select>
+                  )}
                 </div>
                 <article ref={previewArticleRef}>
                   <h1 className="preview-title">{doc.title || "文档标题"}</h1>
                   {preview ? (
                     <MarkdownRenderer
                       content={
-                        projects.find(
-                          (p) => p.id === doc.placements?.[0]?.projectId,
-                        )
+                        projects.find((p) => p.id === previewProjectId)
                           ? renderVariables(
                               preview,
-                              projects.find(
-                                (p) => p.id === doc.placements?.[0]?.projectId,
-                              )!,
+                              projects.find((p) => p.id === previewProjectId)!,
                             )
                           : preview
                       }
