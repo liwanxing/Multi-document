@@ -468,7 +468,7 @@ export default function AdminPage() {
               <Layers3 size={23} />
             </span>
             <div>
-              中广云<small>文档管理控制台</small>
+              文档管理控制台
             </div>
           </Link>
           <div className="nav-caption">内容工作空间</div>

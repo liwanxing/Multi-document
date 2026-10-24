@@ -9,9 +9,9 @@ import ClientConfigProvider from "@/components/ClientConfigProvider";
 import { getAuthenticatedUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "中广云 - 文档中心",
+  title: "文档管理控制台",
   description:
-    "提供中广云全量云计算、大模型与AI算法、音视频、网络与安全产品技术文档与开发指南。",
+    "统一维护产品文档与多项目发布的产品技术文档中心。",
 };
 
 /**

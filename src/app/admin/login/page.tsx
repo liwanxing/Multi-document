@@ -81,7 +81,7 @@ function LoginForm() {
             <BookOpen size={28} />
           </div>
           <h1 className="text-2xl font-bold text-slate-800 tracking-tight m-0">
-            中广云文档管理控制台
+            文档管理控制台
           </h1>
           <p className="text-sm text-slate-500 mt-2">
             统一维护产品文档与多项目发布，请登录账号以继续
