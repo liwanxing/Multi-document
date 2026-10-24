@@ -1024,7 +1024,7 @@ export default function AdminPage() {
         closable={!busy}
         escToExit={!busy}
         className="workspace-arco-modal project-form-modal"
-        style={{ width: 620, maxWidth: "calc(100vw - 32px)", height: "70vh" }}
+        style={{ width: 620, maxWidth: "calc(100vw - 32px)", height: "70vh", marginTop: "15vh" }}
       >
         {error && <Alert type="error" content={error} />}
         {projectForm ? (

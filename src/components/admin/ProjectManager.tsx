@@ -1018,8 +1018,8 @@ export default function ProjectManager({
         footer={null}
         unmountOnExit
         closable={!busy}
-        className="workspace-arco-modal"
-        style={{ width: 580, maxWidth: "calc(100vw - 32px)" }}
+        className="workspace-arco-modal project-form-modal"
+        style={{ width: 580, maxWidth: "calc(100vw - 32px)", height: "70vh", marginTop: "15vh" }}
       >
         {form && (
           <Form
