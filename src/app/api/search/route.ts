@@ -1,6 +1,7 @@
 import { visibleDocument, publicCatalog } from "@/lib/visibility";
 import { NextResponse } from "next/server";
 import { getStore } from "@/lib/dataStore";
+import { getAuthenticatedUser } from "@/lib/auth";
 import { categoryPath } from "@/lib/projectModel";
 
 export const dynamic = "force-dynamic";
@@ -10,8 +11,9 @@ export const dynamic = "force-dynamic";
  *
  * 链接分享模式：读者拿到的是一条文档链接，允许在**当前项目内**自由浏览，
  * 但不允许顺着搜索发现其它项目。因此：
- * - 必须带 `project` 参数时只在该项目范围内检索（前台两个入口都会带上）；
- * - 不带 `project` 时退化为"所有可见项目"，仅用于后台/排障。
+ * - 带 `project` 参数时只在该项目范围内检索（前台两个入口都会带上）；
+ * - 不带 `project` 时不给未登录用户兜底：全局检索仅管理员可用（后台/排障），
+ *   未登录一律返回空结果，避免顺着搜索发现其它项目的路径与内容。
  * - 无论哪种范围，都先过 visibleDocument：下架文档、隐藏分类、隐藏产品组一律不出现。
  */
 export async function GET(request: Request) {
@@ -23,9 +25,13 @@ export async function GET(request: Request) {
 
   const store = await getStore();
   const allProjects = store.projects || [];
+  // 仅在无 project 参数（全局检索路径）时才需要判登录态，项目内检索不加开销
+  const adminUser = projectSlug ? null : await getAuthenticatedUser(request);
   const scope = projectSlug
     ? allProjects.filter((p) => p.slug === projectSlug)
-    : allProjects;
+    : adminUser
+      ? allProjects
+      : [];
 
   // 范围内可见的文档：已发布 + 未下架 + 至少挂在一个可见的项目/产品/分类上
   const visibleDocs = Object.values(store.docs).filter(
