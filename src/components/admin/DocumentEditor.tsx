@@ -4,6 +4,7 @@ import EditorExtras, { EditorIconTooltip } from "./EditorExtras";
 import { Button, Modal, Alert, Input, InputNumber, Form, Radio, Select, Tabs, Tag, Message, Dropdown } from "@arco-design/web-react";
 import { confirmAction } from "./DesignProvider";
 import { uploadMedia } from "@/lib/uploadMedia";
+import { writeClipboard } from "@/lib/clipboard";
 import Link from "next/link";
 import React, {
   useDeferredValue,
@@ -503,10 +504,10 @@ export default function DocumentEditor({
     : "";
 
   const copyAiStylePrompt = async () => {
-    try {
-      await navigator.clipboard.writeText(aiStylePrompt);
+    // 后台常在 http 下使用，剪贴板 API 不可用时自动回退
+    if (await writeClipboard(aiStylePrompt)) {
       Message.success("AI 提示词已复制，发送给 AI 后把返回的样式粘贴到「组件样式」");
-    } catch {
+    } else {
       Message.error("复制失败，请手动选择提示词文本复制");
     }
   };

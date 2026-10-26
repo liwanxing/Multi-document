@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Modal, Message } from "@arco-design/web-react";
 import { getIconItem } from "@/lib/iconRegistry";
+import { writeClipboard } from "@/lib/clipboard";
 import {
   Play,
   Copy,
@@ -176,8 +177,12 @@ export function DocPromptPreview({
 }) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(promptText);
+  const handleCopy = async () => {
+    // http 部署下浏览器不提供 navigator.clipboard，由 writeClipboard 回退
+    if (!(await writeClipboard(promptText))) {
+      Message.error({ content: "复制失败，请手动选中后复制", duration: 1800 });
+      return;
+    }
     setCopied(true);
     Message.success({ content: "已复制提示词", duration: 1800 });
     setTimeout(() => setCopied(false), 2000);
@@ -405,8 +410,12 @@ export function DocStoryboard({
 }) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(scriptText);
+  const handleCopy = async () => {
+    // http 部署下浏览器不提供 navigator.clipboard，由 writeClipboard 回退
+    if (!(await writeClipboard(scriptText))) {
+      Message.error({ content: "复制失败，请手动选中后复制", duration: 1800 });
+      return;
+    }
     setCopied(true);
     Message.success({ content: "已复制脚本", duration: 1800 });
     setTimeout(() => setCopied(false), 2000);

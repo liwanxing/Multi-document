@@ -1,6 +1,7 @@
 "use client";
 
 import { safeComponentStyle } from "@/lib/componentStyle";
+import { writeClipboard } from "@/lib/clipboard";
 import { Image } from "@arco-design/web-react";
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { marked } from "marked";
@@ -218,22 +219,22 @@ export default function MarkdownRenderer({
       }
       const copyText = btn.querySelector(".copy-text");
 
-      void navigator.clipboard
-        .writeText(text)
-        .then(() => {
+      // http 部署下没有 navigator.clipboard，交给 writeClipboard 兼容
+      void writeClipboard(text).then((ok) => {
+        if (ok) {
           btn.classList.add("copied");
           if (copyText) copyText.textContent = "已复制";
           setTimeout(() => {
             btn.classList.remove("copied");
             if (copyText) copyText.textContent = "复制";
           }, 2000);
-        })
-        .catch(() => {
+        } else {
           if (copyText) copyText.textContent = "复制失败";
           setTimeout(() => {
             if (copyText) copyText.textContent = "复制";
           }, 2000);
-        });
+        }
+      });
     };
 
     el.addEventListener("click", handleCopyClick);

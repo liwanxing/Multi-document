@@ -18,6 +18,7 @@ import {
   IconLink,
 } from "@arco-design/web-react/icon";
 import { readFavorites, writeFavorites, type Favorite } from "@/lib/favorites";
+import { writeClipboard } from "@/lib/clipboard";
 import ThemeModeSwitch from "@/components/ThemeModeSwitch";
 
 // Share tray icon (box with upward arrow) matching reference screenshot
@@ -108,31 +109,39 @@ export default function DocumentActions({
   }, [item.href]);
 
   async function copy(kind: "text" | "markdown") {
+    let text: string;
     try {
       if (kind === "markdown") {
-        await navigator.clipboard.writeText(`# ${item.title}\n\n${markdown}`);
-        Message.success("已复制 Markdown");
-        return;
+        text = `# ${item.title}\n\n${markdown}`;
+      } else {
+        const article = document.querySelector(".product-reading-article");
+        const root = article?.querySelector<HTMLElement>(".doc-markdown");
+        const clone = root?.cloneNode(true) as HTMLElement | undefined;
+        clone
+          ?.querySelectorAll('button, [aria-hidden="true"], [data-copy-ignore]')
+          .forEach((node) => node.remove());
+        clone?.querySelectorAll("br").forEach((node) => node.replaceWith("\n"));
+        clone
+          ?.querySelectorAll(
+            "p, h1, h2, h3, h4, li, pre, tr, .doc-callout, .doc-comparison, .doc-storyboard, .doc-features-grid, .doc-cards-grid",
+          )
+          .forEach((node) => node.append("\n"));
+        clone?.querySelectorAll("th, td").forEach((node) => node.append("\t"));
+        const body = clone?.textContent?.trim() || "";
+        text = `${item.title}\n\n${body}`;
       }
-
-      const article = document.querySelector(".product-reading-article");
-      const root = article?.querySelector<HTMLElement>(".doc-markdown");
-      const clone = root?.cloneNode(true) as HTMLElement | undefined;
-      clone
-        ?.querySelectorAll('button, [aria-hidden="true"], [data-copy-ignore]')
-        .forEach((node) => node.remove());
-      clone?.querySelectorAll("br").forEach((node) => node.replaceWith("\n"));
-      clone
-        ?.querySelectorAll(
-          "p, h1, h2, h3, h4, li, pre, tr, .doc-callout, .doc-comparison, .doc-storyboard, .doc-features-grid, .doc-cards-grid",
-        )
-        .forEach((node) => node.append("\n"));
-      clone?.querySelectorAll("th, td").forEach((node) => node.append("\t"));
-      const body = clone?.textContent?.trim() || "";
-      await navigator.clipboard.writeText(`${item.title}\n\n${body}`);
-      Message.success("已复制全文文字");
     } catch {
-      Message.error("复制失败，请允许浏览器访问剪贴板后重试");
+      Message.error("复制失败，请手动选中文字后按 Ctrl+C");
+      return;
+    }
+
+    // 站点常用 http 访问，此时浏览器不提供 navigator.clipboard，
+    // 统一交给 writeClipboard 回退，避免用户看到“请允许访问剪贴板”这种无从下手的提示
+    const ok = await writeClipboard(text);
+    if (ok) {
+      Message.success(kind === "markdown" ? "已复制 Markdown" : "已复制全文文字");
+    } else {
+      Message.error("复制失败，请手动选中文字后按 Ctrl+C");
     }
   }
 
@@ -172,11 +181,11 @@ export default function DocumentActions({
   }
 
   async function copyShareUrl() {
-    try {
-      const targetUrl = url || window.location.href;
-      await navigator.clipboard.writeText(targetUrl);
+    const targetUrl = url || window.location.href;
+    const ok = await writeClipboard(targetUrl);
+    if (ok) {
       Message.success("链接已复制");
-    } catch {
+    } else {
       Message.error("复制失败，请手动复制地址栏链接");
     }
   }

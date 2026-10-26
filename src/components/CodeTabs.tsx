@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import { Copy, Check } from "lucide-react";
 import hljs from "highlight.js";
 import { CodeTabItem } from "@/lib/dataStore";
+import { writeClipboard } from "@/lib/clipboard";
 import {
   getHighlightLang,
   splitHighlightedHtmlLines,
@@ -22,13 +23,15 @@ export default function CodeTabs({ items }: CodeTabsProps) {
     items[0] || { code: "", syntax: "", language: "" };
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(currentTab.code);
+    // http 部署下 navigator.clipboard 不存在，统一走兼容实现
+    const ok = await writeClipboard(currentTab.code);
+    if (ok) {
       setCopied(true);
       setCopyError(false);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
+    } else {
       setCopyError(true);
+      setTimeout(() => setCopyError(false), 2000);
     }
   };
 

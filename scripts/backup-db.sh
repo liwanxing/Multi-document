@@ -20,7 +20,9 @@ set -a
 set +a
 
 DB="${MYSQL_DATABASE:-multi_document}"
-TS=$(date +%Y%m%d-%H%M%S)
+# 宿主机时区可能是 UTC，而容器内是 Asia/Shanghai。
+# 文件名统一按北京时间生成，否则同一份备份在两边看到的时间差 8 小时，对不上账。
+TS=$(TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
 OUT="backups/${DB}-${TS}.sql"
 mkdir -p backups
 
@@ -40,4 +42,4 @@ fi
 
 # 按修改时间倒序，从第 KEEP+1 份开始删
 ls -1t backups/"${DB}"-*.sql 2>/dev/null | tail -n +$((KEEP + 1)) | xargs -r rm -f
-echo "[backup] 当前保留 $(ls -1 backups/"${DB}"-*.sql 2>/dev/null | wc -l) 份"
+echo "[backup] 当前保留 $(ls -1 backups/${DB}-*.sql 2>/dev/null | wc -l) 份"

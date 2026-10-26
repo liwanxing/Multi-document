@@ -22,6 +22,7 @@ import {
   IconEyeInvisible,
 } from "@arco-design/web-react/icon";
 import { displayDateTime } from "@/lib/dates";
+import { writeClipboard } from "@/lib/clipboard";
 import { confirmAction } from "@/components/admin/DesignProvider";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -361,13 +362,14 @@ export default function AdminPage() {
     setError("");
   }
   async function copyLink(project: Project) {
-    try {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}/projects/${project.slug}`,
-      );
+    // 后台也常在 http 下访问，剪贴板 API 不可用时自动回退
+    const ok = await writeClipboard(
+      `${window.location.origin}/projects/${project.slug}`,
+    );
+    if (ok) {
       setCopied(project.id);
       setTimeout(() => setCopied(""), 2000);
-    } catch {
+    } else {
       setError("复制失败，请通过“访问项目”打开链接后复制地址");
     }
   }
