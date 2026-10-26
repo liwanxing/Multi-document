@@ -86,7 +86,9 @@ export default async function DocumentPage({
           </div>
           {doc.description &&
             !doc.content.trimStart().startsWith(doc.description) && (
-              <p>{doc.description}</p>
+              // 摘要和正文共用同一份文档，也要走变量渲染，否则同一篇文档换个项目
+              // 打开时，摘要里写死的品牌名会和正文对不上
+              <p>{renderVariables(doc.description, project)}</p>
             )}
         </header>
         <MarkdownRenderer content={doc.content} appearance={doc.appearance} />
