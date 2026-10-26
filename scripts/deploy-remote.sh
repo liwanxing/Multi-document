@@ -40,7 +40,15 @@ ENVEOF
     echo '    已生成新 .env（随机密码）'
   else
     echo '    沿用已有 .env'
-  fi"
+  fi
+  # .env 里的 IMAGE_TAG 会被 docker compose 直接采用（服务器重启、手动 up -d 也走它），
+  # 不同步就会出现“部署完能跑，重启退回旧镜像”——每次部署都把它钉到当前 tag。
+  if grep -q '^IMAGE_TAG=' '$REMOTE_DIR/.env'; then
+    sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=$TAG/' '$REMOTE_DIR/.env'
+  else
+    echo 'IMAGE_TAG=$TAG' >> '$REMOTE_DIR/.env'
+  fi
+  echo "    IMAGE_TAG 已同步为 $TAG""
 
 echo "==> [3/5] 上传编排与镜像包"
 scp -q docker-compose.yml "$HOST:$REMOTE_DIR/docker-compose.yml"
