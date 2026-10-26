@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Button,
@@ -15,10 +16,18 @@ import { IconDelete, IconBook } from "@arco-design/web-react/icon";
 import { readFavorites, writeFavorites, type Favorite } from "@/lib/favorites";
 
 export default function FavoritesPage() {
+  const router = useRouter();
   const [items, setItems] = useState<Favorite[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [error, setError] = useState("");
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  // 本站没有公开的项目列表，收藏页不能指向首页（对访客是 404），
+  // 所以回上一个页面；直接打开时没有历史栈，改用说明文案占位
+  useEffect(() => {
+    setCanGoBack(window.history.length > 1);
+  }, []);
 
   useEffect(() => {
     const sync = () => {
@@ -54,13 +63,22 @@ export default function FavoritesPage() {
 
   return (
     <main className="favorites-page max-w-[1000px] w-full mx-auto px-5 py-8 flex-1">
-      {/* 不做“回到文档中心”面包屑：本站没有公开的项目列表，
-          访客点过去只会落到 404；已登录用户可从顶栏 logo 回首面。 */}
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">我的收藏</h1>
-        <p className="text-sm text-gray-500 m-0">
-          共 {items.length} 篇文档 · 收藏保存在当前浏览器
-        </p>
+      <header className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">我的收藏</h1>
+          <p className="text-sm text-gray-500 m-0">
+            共 {items.length} 篇文档 · 收藏保存在当前浏览器
+          </p>
+        </div>
+        {canGoBack ? (
+          <Button size="small" className="shrink-0" onClick={() => router.back()}>
+            ← 返回上一页
+          </Button>
+        ) : (
+          <span className="text-xs text-gray-400 shrink-0">
+            请从分享给你的文档链接进入
+          </span>
+        )}
       </header>
 
       {error && (
