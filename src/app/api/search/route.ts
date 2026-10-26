@@ -3,31 +3,53 @@ import { NextResponse } from "next/server";
 import { getStore } from "@/lib/dataStore";
 import { categoryPath } from "@/lib/projectModel";
 
+export const dynamic = "force-dynamic";
+
+/**
+ * 前台搜索。
+ *
+ * 链接分享模式：读者拿到的是一条文档链接，允许在**当前项目内**自由浏览，
+ * 但不允许顺着搜索发现其它项目。因此：
+ * - 必须带 `project` 参数时只在该项目范围内检索（前台两个入口都会带上）；
+ * - 不带 `project` 时退化为"所有可见项目"，仅用于后台/排障。
+ * - 无论哪种范围，都先过 visibleDocument：下架文档、隐藏分类、隐藏产品组一律不出现。
+ */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const q = (searchParams.get("q") || "").trim().toLowerCase();
   const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
   const pageSize = Math.max(1, parseInt(searchParams.get("pageSize") || "6", 10));
+  const projectSlug = (searchParams.get("project") || "").trim();
 
   const store = await getStore();
+  const allProjects = store.projects || [];
+  const scope = projectSlug
+    ? allProjects.filter((p) => p.slug === projectSlug)
+    : allProjects;
 
-  const hotDefaults = [
-    { title: "模型价格", productName: "火山方舟" },
-    { title: "套餐概览", productName: "火山方舟" },
-    { title: "快速开始", productName: "火山方舟" },
-    { title: "套餐概览", productName: "火山方舟" },
-    { title: "快速入门", productName: "火山方舟" },
-    { title: "产品简介", productName: "火山方舟" },
-    { title: "快速开始", productName: "火山方舟" },
-    { title: "模型列表", productName: "火山方舟" },
-    { title: "创建视频生成任务", productName: "火山方舟" },
-    { title: "Doubao Seedance 2.5 教程", productName: "火山方舟" },
-  ];
-
-  // Hot documents from published docs + defaults
-  const publishedDocs = Object.values(store.docs).filter(
-    (d) => d.status === "published" || !d.status,
+  // 范围内可见的文档：已发布 + 未下架 + 至少挂在一个可见的项目/产品/分类上
+  const visibleDocs = Object.values(store.docs).filter(
+    (doc) =>
+      doc.status === "published" &&
+      !doc.hidden &&
+      scope.some((project) => visibleDocument(doc, project)),
   );
+
+  // 文档 → 本项目范围内的落地链接；不在范围内的文档不产生结果
+  const resolveHref = (doc: (typeof visibleDocs)[number]) => {
+    const placement = doc.placements?.find((p) =>
+      scope.some((s) => s.id === p.projectId),
+    );
+    const project = scope.find((p) => p.id === placement?.projectId);
+    const product = project?.products?.find((p) => p.id === placement?.productId);
+    if (!project || !product) return null;
+    return {
+      project,
+      product,
+      href: `/projects/${project.slug}/products/${product.slug}/docs/${encodeURIComponent(doc.id)}`,
+    };
+  };
+
   const hotDocs: {
     id?: string;
     title: string;
@@ -36,48 +58,23 @@ export async function GET(request: Request) {
     href?: string;
   }[] = [];
 
-  for (const doc of publishedDocs.slice(0, 10)) {
-    const placement = doc.placements?.[0];
-    const project =
-      store.projects?.find((p) => p.id === placement?.projectId) ||
-      store.projects?.[0];
-    const product =
-      project?.products?.find((pr) => pr.id === placement?.productId) ||
-      project?.products?.[0];
-    const productName = product?.name || project?.name || "火山方舟";
+  for (const doc of visibleDocs) {
+    if (hotDocs.length >= 10) break;
+    const target = resolveHref(doc);
+    if (!target) continue;
     hotDocs.push({
       id: doc.id,
       title: doc.title,
-      productName,
-      displayName: `${doc.title}-${productName}`,
-      href:
-        project && product
-          ? `/projects/${project.slug}/products/${product.slug}/docs/${encodeURIComponent(doc.id)}`
-          : undefined,
+      productName: target.product.name,
+      displayName: `${doc.title}-${target.product.name}`,
+      href: target.href,
     });
-  }
-
-  for (const item of hotDefaults) {
-    if (hotDocs.length >= 10) break;
-    if (!hotDocs.some((h) => h.displayName.includes(item.title))) {
-      hotDocs.push({
-        title: item.title,
-        productName: item.productName,
-        displayName: `${item.title}-${item.productName}`,
-      });
-    }
   }
 
   if (!q) {
     return NextResponse.json({
       code: 0,
-      data: {
-        items: [],
-        total: 0,
-        page,
-        pageSize,
-        hotDocs,
-      },
+      data: { items: [], total: 0, page, pageSize, hotDocs },
     });
   }
 
@@ -93,9 +90,8 @@ export async function GET(request: Request) {
     projectName: string;
   }[] = [];
 
-  // 1. Search in documents
-  for (const doc of Object.values(store.docs)) {
-    if (doc.status && doc.status !== "published") continue;
+  // 1. 文档：标题 / 描述 / 正文片段
+  for (const doc of visibleDocs) {
     const isTitleMatch = doc.title.toLowerCase().includes(q);
     const isDescMatch = (doc.description || "").toLowerCase().includes(q);
     let matchedSnippet = "";
@@ -115,59 +111,50 @@ export async function GET(request: Request) {
       }
     }
 
-    if (isTitleMatch || isDescMatch || matchedSnippet) {
-      const placement = doc.placements?.[0];
-      const project =
-        store.projects?.find((p) => p.id === placement?.projectId) ||
-        store.projects?.[0];
-      const product =
-        project?.products?.find((pr) => pr.id === placement?.productId) ||
-        project?.products?.[0];
-      const catPath = product
-        ? categoryPath(product, placement?.categoryId || null)
-        : "";
-      const breadcrumb =
-        catPath && catPath !== "未分类"
-          ? `来自：文档 > ${product?.name || "产品"} > ${catPath.replace(/ \/ /g, " > ")}`
-          : `来自：文档 > ${product?.name || "产品"}`;
-      const href =
-        project && product
-          ? `/projects/${project.slug}/products/${product.slug}/docs/${encodeURIComponent(doc.id)}`
-          : `/docs/${encodeURIComponent(doc.id)}`;
+    if (!isTitleMatch && !isDescMatch && !matchedSnippet) continue;
 
-      allResults.push({
-        type: "doc",
-        id: doc.id,
-        title: doc.title,
-        description: doc.description || "",
-        snippet:
-          matchedSnippet ||
-          doc.description ||
-          "提供全面的产品技术指南与开发者参考文档。",
-        breadcrumb,
-        href,
-        productName: product?.name || "",
-        projectName: project?.name || "",
-      });
-    }
+    const target = resolveHref(doc);
+    if (!target) continue;
+    const { project, product, href } = target;
+    const placement = doc.placements?.find(
+      (p) => p.projectId === project.id && p.productId === product.id,
+    );
+    const catPath = categoryPath(product, placement?.categoryId || null);
+
+    allResults.push({
+      type: "doc",
+      id: doc.id,
+      title: doc.title,
+      description: doc.description || "",
+      snippet:
+        matchedSnippet ||
+        doc.description ||
+        "提供全面的产品技术指南与开发者参考文档。",
+      breadcrumb:
+        catPath && catPath !== "未分类"
+          ? `来自：文档 > ${product.name} > ${catPath.replace(/ \/ /g, " > ")}`
+          : `来自：文档 > ${product.name}`,
+      href,
+      productName: product.name,
+      projectName: project.name,
+    });
   }
 
-  // 2. Search in products
-  for (const project of store.projects || []) {
+  // 2. 产品：仅在范围内检索，隐藏产品组已被 publicCatalog 剔除
+  for (const project of scope) {
     for (const p of publicCatalog(project).products || []) {
-      if ((p.name + " " + p.description).toLowerCase().includes(q)) {
-        allResults.push({
-          type: "product",
-          id: p.id,
-          title: p.name,
-          description: p.description,
-          snippet: p.description || "产品概览及核心功能指南",
-          breadcrumb: `来自：产品 > ${project.name} > ${p.name}`,
-          href: `/projects/${project.slug}/products/${p.slug}`,
-          productName: p.name,
-          projectName: project.name,
-        });
-      }
+      if (!(p.name + " " + p.description).toLowerCase().includes(q)) continue;
+      allResults.push({
+        type: "product",
+        id: p.id,
+        title: p.name,
+        description: p.description,
+        snippet: p.description || "产品概览及核心功能指南",
+        breadcrumb: `来自：产品 > ${project.name} > ${p.name}`,
+        href: `/projects/${project.slug}/products/${p.slug}`,
+        productName: p.name,
+        projectName: project.name,
+      });
     }
   }
 
@@ -177,12 +164,6 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     code: 0,
-    data: {
-      items: paginated,
-      total,
-      page,
-      pageSize,
-      hotDocs,
-    },
+    data: { items: paginated, total, page, pageSize, hotDocs },
   });
 }

@@ -54,15 +54,8 @@ export default function FavoritesPage() {
 
   return (
     <main className="favorites-page max-w-[1000px] w-full mx-auto px-5 py-8 flex-1">
-      <Breadcrumb className="mb-4">
-        <Breadcrumb.Item>
-          <Link href="/" className="text-gray-500 hover:text-blue-600">
-            文档中心
-          </Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>我的收藏</Breadcrumb.Item>
-      </Breadcrumb>
-
+      {/* 不做“回到文档中心”面包屑：本站没有公开的项目列表，
+          访客点过去只会落到 404；已登录用户可从顶栏 logo 回首面。 */}
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 m-0 mb-1">我的收藏</h1>
         <p className="text-sm text-gray-500 m-0">

@@ -27,18 +27,26 @@ export default function Header({ showAdmin = false }: { showAdmin?: boolean }) {
       }`}
     >
       <div className="max-w-[1360px] px-5 md:px-[30px] mx-auto h-full flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 text-slate-800 font-semibold group transition-transform active:scale-[0.98]"
-        >
-          <span className="p-1.5 bg-[#1664FF] rounded-lg text-white shadow-sm shadow-[#1664FF33] group-hover:scale-105 transition-transform">
-            <Layers3 size={19} />
+        {showAdmin ? (
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 text-slate-800 font-semibold group transition-transform active:scale-[0.98]"
+          >
+            <span className="p-1.5 bg-[#1664FF] rounded-lg text-white shadow-sm shadow-[#1664FF33] group-hover:scale-105 transition-transform">
+              <Layers3 size={19} />
+            </span>
+            <span>文档中心</span>
+          </Link>
+        ) : (
+          // 访客拿到的是一条文档链接，本站没有公开的项目列表，
+          // 所以品牌区不做跳转，避免点进 404。
+          <span className="flex items-center gap-2.5 text-slate-800 font-semibold">
+            <span className="p-1.5 bg-[#1664FF] rounded-lg text-white shadow-sm shadow-[#1664FF33]">
+              <Layers3 size={19} />
+            </span>
+            <span>文档中心</span>
           </span>
-          <span>
-            中广云 <span className="text-slate-300 font-light mx-1.5">/</span>
-            <span className="text-sm font-normal text-slate-500">文档中心</span>
-          </span>
-        </Link>
+        )}
         <div className="flex items-center gap-3">
           <ThemeModeSwitch />
           {showAdmin && (

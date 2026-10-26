@@ -22,7 +22,12 @@ import { BookOpen, ArrowLeft } from "lucide-react";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect") || "/admin";
+  const redirectParam = searchParams.get("redirect") || "";
+  // 只接受站内相对路径：redirect=//other.site 这类开放重定向一律回落到 /admin
+  const redirectUrl =
+    redirectParam.startsWith("/") && !redirectParam.startsWith("//")
+      ? redirectParam
+      : "/admin";
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

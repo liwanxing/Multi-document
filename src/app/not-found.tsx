@@ -15,7 +15,10 @@ export default function NotFound() {
         页面或文档未找到
       </h1>
       <p className="text-sm text-slate-500 max-w-md mx-auto text-pretty leading-relaxed">
-        您访问的文档链接可能已重命名、已下架。
+        这个链接可能已失效，或对应内容已被下架。
+      </p>
+      <p className="text-xs text-slate-400 max-w-md mx-auto mt-2 leading-relaxed">
+        请向把链接分享给你的人索取最新地址。
       </p>
     </div>
   );

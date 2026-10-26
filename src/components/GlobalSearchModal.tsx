@@ -72,9 +72,14 @@ function highlightMatch(text: string, query: string): React.ReactNode {
 export default function GlobalSearchModal({
   isOpen,
   onClose,
+  project,
   initialQuery = "",
 }: GlobalSearchModalProps) {
   const router = useRouter();
+  // 搜索范围锁定在当前项目：读者拿到的是一条文档链接，不能顺着搜索逛到别的项目
+  const scopeQuery = project?.slug
+    ? `project=${encodeURIComponent(project.slug)}`
+    : "";
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [hotDocs, setHotDocs] = useState<HotDocItem[]>([]);
@@ -131,7 +136,7 @@ export default function GlobalSearchModal({
 
   const fetchHotDocs = async () => {
     try {
-      const res = await fetch("/api/search");
+      const res = await fetch(scopeQuery ? `/api/search?${scopeQuery}` : "/api/search");
       const json = await res.json();
       if (json.code === 0 && json.data.hotDocs) {
         setHotDocs(json.data.hotDocs);
@@ -153,7 +158,9 @@ export default function GlobalSearchModal({
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query.trim())}&page=${page}&pageSize=${pageSize}`,
+          `/api/search?q=${encodeURIComponent(query.trim())}&page=${page}&pageSize=${pageSize}${
+            scopeQuery ? `&${scopeQuery}` : ""
+          }`,
         );
         const json = await res.json();
         if (json.code === 0) {
@@ -257,6 +264,11 @@ export default function GlobalSearchModal({
                 <span>热门产品文档</span>
               </div>
               <div className="flex flex-col gap-1">
+                {!hotDocs.length && (
+                  <p className="px-3 py-6 text-center text-sm text-gray-400">
+                    暂无可推荐的文档，直接输入关键词搜索即可。
+                  </p>
+                )}
                 {hotDocs.map((item, idx) => {
                   const rankNumber = idx + 1;
                   const rankColor =
