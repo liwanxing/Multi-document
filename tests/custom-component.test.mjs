@@ -40,7 +40,9 @@ console.log("✓ DocumentEditor includes custom component description, icon sele
 const iconSelectorPath = path.resolve("src/components/admin/CustomIconSelector.tsx");
 const iconSelectorContent = await fs.readFile(iconSelectorPath, "utf-8");
 assert.ok(iconSelectorContent.includes("ICON_LIST"), "Uses ICON_LIST");
-assert.ok(iconSelectorContent.includes("ICON_CATEGORIES"), "Uses ICON_CATEGORIES");
+// 选择器已按设计简化为纯图标网格（无搜索/分类），不再依赖 ICON_CATEGORIES
+assert.ok(!iconSelectorContent.includes("ICON_CATEGORIES"), "Icon grid stays category-free by design");
+assert.ok(iconSelectorContent.includes("getIconItem"), "Resolves current icon via getIconItem");
 console.log("✓ CustomIconSelector properly configured");
 
 // 5. Test line break tool and shortcut
@@ -49,7 +51,7 @@ assert.ok(editorContent.includes("CornerDownLeft"), "Uses CornerDownLeft icon");
 assert.ok(editorContent.includes('insertInline("<br />\\n")'), "Inserts <br />\\n on line break");
 console.log("✓ Line break tool and shortcut verified");
 
-// 6. Test Portal Homepage sticky header 75% opacity and scroll spy
+// 6. Test Portal Homepage sticky header and scroll spy
 const portalPath = path.resolve("src/components/ProjectPortal.tsx");
 const portalContent = await fs.readFile(portalPath, "utf-8");
 assert.ok(portalContent.includes("is-portal-page"), "ProjectPortal adds is-portal-page class");
@@ -58,10 +60,10 @@ assert.ok(portalContent.includes("handleCategoryClick"), "ProjectPortal includes
 
 const refCssPath = path.resolve("src/app/document-reference.css");
 const refCssContent = await fs.readFile(refCssPath, "utf-8");
-assert.ok(refCssContent.includes(".is-portal-page.documentation-scrolled .project-public-header"), "Portal header scroll rule exists");
-assert.ok(refCssContent.includes("opacity: 0.75"), "Header opacity reduces to 0.75 on scroll");
+// 头部已改为常驻 sticky（不再靠 document.scrolled 类做透明度过渡），高亮交给 JS 滚动监听
+assert.ok(refCssContent.includes(".is-portal-page .project-public-header"), "Portal sticky header rule exists");
 assert.ok(refCssContent.includes(".is-portal-page .product-group-nav"), "Portal left sidebar is sticky");
-console.log("✓ Portal homepage sticky header (75% opacity) and sticky sidebar scroll spy verified");
+console.log("✓ Portal homepage sticky header and sticky sidebar scroll spy verified");
 
 console.log("\nAll custom component and editor verification tests passed successfully!");
 
