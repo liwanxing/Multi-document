@@ -30,3 +30,6 @@ src/generated/
 
 # Manual database dumps (local backup, never commit)
 backups/
+
+# 验收截图与工具临时产物
+artifacts/
