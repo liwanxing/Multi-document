@@ -23,6 +23,7 @@ import {
 } from "@arco-design/web-react/icon";
 import { displayDateTime } from "@/lib/dates";
 import { writeClipboard } from "@/lib/clipboard";
+import { createId } from "@/lib/id";
 import { confirmAction } from "@/components/admin/DesignProvider";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -340,7 +341,7 @@ export default function AdminPage() {
       setError("请至少添加一个项目 / 产品 / 分类绑定位置");
       return;
     }
-    const id = crypto.randomUUID();
+    const id = createId();
     setEditingProjectId(bindings[0]?.projectId || "");
     setEditing({
       id,
@@ -538,7 +539,7 @@ export default function AdminPage() {
               setEditingProjectId(managedProject.id);
             }}
             onNew={(placement, source) => {
-              const id = crypto.randomUUID();
+              const id = createId();
               setEditingProjectId(placement.projectId);
               setEditing({
                 id,
@@ -1028,7 +1029,6 @@ export default function AdminPage() {
                 : "新建项目"
             : "新建文档"
         }
-        footer={null}
         onCancel={closeForm}
         unmountOnExit
         closable={!busy}
@@ -1036,10 +1036,47 @@ export default function AdminPage() {
         className="workspace-arco-modal project-form-modal"
         wrapClassName="fixed-form-modal-wrapper"
         style={{ width: 620, maxWidth: "calc(100vw - 32px)", height: "70vh" }}
+        footer={
+          <div className="flex items-center justify-end gap-3">
+            <Button disabled={busy} onClick={closeForm}>
+              取消
+            </Button>
+            {projectForm ? (
+              <Button
+                type="primary"
+                htmlType="submit"
+                form="admin-project-form"
+                loading={busy}
+                disabled={customFieldsIncomplete(projectForm.customFields)}
+              >
+                {projectForm.copyFrom
+                  ? "复制项目"
+                  : projectForm.id
+                    ? "保存修改"
+                    : "创建项目"}
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                htmlType="submit"
+                form="admin-doc-form"
+                disabled={
+                  !projects.length ||
+                  !docTitle.trim() ||
+                  !bindings.length ||
+                  !bindings.every((b) => b.projectId && b.productId)
+                }
+              >
+                创建并编辑
+              </Button>
+            )}
+          </div>
+        }
       >
         {error && <Alert type="error" content={error} />}
         {projectForm ? (
           <Form
+            id="admin-project-form"
             layout="vertical"
             onSubmit={saveProject}
             className="mt-4"
@@ -1190,26 +1227,10 @@ export default function AdminPage() {
               )}
               </div>
             </div>
-            <div className="modal-form-footer">
-              <Button disabled={busy} onClick={closeForm}>
-                取消
-              </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={busy}
-                disabled={customFieldsIncomplete(projectForm.customFields)}
-              >
-                {projectForm.copyFrom
-                  ? "复制项目"
-                  : projectForm.id
-                    ? "保存修改"
-                    : "创建项目"}
-              </Button>
-            </div>
           </Form>
         ) : (
           <Form
+            id="admin-doc-form"
             layout="vertical"
             onSubmit={createDocument}
             className="mt-4"
@@ -1235,21 +1256,6 @@ export default function AdminPage() {
                 onChange={setBindings}
               />
             </Form.Item>
-            <div className="modal-form-footer">
-              <Button onClick={closeForm}>取消</Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={
-                  !projects.length ||
-                  !docTitle.trim() ||
-                  !bindings.length ||
-                  !bindings.every((b) => b.projectId && b.productId)
-                }
-              >
-                创建并编辑
-              </Button>
-            </div>
           </Form>
         )}
       </Modal>

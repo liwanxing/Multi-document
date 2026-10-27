@@ -518,32 +518,34 @@ export default function ProjectManager({
               },
               {
                 title: "排序",
-                width: 84,
+                width: 92,
                 render: (_: unknown, p: ProjectProduct) => {
                   const index = displayedProducts.findIndex(
                     (item) => item.id === p.id,
                   );
                   return (
-                    <div className="table-actions">
+                    <div className="sort-actions">
                       <Button
                         type="text"
                         className="icon-button"
                         title="上移"
+                        aria-label="上移"
                         disabled={busy || index <= 0}
                         onClick={() => moveProductOrder(p.id, -1)}
                       >
-                        <ArrowUp size={13} />
+                        <ArrowUp size={14} />
                       </Button>
                       <Button
                         type="text"
                         className="icon-button"
                         title="下移"
+                        aria-label="下移"
                         disabled={
                           busy || index >= displayedProducts.length - 1
                         }
                         onClick={() => moveProductOrder(p.id, 1)}
                       >
-                        <ArrowDown size={13} />
+                        <ArrowDown size={14} />
                       </Button>
                     </div>
                   );
@@ -866,7 +868,7 @@ export default function ProjectManager({
                 rowKey="id"
                 data={boundDocs}
                 pagination={{ pageSize: 10, showTotal: true }}
-                scroll={{ x: 990 }}
+                scroll={{ x: 1000 }}
                 columns={[
                   {
                     title: "文档标题",
@@ -920,30 +922,32 @@ export default function ProjectManager({
                   },
                   {
                     title: "排序",
-                    width: 84,
+                    width: 92,
                     render: (_: unknown, doc: DocDetail) => {
                       const index = boundDocs.findIndex(
                         (d) => d.id === doc.id,
                       );
                       return (
-                        <div className="table-actions">
+                        <div className="sort-actions">
                           <Button
                             type="text"
                             className="icon-button"
                             title="上移"
+                            aria-label="上移"
                             disabled={busy || index <= 0}
                             onClick={() => moveDocumentOrder(doc.id, -1)}
                           >
-                            <ArrowUp size={13} />
+                            <ArrowUp size={14} />
                           </Button>
                           <Button
                             type="text"
                             className="icon-button"
                             title="下移"
+                            aria-label="下移"
                             disabled={busy || index >= boundDocs.length - 1}
                             onClick={() => moveDocumentOrder(doc.id, 1)}
                           >
-                            <ArrowDown size={13} />
+                            <ArrowDown size={14} />
                           </Button>
                         </div>
                       );
@@ -1015,15 +1019,30 @@ export default function ProjectManager({
         onCancel={() => {
           if (!busy) setForm(null);
         }}
-        footer={null}
         unmountOnExit
         closable={!busy}
         className="workspace-arco-modal project-form-modal"
         wrapClassName="fixed-form-modal-wrapper"
         style={{ width: 580, maxWidth: "calc(100vw - 32px)", height: "70vh" }}
+        footer={
+          <div className="flex items-center justify-end gap-3">
+            <Button disabled={busy} onClick={() => setForm(null)}>
+              取消
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              form="product-manager-form"
+              loading={busy}
+            >
+              保存
+            </Button>
+          </div>
+        }
       >
         {form && (
           <Form
+            id="product-manager-form"
             layout="vertical"
             onSubmit={saveForm}
             className="mt-4"
@@ -1177,15 +1196,6 @@ export default function ProjectManager({
                 />
               </Form.Item>
             )}
-
-            <div className="modal-form-footer">
-              <Button disabled={busy} onClick={() => setForm(null)}>
-                取消
-              </Button>
-              <Button type="primary" htmlType="submit" loading={busy}>
-                保存
-              </Button>
-            </div>
           </Form>
         )}
       </Modal>

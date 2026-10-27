@@ -121,73 +121,98 @@ small,
   color: #e36209;
 }
 
-/* Prose Markdown Styling matching Volcano Engine Docs */
+/* Prose Markdown Styling matching Volcano Engine Docs
+   火山文档实测值：正文 14px/24px #42464E，段落间距 12px，标题 500 字重墨色 #0C0D0E */
 .doc-markdown h1,
 .prose-clean h1 {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #1d2129;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  line-height: 1.3;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  color: #0c0d0e;
+  margin: 44px 0 12px;
+  scroll-margin-top: 80px;
 }
 
 .doc-markdown h2,
 .prose-clean h2 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #1d2129;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid #f2f3f5;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  color: #0c0d0e;
+  margin: 36px 0 12px;
+  padding-bottom: 0;
+  border-bottom: 0;
   scroll-margin-top: 80px;
 }
 
 .doc-markdown h3,
 .prose-clean h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1d2129;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  color: #0c0d0e;
+  margin: 28px 0 8px;
   scroll-margin-top: 80px;
+}
+
+.doc-markdown h4,
+.doc-markdown h5,
+.doc-markdown h6,
+.prose-clean h4,
+.prose-clean h5,
+.prose-clean h6 {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #0c0d0e;
+  margin: 20px 0 8px;
 }
 
 .doc-markdown p,
 .prose-clean p {
-  color: #4e5969;
-  line-height: 1.8;
-  margin-bottom: 1rem;
-  font-size: 0.9375rem;
+  color: #42464e;
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0 0 12px;
 }
 
 .doc-markdown ul,
 .prose-clean ul {
   list-style-type: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
-  color: #4e5969;
+  padding-left: 22px;
+  margin: 0 0 12px;
+  color: #42464e;
 }
 
 .doc-markdown ol,
 .prose-clean ol {
   list-style-type: decimal;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
-  color: #4e5969;
+  padding-left: 22px;
+  margin: 0 0 12px;
+  color: #42464e;
 }
 
 .doc-markdown li,
 .prose-clean li {
-  margin-bottom: 0.35rem;
-  line-height: 1.6;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: #42464e;
+}
+
+.doc-markdown li > p,
+.doc-markdown li > ul,
+.doc-markdown li > ol,
+.prose-clean li > p,
+.prose-clean li > ul,
+.prose-clean li > ol {
+  margin: 0;
 }
 
 .doc-markdown strong,
 .prose-clean strong {
-  font-weight: 600;
-  color: #1d2129;
+  font-weight: 700;
+  color: #42464e;
 }
 
 .doc-markdown del,
@@ -209,15 +234,15 @@ del, s {
   text-decoration: underline;
 }
 
-/* Inline Code (Strictly exclude code inside pre!) */
+/* Inline Code (Strictly exclude code inside pre!) —— 对齐火山：0.85em / #476582 / 3px 圆角 */
 .doc-markdown :not(pre) > code,
 .prose-clean :not(pre) > code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.85em;
-  background-color: #f2f3f5;
-  color: #1d2129;
-  padding: 0.15em 0.4em;
-  border-radius: 4px;
+  background-color: rgba(27, 31, 35, 0.05);
+  color: #476582;
+  padding: 2px 6px;
+  border-radius: 3px;
 }
 
 /* Pre and Code Blocks must strictly be transparent and avoid inline badge styles */
@@ -231,60 +256,72 @@ pre code.hljs-light {
   border-radius: 0 !important;
 }
 
-/* Tables */
+/* Tables —— 对齐火山：无外框、无表头底色，仅 1px 分隔线 #EAEDF1 */
 .doc-markdown table,
 .prose-clean table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.25rem 0;
-  font-size: 0.8125rem;
-  border: 1px solid #e5e6eb;
-  border-radius: 8px;
-  overflow: hidden;
+  margin: 16px 0;
+  font-size: 14px;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
 }
 
 .doc-markdown th,
 .prose-clean th {
-  background-color: #f7f8fa;
-  color: #4e5969;
-  font-weight: 600;
+  background-color: transparent;
+  color: #0c0d0e;
+  font-weight: 700;
   text-align: left;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e5e6eb;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eaedf1;
 }
 
 .doc-markdown td,
 .prose-clean td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #f2f3f5;
-  color: #1d2129;
-}
-
-.doc-markdown tr:last-child td,
-.prose-clean tr:last-child td {
-  border-bottom: none;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eaedf1;
+  color: #42464e;
+  line-height: 24px;
 }
 
 .doc-markdown tr:hover td,
 .prose-clean tr:hover td {
-  background-color: #fafafa;
+  background-color: transparent;
 }
 
-/* Blockquote */
+/* Blockquote —— 对齐火山提示块：浅灰底 + 1px 细边框 + 8px 圆角，无左侧色条 */
 .doc-markdown blockquote,
 .prose-clean blockquote {
-  border-left: 3px solid #1664ff;
-  padding: 0.5rem 1rem;
-  color: #4e5969;
-  background: #f7f8fa;
-  border-radius: 0 6px 6px 0;
-  margin: 1rem 0;
+  border: 1px solid #eaedf1;
+  padding: 12px 16px;
+  color: #42464e;
+  background: #fafbfc;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.doc-markdown blockquote p,
+.prose-clean blockquote p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.doc-markdown blockquote p + p,
+.prose-clean blockquote p + p {
+  margin-top: 8px;
 }
 
 .doc-markdown {
   --doc-accent: #2563eb;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+/* 块级子元素统一 16px 间距（替代原先的 Tailwind space-y-6 24px，对齐火山疏密） */
+.doc-markdown > * + * {
+  margin-top: 16px;
 }
 .doc-markdown.theme-ocean {
   --doc-accent: #087f8c;
@@ -295,35 +332,27 @@ pre code.hljs-light {
 .doc-markdown.theme-ink {
   --doc-accent: #343b48;
 }
-.doc-markdown h2,
-.doc-markdown h3 {
-  color: var(--doc-accent);
-}
+/* 标题统一为墨色，主题色只作用于链接等强调元素（对齐火山文档） */
 .doc-markdown a {
   color: var(--doc-accent);
 }
-.doc-markdown blockquote {
-  border-color: var(--doc-accent);
-}
-.doc-markdown.theme-ocean h2,
-.doc-markdown.theme-forest h2 {
-  border-bottom: 2px solid color-mix(in srgb, var(--doc-accent) 18%, white);
-  padding-bottom: 12px;
-}
 .doc-markdown.theme-ink h2 {
-  border: 0;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.3px;
 }
 .doc-markdown.density-compact p {
-  font-size: 0.875rem;
-  line-height: 1.65;
-  margin-bottom: 0.6rem;
+  font-size: 13px;
+  line-height: 22px;
+  margin-bottom: 8px;
+}
+.doc-markdown.density-compact li {
+  font-size: 13px;
+  line-height: 22px;
 }
 .doc-markdown.density-compact h2 {
-  margin-top: 1.3rem;
+  margin-top: 28px;
 }
 .doc-markdown.density-compact > div {
-  margin-top: 0.8rem;
+  margin-top: 8px;
 }
 .doc-markdown img {
   max-width: 100%;
@@ -579,10 +608,10 @@ pre code.hljs-light {
 }
 
 /* Keep table borders on the actual table; the wrapper owns horizontal scrolling. */
-.doc-markdown table{display:table;table-layout:auto;width:100%;overflow:visible;border-collapse:separate;border-spacing:0;margin:0;border:1px solid #e5e6eb;border-radius:8px}
-.doc-table-scroll{max-width:100%;overflow-x:auto;margin:1.25rem 0}
+.doc-markdown table{display:table;table-layout:auto;width:100%;overflow:visible;border-collapse:collapse;border-spacing:0;margin:16px 0;border:0;border-radius:0}
+.doc-table-scroll{max-width:100%;overflow-x:auto;margin:16px 0}
 .doc-markdown th,.doc-markdown td{min-width:110px}
-.doc-markdown blockquote p{margin:0;line-height:1.8}.doc-markdown blockquote{display:flow-root;padding:12px 16px}
+.doc-markdown blockquote p{margin:0;line-height:24px}.doc-markdown blockquote{display:flow-root;padding:12px 16px}
 .doc-markdown img[role=button]{cursor:zoom-in}.doc-markdown img[role=button]:focus-visible{outline:2px solid #165dff;outline-offset:4px}
 .doc-markdown kbd,.doc-markdown .inline-flex{align-items:center;justify-content:center;vertical-align:middle;line-height:1.6}
 
@@ -1001,10 +1030,59 @@ h3 .doc-inline-icon svg {
   max-width: 100% !important;
 }
 
-.doc-code-box pre,
-.doc-code-box code,
-.code-tabs pre,
-.code-tabs code,
+/* 代码块容器（对齐火山：白底 + 1px #EAEDF1 + 8px 圆角 + 浅灰头部） */
+.doc-code-box {
+  margin: 16px 0;
+  border: 1px solid #eaedf1;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+}
+.doc-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 42px;
+  padding: 0 15px;
+  background: #fafbfc;
+  border-bottom: 1px solid #eaedf1;
+  border-radius: 8px 8px 0 0;
+}
+.doc-code-lang {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  line-height: 22px;
+  color: #0c0d0e;
+}
+.doc-code-header .doc-code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px;
+  border: 0;
+  background: transparent;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 20px;
+  color: #646a73;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.doc-code-header .doc-code-copy-btn:hover {
+  background: #f2f3f5;
+  color: #1d2129;
+}
+.doc-code-header .doc-code-copy-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.doc-code-body {
+  padding: 12px 16px 14px;
+  overflow-x: auto;
+}
+
+/* 代码自动换行（与既有断行策略保持一致） */
 .doc-markdown pre,
 .doc-markdown pre code,
 .prose-clean pre,
@@ -1013,12 +1091,62 @@ h3 .doc-inline-icon svg {
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
 }
+.doc-code-pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  line-height: 22px;
+  color: #2b2f36;
+}
+
+/* 多语言代码 Tab：按钮贴住代码框（对齐火山） */
+.code-tabs {
+  margin: 16px 0;
+}
+.code-tabs-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: -1px;
+}
+.code-tabs-tab {
+  height: 34px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 4px 4px 0 0;
+  background: #f6f8fa;
+  box-shadow: inset 0 0 0 1px #eaedf1;
+  color: #41464f;
+  font-size: 14px;
+  line-height: 34px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.code-tabs-tab:hover {
+  color: #0c0d0e;
+}
+.code-tabs-tab.is-active {
+  background: #ffffff;
+  color: #006eff;
+  box-shadow:
+    inset 0 2px 0 0 #006eff,
+    inset 1px 0 0 0 #eaedf1,
+    inset -1px 0 0 0 #eaedf1;
+}
+.code-tabs > .doc-code-box {
+  margin: 0;
+  border-radius: 0 8px 8px 8px;
+}
 
 .doc-code-line {
   display: flex !important;
   align-items: flex-start !important;
-  min-height: 1.5rem !important;
-  line-height: 1.5rem !important;
+  min-height: 22px !important;
+  line-height: 22px !important;
   width: 100% !important;
 }
 
@@ -1027,7 +1155,11 @@ h3 .doc-inline-icon svg {
   -webkit-user-select: none !important;
   white-space: nowrap !important;
   flex-shrink: 0 !important;
-  line-height: 1.5rem !important;
+  padding-right: 14px !important;
+  text-align: right !important;
+  font-size: 13px !important;
+  line-height: 22px !important;
+  color: #b5bac2 !important;
 }
 
 .doc-code-linecontent {
@@ -1037,7 +1169,9 @@ h3 .doc-inline-icon svg {
   white-space: pre-wrap !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
-  line-height: 1.5rem !important;
+  font-size: 14px !important;
+  line-height: 22px !important;
+  color: #2b2f36 !important;
 }
 
 /* 主题切换瞬间禁用全部过渡：顶栏、侧栏等元素带有 background 过渡动画，

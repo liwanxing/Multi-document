@@ -277,6 +277,27 @@
   display: flex;
   gap: 0;
 }
+/* 排序列：上移/下移箭头横向并排，不换行（避免窄列把两个箭头压成上下两行） */
+.sort-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.sort-actions .icon-button {
+  width: 26px;
+  height: 26px;
+  color: #86909c;
+}
+.sort-actions .icon-button:not(:disabled):hover {
+  color: var(--brand);
+  background: #edf2fc;
+}
+.sort-actions .icon-button:disabled {
+  color: #c9cdd4;
+  background: transparent;
+}
 .admin-root .arco-btn {
   border-radius: 4px;
   font-size: 13px;
@@ -353,6 +374,11 @@
   max-height: none;
   min-height: 0;
   overflow-y: auto !important;
+}
+/* 表单弹窗底栏交给 Modal 自带 footer，位于内容滚动区之外，始终贴在弹窗底部 */
+.project-form-modal .arco-modal-footer {
+  flex: 0 0 auto;
+  background: var(--color-bg-2);
 }
 .arco-workspace-form {
   display: grid;
@@ -1194,6 +1220,22 @@
   justify-content: flex-end;
   align-items: center;
   gap: 12px;
+}
+/* 提示/确认类小弹窗：内容只有一段说明，标题与底栏都不描分割线，
+   避免多余的横线把弹窗切得支离破碎 */
+.workspace-arco-modal.confirm-dialog .arco-modal-header {
+  border-bottom: none;
+  height: 52px;
+}
+.workspace-arco-modal.confirm-dialog .arco-modal-content {
+  padding: 16px 24px 4px;
+}
+.workspace-arco-modal.confirm-dialog .arco-modal-content .form-help {
+  margin: 0;
+}
+.workspace-arco-modal.confirm-dialog .arco-modal-footer {
+  border-top: none !important;
+  padding: 8px 24px 22px !important;
 }
 .workspace-arco-modal .modal-form-footer .arco-btn {
   min-width: 80px;

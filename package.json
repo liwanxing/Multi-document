@@ -19,6 +19,8 @@
     "test:icons": "node tests/icon-system.test.mjs",
     "test:codewrap": "node tests/code-wrap.test.mjs",
     "test:htmltabs": "node tests/html-tabs.test.mjs",
+    "test:pasted": "node tests/pasted-layout.test.mjs",
+    "test:media-markup": "node tests/media.test.mjs",
     "test:category-icons": "node tests/category-icons.test.mjs"
   },
   "dependencies": {

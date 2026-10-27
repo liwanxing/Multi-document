@@ -30,6 +30,11 @@ export default async function DocumentPage({
     ...original,
     content: renderVariables(original.content, project),
   };
+  // 摘要也走变量渲染；当前项目没配该变量时渲染结果可能为空，
+  // 此时整段摘要不输出，避免留下一段空白
+  const summary = original.description
+    ? renderVariables(original.description, project)
+    : "";
   const base = productHref(project, product);
   const publishedAt =
     ((await getStore()).history || [])
@@ -84,11 +89,12 @@ export default async function DocumentPage({
               更新记录
             </Link>
           </div>
-          {doc.description &&
+          {summary.trim() &&
+            doc.description &&
             !doc.content.trimStart().startsWith(doc.description) && (
               // 摘要和正文共用同一份文档，也要走变量渲染，否则同一篇文档换个项目
               // 打开时，摘要里写死的品牌名会和正文对不上
-              <p>{renderVariables(doc.description, project)}</p>
+              <p>{summary}</p>
             )}
         </header>
         <MarkdownRenderer content={doc.content} appearance={doc.appearance} />

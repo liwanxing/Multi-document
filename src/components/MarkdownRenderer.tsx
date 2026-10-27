@@ -20,11 +20,15 @@ import CodeTabs from "./CodeTabs";
 import MermaidChart from "./MermaidChart";
 import { CodeTabItem } from "@/lib/dataStore";
 import { parseHtmlTabs, formatTabLabel } from "@/lib/htmlTabs";
-import hljs from "highlight.js";
+import {
+  tryParsePastedTabs,
+  tryParsePastedCards,
+} from "@/lib/pastedLayout";
 import { sanitizeMarkup } from "@/lib/safeMarkdown";
 import { defaultAppearance, type DocAppearance } from "@/lib/editor";
 import { getIconItem, renderIconSvg } from "@/lib/iconRegistry";
 import {
+  hljs,
   getHighlightLang,
   formatDisplayLang,
   splitHighlightedHtmlLines,
@@ -153,21 +157,21 @@ marked.use({
       const linesHtml = splitLines
         .map(
           (lineHtml, i) =>
-            `<div class="doc-code-line flex items-start min-h-[1.5rem]"><span aria-hidden="true" class="doc-code-linenumber select-none pr-4 text-right text-[#86909c] shrink-0 font-mono text-xs ${numWidth} sticky left-0 bg-white z-10 font-medium leading-6">${i + 1}</span><span class="doc-code-linecontent flex-1 min-w-0 font-mono text-xs leading-6 text-[#1d2129] whitespace-pre-wrap break-all">${lineHtml || "<br/>"}</span></div>`,
+            `<div class="doc-code-line"><span aria-hidden="true" class="doc-code-linenumber ${numWidth}">${i + 1}</span><span class="doc-code-linecontent whitespace-pre-wrap break-all">${lineHtml || "<br/>"}</span></div>`,
         )
         .join("");
 
-      return `<div class="my-6 rounded-xl border border-[#e5e6eb] bg-white shadow-none p-5 md:p-6 overflow-hidden doc-code-box">
-        <div class="flex items-center justify-between pb-3 text-xs text-[#86909c]">
-          <span class="font-mono text-[#86909c] text-xs font-normal">${displayLang}</span>
-          <button type="button" data-code="${encodeURIComponent(cleanText)}" class="doc-code-copy-btn flex items-center gap-1.5 text-xs text-[#4e5969] hover:text-[#1d2129] transition-colors px-1.5 py-0.5 rounded hover:bg-gray-100 cursor-pointer" title="复制代码">
-            <svg class="copy-icon w-3.5 h-3.5 text-[#86909c] shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            <svg class="check-icon w-3.5 h-3.5 text-green-600 shrink-0 hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      return `<div class="doc-code-box">
+        <div class="doc-code-header">
+          <span class="doc-code-lang">${displayLang}</span>
+          <button type="button" data-code="${encodeURIComponent(cleanText)}" class="doc-code-copy-btn" title="复制代码">
+            <svg class="copy-icon shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <svg class="check-icon shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             <span class="copy-text select-none">复制</span>
           </button>
         </div>
-        <div class="font-mono text-xs leading-6 overflow-hidden relative">
-          <pre class="m-0 p-0 bg-transparent text-[#1d2129] font-mono leading-6 w-full"><code class="block font-mono text-xs leading-6 hljs-light bg-transparent w-full" style="background-color: transparent">${linesHtml}</code></pre>
+        <div class="doc-code-body">
+          <pre class="doc-code-pre"><code class="doc-code hljs-light">${linesHtml}</code></pre>
         </div>
       </div>`;
     },
@@ -420,6 +424,34 @@ export default function MarkdownRenderer({
       const line = rawLines[i];
 
       const trimmedLine = line.trim();
+
+      // 从文档站整段复制过来的「**macOS** + 代码块」连续多组，自动还原成
+      // 多语言 Tab（标签用粗体标题，代码区仍显示真实语言）。
+      if (trimmedLine.startsWith("**")) {
+        const pastedTabs = tryParsePastedTabs(rawLines, i);
+        if (pastedTabs) {
+          flushMarkdown();
+          sections.push({ type: "tabs", items: pastedTabs.items });
+          i = pastedTabs.next;
+          continue;
+        }
+      }
+
+      // 「[Card](url) 占位 + 标题 + 短说明」连续多组，自动还原成导航卡片。
+      if (trimmedLine.startsWith("[") || trimmedLine.startsWith("**")) {
+        const pastedCards = tryParsePastedCards(rawLines, i);
+        if (pastedCards) {
+          flushMarkdown();
+          sections.push({
+            type: "cards",
+            cols: pastedCards.cols,
+            items: pastedCards.items,
+          });
+          i = pastedCards.next;
+          continue;
+        }
+      }
+
       if (trimmedLine.startsWith(":::styled")) {
         flushMarkdown();
         let config: { className?: string; style?: string } = {};
@@ -1742,7 +1774,7 @@ export default function MarkdownRenderer({
           setZoom(event.target.src);
         }
       }}
-      className={`doc-markdown theme-${appearance.theme} density-${appearance.density} space-y-6 text-gray-800 text-sm leading-relaxed`}
+      className={`doc-markdown theme-${appearance.theme} density-${appearance.density}`}
     >
       <Image.Preview
         src={zoom}

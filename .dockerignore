@@ -7,10 +7,7 @@
 # 依赖与构建产物（镜像内重新安装/生成）
 node_modules
 .next
-.next-dev
-.next-dev2
-.next-dev3
-.next-dev4
+.next-*
 *.tsbuildinfo
 dist
 backups
@@ -21,5 +18,7 @@ data
 # 开发与测试材料（不参与生产构建）
 tests
 e2e
+artifacts
+.workbuddy
 *.log
 README.md

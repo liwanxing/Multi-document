@@ -1562,14 +1562,14 @@ export default function DocumentEditor({
         title="修改尚未保存"
         onCancel={() => setLeavePrompt(false)}
         footer={
-          <div className="modal-form-footer">
+          <div className="flex items-center justify-end gap-3">
             <Button onClick={onBack}>放弃修改并离开</Button>
             <Button type="primary" onClick={() => setLeavePrompt(false)}>
               继续编辑
             </Button>
           </div>
         }
-        className="workspace-arco-modal"
+        className="workspace-arco-modal confirm-dialog"
         style={{ width: 460, maxWidth: "calc(100vw - 32px)" }}
       >
         <p className="form-help">

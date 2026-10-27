@@ -215,10 +215,10 @@
   align-items: flex-start;
 }
 .product-reading-article {
-  padding: 0 clamp(24px, 3vw, 48px);
+  padding: 0 clamp(20px, 2vw, 32px);
   flex: 1;
   min-width: 0;
-  max-width: 1160px;
+  max-width: 1064px;
   margin-inline: auto;
 }
 .document-top-bar {
@@ -295,9 +295,9 @@
 .product-reading-article > header h1 {
   font-size: 32px;
   line-height: 1.4;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0;
-  color: #181a1d;
+  color: #0c0d0e;
 }
 .product-reading-article > header > div {
   font-size: 12px;
@@ -305,54 +305,67 @@
   gap: 16px;
 }
 .product-reading-article > header p {
-  font-size: 15px;
-  line-height: 1.8;
-  margin-top: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  margin-top: 16px;
   color: var(--reading-muted);
 }
 .product-reading-article .doc-markdown {
-  font-size: 15px;
-  line-height: 1.85;
-  color: var(--reading-text);
+  font-size: 14px;
+  line-height: 24px;
+  color: #42464e;
 }
 .product-reading-article .doc-markdown p {
-  font-size: 15px;
-  line-height: 1.85;
-  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0 0 12px;
+}
+.product-reading-article .doc-markdown li {
+  font-size: 14px;
+  line-height: 24px;
+  margin-bottom: 0;
+}
+.product-reading-article .doc-markdown h1 {
+  font-size: 24px;
+  line-height: 32px;
+  margin: 44px 0 12px;
+  font-weight: 500;
 }
 .product-reading-article .doc-markdown h2 {
-  font-size: 24px;
-  line-height: 1.5;
-  margin: 44px 0 24px;
-  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  margin: 36px 0 12px;
+  font-weight: 500;
 }
 .product-reading-article .doc-markdown h3 {
-  font-size: 19px;
-  line-height: 1.5;
-  margin: 30px 0 18px;
-  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+  margin: 28px 0 8px;
+  font-weight: 500;
 }
+.product-reading-article .doc-markdown.theme-classic h1,
 .product-reading-article .doc-markdown.theme-classic h2,
-.product-reading-article .doc-markdown.theme-classic h3 {
-  color: #1d2129;
+.product-reading-article .doc-markdown.theme-classic h3,
+.product-reading-article .doc-markdown.theme-classic h4 {
+  color: #0c0d0e;
 }
 .product-reading-article .doc-markdown th,
 .product-reading-article .doc-markdown td {
   font-size: 14px;
-  line-height: 1.8;
-  padding: 14px 18px;
+  line-height: 24px;
+  padding: 8px 12px;
 }
 .product-reading-article .doc-markdown pre {
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 22px;
   white-space: pre-wrap !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
 }
 .product-reading-article .doc-code-box pre,
 .product-reading-article .code-tabs pre {
-  font-size: 12px !important;
-  line-height: 1.5rem !important;
+  font-size: 14px !important;
+  line-height: 22px !important;
   white-space: pre-wrap !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
@@ -364,24 +377,24 @@
   overflow-wrap: anywhere !important;
 }
 .product-reading-article .doc-markdown blockquote {
-  margin: 22px 0;
-  padding: 16px 18px;
+  margin: 16px 0;
+  padding: 12px 16px;
 }
 .product-reading-article .doc-markdown blockquote p {
   margin: 0;
 }
 .product-reading-article .doc-markdown.density-compact p {
-  font-size: 14px;
-  line-height: 1.65;
-  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 22px;
+  margin-bottom: 8px;
 }
 .product-reading-article .doc-markdown.density-compact h2 {
   margin-top: 28px;
 }
 /* Document Table of Contents */
 .document-toc {
-  flex: 0 0 180px;
-  width: 180px;
+  flex: 0 0 218px;
+  width: 218px;
   top: 84px;
   font-size: 14px;
   padding: 0 !important;
@@ -389,7 +402,7 @@
 }
 .document-toc > div,
 .document-toc .toc-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-text-1, #1d2129);
   margin-bottom: 12px;
@@ -397,7 +410,8 @@
 }
 .document-toc .arco-anchor {
   background: transparent;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 22px;
   width: 100%;
   position: relative;
   overflow: visible !important;
@@ -437,22 +451,24 @@
 }
 /* Anchor links */
 .document-toc .arco-anchor-link {
-  padding: 3px 0 !important;
+  padding: 1px 0 !important;
+  margin-bottom: 2px !important;
   background: transparent !important;
   background-color: transparent !important;
 }
 /* Normal title: gray text, no background */
 .document-toc .arco-anchor-link-title {
   color: #4e5969 !important;
-  font-size: 13px !important;
-  line-height: 1.6 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 22px !important;
   white-space: normal !important;
   overflow-wrap: anywhere !important;
-  padding: 2px 0 2px 12px !important;
+  padding: 3px 0 3px 12px !important;
   background: transparent !important;
   background-color: transparent !important;
   text-decoration: none !important;
-  transition: font-weight 0.15s ease !important;
+  transition: color 0.15s ease !important;
 }
 .document-toc .arco-anchor-link-title:hover {
   color: #1d2129 !important;
@@ -461,7 +477,7 @@
 /* Active title: ONLY bold, NO background, NO text color change (stays dark #1d2129) */
 .document-toc .arco-anchor-link-active > .arco-anchor-link-title {
   color: #1d2129 !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   background: transparent !important;
   background-color: transparent !important;
 }
@@ -521,8 +537,8 @@
     gap: 100px;
   }
   .document-toc {
-    flex-basis: 200px;
-    width: 200px;
+    flex-basis: 240px;
+    width: 240px;
   }
 }
 @media (max-width: 1200px) {
@@ -599,15 +615,15 @@
 }
 .product-reading-article .doc-callout {
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 24px;
   border-radius: 8px;
   box-shadow: none;
-  padding: 16px 18px;
+  padding: 12px 16px;
 }
 .product-reading-article .doc-callout-note {
-  background: #f8f9fb;
-  border-color: var(--reading-line);
-  color: var(--reading-text);
+  background: #fafbfc;
+  border-color: #eaedf1;
+  color: #42464e;
 }
 .product-reading-article .doc-callout .prose-clean p:last-child {
   margin-bottom: 0;
@@ -965,7 +981,68 @@
   height: auto;
   border-radius: 8px;
   display: block;
-  background: #111;
+  background: #000;
+}
+/* 正文媒体：从别的文档站整段复制过来的图文，图片尺寸五花八门。
+   单独成段的图片/视频会被渲染器包进 .doc-figure，统一限宽限高、居中、
+   留白，避免竖长图（如手机截图）把正文整屏顶下去；与文字混排的行内
+   小图标不在 figure 里，不受这里影响。 */
+.doc-figure {
+  margin: 20px 0;
+  text-align: center;
+  line-height: 0;
+}
+.doc-figure > img,
+.doc-figure > a > img,
+.doc-figure > video {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  max-height: 560px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.doc-figure > video {
+  background: #000;
+}
+@media (max-width: 768px) {
+  .doc-figure {
+    margin: 14px 0;
+  }
+  .doc-figure > img,
+  .doc-figure > a > img,
+  .doc-figure > video {
+    max-height: 380px;
+  }
+}
+/* 图组：原站把多张图并排展示（常是 2~5 列），复制过来多张图会挤在同一段里。
+   这里用自适应网格排，每张等比缩放到列宽；单张仍走 .doc-figure。 */
+.doc-figure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+  align-items: start;
+}
+.doc-figure-grid > img,
+.doc-figure-grid > a > img {
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+@media (max-width: 768px) {
+  .doc-figure-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .doc-figure-grid > img,
+  .doc-figure-grid > a > img {
+    max-height: 220px;
+  }
 }
 .doc-comparison .doc-markdown {
   white-space: normal;
