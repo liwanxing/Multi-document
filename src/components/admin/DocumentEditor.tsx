@@ -160,6 +160,8 @@ export default function DocumentEditor({
   const [panelOpen, setPanelOpen] = useState(true);
   const [full, setFull] = useState(false);
   const [bindingsDraft, setBindingsDraft] = useState<DocPlacement[] | null>(null);
+  // 刚插入的块级组件在预览区的定位信息：needle 用于匹配 DOM，at 用于触发重放
+  const [insertFlash, setInsertFlash] = useState<{ needle: string; at: number } | null>(null);
   // 预览按哪个项目渲染变量：优先取打开编辑器时传入的项目上下文，
   // 否则取第一个绑定项目（文档可能同时绑定多个项目）
   const [previewProjectId, setPreviewProjectId] = useState(
@@ -238,6 +240,9 @@ export default function DocumentEditor({
   const [historyIndex, setHistoryIndex] = useState(0);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const selection = useRef({ start: 0, end: 0 });
+  // 用户是否碰过左侧正文编辑区：没碰过时光标无意义，插入一律追加到文末
+  const editorTouched = useRef(false);
+  const monoCharWidth = useRef<number | null>(null);
   const importInput = useRef<HTMLInputElement>(null);
   const imageInput = useRef<HTMLInputElement>(null);
   const dirty = !doc.updatedAt || JSON.stringify(doc) !== baseline;
@@ -262,14 +267,110 @@ export default function DocumentEditor({
     );
     setHistoryIndex(Math.min(historyIndex + 1, 149));
   }
+
+  // 预览用 useDeferredValue 渲染，插入后轮询等它渲染完，再定位到新组件并闪烁高亮
+  useEffect(() => {
+    if (!insertFlash?.needle) return;
+    const { needle } = insertFlash;
+    let attempts = 0;
+    let matched = false;
+    const timer = setInterval(() => {
+      attempts++;
+      const article = previewArticleRef.current;
+      if (article && !matched) {
+        const target = Array.from(article.children).find((el) =>
+          (el.textContent || "").replace(/\s+/g, "").includes(needle),
+        );
+        if (target) {
+          matched = true;
+          const rect = target.getBoundingClientRect();
+          const base = article.getBoundingClientRect().top;
+          article.scrollTop = Math.max(
+            0,
+            article.scrollTop +
+              rect.top -
+              base -
+              article.clientHeight / 2 +
+              rect.height / 2,
+          );
+          target.classList.add("doc-insert-flash");
+          setTimeout(() => target.classList.remove("doc-insert-flash"), 2000);
+        }
+      }
+      if (matched || attempts > 12) clearInterval(timer);
+    }, 130);
+    const timeout = setTimeout(() => setInsertFlash(null), 2600);
+    return () => {
+      clearInterval(timer);
+      clearTimeout(timeout);
+    };
+  }, [insertFlash]);
   function undo(offset: number) {
     const index = historyIndex + offset;
     if (index < 0 || index >= history.length) return;
     setHistoryIndex(index);
     setDoc((current) => ({ ...current, content: history[index] }));
   }
+  // 主流块编辑器约定：插入位置跟随光标最近停留的位置；
+  // 从未碰过编辑区时光标不可见也不可预期，改为追加到文末
+  function getInsertRange() {
+    const input = textarea.current;
+    if (editorTouched.current && input && typeof input.selectionStart === "number") {
+      selection.current = { start: input.selectionStart, end: input.selectionEnd };
+    }
+    if (!editorTouched.current) {
+      const at = doc.content.length;
+      return { start: at, end: at };
+    }
+    return selection.current;
+  }
+
+  // 等宽字符宽度（只测一次），用于把逻辑行折算成 textarea 里的可视行
+  function getMonoCharWidth(input: HTMLTextAreaElement, style: CSSStyleDeclaration) {
+    if (monoCharWidth.current) return monoCharWidth.current;
+    let width = 7.2;
+    try {
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (ctx) {
+        ctx.font = `${style.fontSize} ${style.fontFamily}`;
+        width = ctx.measureText("0123456789").width / 10 || width;
+      }
+    } catch {
+      // 保持默认估算值
+    }
+    monoCharWidth.current = width;
+    return width;
+  }
+
+  // CJK 等全角字符按 2 个等宽位计，估算才够准
+  function visualLength(line: string) {
+    let n = 0;
+    for (const ch of line) n += (ch.codePointAt(0) || 0) > 0xff ? 2 : 1;
+    return n;
+  }
+
+  // 估算插入点应滚动到的位置：编辑器软换行会把一个逻辑行折成多行，按等宽字符折算
+  function estimateScrollTopFor(offset: number) {
+    const input = textarea.current;
+    const fallback = input?.scrollTop || 0;
+    if (!input) return fallback;
+    const style = window.getComputedStyle(input);
+    const lineHeight = parseFloat(style.lineHeight) || 24;
+    const padTop = parseFloat(style.paddingTop) || 0;
+    const padX = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0);
+    const charWidth = getMonoCharWidth(input, style);
+    const charsPerLine = Math.max(8, Math.floor((input.clientWidth - padX) / charWidth));
+    let visualLines = 0;
+    for (const line of doc.content.slice(0, offset).split("\n")) {
+      visualLines += Math.max(1, Math.ceil(visualLength(line) / charsPerLine));
+    }
+    const target = padTop + visualLines * lineHeight - input.clientHeight / 2;
+    const max = Math.max(0, input.scrollHeight - input.clientHeight);
+    return Math.min(max, Math.max(0, target));
+  }
+
   function insert(text: string, suffix?: string, defaultContent?: string) {
-    const { start, end } = selection.current;
+    const { start, end } = getInsertRange();
     const hasSelection = start !== end;
     const selected = hasSelection
       ? doc.content.slice(start, end)
@@ -291,29 +392,45 @@ export default function DocumentEditor({
     pendingSelection.current = {
       start: from,
       end: suffix !== undefined ? from + selected.length : from,
-      scrollTop: textarea.current?.scrollTop || 0,
+      scrollTop: estimateScrollTopFor(start),
     };
     changeContent(
       doc.content.slice(0, start) + insertion + doc.content.slice(end),
     );
+    // 面板里的块级组件插入：让预览同步定位到新组件并短暂高亮
+    if (suffix === undefined) {
+      setInsertFlash({ needle: extractFlashNeedle(text), at: Date.now() });
+    }
     if (view === "preview") setView("split");
   }
-  function insertInline(text: string) {
-    const input = textarea.current;
-    let start = selection.current.start;
-    let end = selection.current.end;
 
-    if (input && typeof input.selectionStart === "number") {
-      start = input.selectionStart;
-      end = input.selectionEnd;
-    }
+  // 从插入的代码块中提取一段会出现在预览 DOM 里的文本，用作预览定位的匹配串
+  function extractFlashNeedle(snippet: string): string {
+    const candidates = snippet
+      .split("\n")
+      .map((l) =>
+        l
+          .replace(/:::[\w-]*/g, "")
+          .replace(/```[\w-]*/g, "")
+          .replace(/https?:\/\/\S+/g, "")
+          .replace(/\[[^\]]*\]\([^)]*\)/g, " ")
+          .replace(/<[^>]*>/g, " ")
+          .replace(/[#>*`~\[\]()!|_"=]/g, " ")
+          .replace(/\s+/g, ""),
+      )
+      .filter((l) => l.length >= 4)
+      .sort((a, b) => b.length - a.length);
+    return candidates[0] || "";
+  }
+  function insertInline(text: string) {
+    const { start, end } = getInsertRange();
 
     const nextCursor = start + text.length;
     selection.current = { start: nextCursor, end: nextCursor };
     pendingSelection.current = {
       start: nextCursor,
       end: nextCursor,
-      scrollTop: input?.scrollTop || 0,
+      scrollTop: estimateScrollTopFor(start),
     };
     changeContent(
       doc.content.slice(0, start) + text + doc.content.slice(end),
@@ -978,19 +1095,25 @@ export default function DocumentEditor({
                     };
                     changeContent(e.target.value);
                   }}
+                  onFocus={() => {
+                    editorTouched.current = true;
+                  }}
                   onSelect={(e) => {
+                    editorTouched.current = true;
                     selection.current = {
                       start: e.currentTarget.selectionStart,
                       end: e.currentTarget.selectionEnd,
                     };
                   }}
                   onClick={(e) => {
+                    editorTouched.current = true;
                     selection.current = {
                       start: e.currentTarget.selectionStart,
                       end: e.currentTarget.selectionEnd,
                     };
                   }}
                   onKeyUp={(e) => {
+                    editorTouched.current = true;
                     selection.current = {
                       start: e.currentTarget.selectionStart,
                       end: e.currentTarget.selectionEnd,
@@ -1121,7 +1244,7 @@ export default function DocumentEditor({
               {panel === "components" ? (
                 <>
                   <h3>用组件丰富你的文档</h3>
-                  <p className="muted">点击插入到光标位置，内容可继续编辑。</p>
+                  <p className="muted">点击插入到光标位置，插入后自动定位并高亮；未编辑过正文时插入到文末。</p>
                   <div className="editor-style-action flex flex-col gap-2">
                     <Button
                       long

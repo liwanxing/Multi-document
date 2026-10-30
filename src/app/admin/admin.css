@@ -971,6 +971,25 @@ input[type="checkbox"] {
   border-top: 1px solid var(--line);
   background: #fcfdff;
 }
+/* 插入组件后预览区的定位反馈：短暂闪烁一次后恢复原样 */
+@keyframes doc-insert-flash {
+  0% {
+    box-shadow: 0 0 0 3px rgba(22, 100, 255, 0.35);
+    background-color: rgba(22, 100, 255, 0.1);
+  }
+  60% {
+    box-shadow: 0 0 0 3px rgba(22, 100, 255, 0.22);
+    background-color: rgba(22, 100, 255, 0.05);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(22, 100, 255, 0);
+    background-color: transparent;
+  }
+}
+.doc-insert-flash {
+  animation: doc-insert-flash 1.8s ease-out 1;
+  border-radius: 8px;
+}
 .editor-inspector {
   width: 300px;
   flex-shrink: 0;
