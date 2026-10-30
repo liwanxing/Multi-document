@@ -160,8 +160,13 @@ export default function DocumentEditor({
   const [panelOpen, setPanelOpen] = useState(true);
   const [full, setFull] = useState(false);
   const [bindingsDraft, setBindingsDraft] = useState<DocPlacement[] | null>(null);
-  // 刚插入的块级组件在预览区的定位信息：needle 用于匹配 DOM，at 用于触发重放
-  const [insertFlash, setInsertFlash] = useState<{ needle: string; at: number } | null>(null);
+  // 刚插入的块级组件在预览区的定位信息：needle 用于匹配 DOM，ratio 是插入点的相对位置，at 用于触发重放
+  const [insertFlash, setInsertFlash] = useState<{
+    needle: string;
+    at: number;
+    ratio: number;
+    editorScroll: number;
+  } | null>(null);
   // 预览按哪个项目渲染变量：优先取打开编辑器时传入的项目上下文，
   // 否则取第一个绑定项目（文档可能同时绑定多个项目）
   const [previewProjectId, setPreviewProjectId] = useState(
@@ -194,7 +199,15 @@ export default function DocumentEditor({
   const inspectorBeforeFull = useRef(true);
   const nativeFullscreen = useRef(false);
   const previewArticleRef = useRef<HTMLElement>(null);
-  const syncingPreviewScroll = useRef(false);
+  // 双向联动的“驱动方”：程序设置对侧滚动后会回传 scroll 事件，短暂忽略它，避免两边互相拉扯
+  const scrollDriver = useRef<{ side: "source" | "preview"; at: number } | null>(null);
+  // 插入后由程序定位两边滚动位置，期间暂停「按比例联动」，
+  // 否则预览会先被比例同步拉一下、再被精确对位拉回，看上去“往上跳了一下”
+  const suppressScrollSync = useRef(false);
+  const scrollSyncTimer = useRef<number | null>(null);
+  // 最近一次正文变更时间：变更后预览会因浏览器滚动锚定自己挪一下，
+  // 那不是用户在看预览，不能反过来拖编辑器
+  const lastContentChange = useRef(0);
   function leaveFullscreen() {
     setFull(false);
     setMessage(current => current.startsWith("已展开编辑区") ? "" : current);
@@ -242,7 +255,6 @@ export default function DocumentEditor({
   const selection = useRef({ start: 0, end: 0 });
   // 用户是否碰过左侧正文编辑区：没碰过时光标无意义，插入一律追加到文末
   const editorTouched = useRef(false);
-  const monoCharWidth = useRef<number | null>(null);
   const importInput = useRef<HTMLInputElement>(null);
   const imageInput = useRef<HTMLInputElement>(null);
   const dirty = !doc.updatedAt || JSON.stringify(doc) !== baseline;
@@ -260,6 +272,7 @@ export default function DocumentEditor({
     pendingSelection.current = null;
   }, [doc.content, view]);
   function changeContent(content: string) {
+    lastContentChange.current = Date.now();
     setDoc((current) => ({ ...current, content }));
     setMessage("");
     setHistory((current) =>
@@ -268,36 +281,58 @@ export default function DocumentEditor({
     setHistoryIndex(Math.min(historyIndex + 1, 149));
   }
 
-  // 预览用 useDeferredValue 渲染，插入后轮询等它渲染完，再定位到新组件并闪烁高亮
+  // 预览用 useDeferredValue 渲染，插入后轮询等它渲染完，再对位并闪烁高亮。
+  // 对位规则与「源码滚动带动预览」完全一致（同一套比例映射），
+  // 只有新组件落在可视区外时才做最小位移，避免“左侧停在光标处、右侧自己往上滑一段”
   useEffect(() => {
-    if (!insertFlash?.needle) return;
+    if (!insertFlash) return;
     const { needle } = insertFlash;
     let attempts = 0;
     let matched = false;
     const timer = setInterval(() => {
       attempts++;
       const article = previewArticleRef.current;
-      if (article && !matched) {
-        const target = Array.from(article.children).find((el) =>
-          (el.textContent || "").replace(/\s+/g, "").includes(needle),
-        );
-        if (target) {
-          matched = true;
-          const rect = target.getBoundingClientRect();
-          const base = article.getBoundingClientRect().top;
-          article.scrollTop = Math.max(
-            0,
-            article.scrollTop +
-              rect.top -
-              base -
-              article.clientHeight / 2 +
-              rect.height / 2,
-          );
-          target.classList.add("doc-insert-flash");
-          setTimeout(() => target.classList.remove("doc-insert-flash"), 2000);
+      const source = textarea.current;
+      if (!article || !source || matched) {
+        if (attempts > 12) clearInterval(timer);
+        return;
+      }
+      const sourceMoved = Math.abs(source.scrollTop - insertFlash.editorScroll) > 2;
+      const target = needle ? pickInsertFlashTarget(article, needle, insertFlash.ratio) : undefined;
+      // 预览还没渲染出插入的内容时先等几轮，免得按旧高度算错位置
+      if (needle && !target && attempts <= 6) return;
+      matched = true;
+      // 左侧没动就说明看的是同一段内容，此时不要重新按比例对位，
+      // 否则插入让文档变长、比例换个值，预览就会“自己往上滑一下”
+      if (sourceMoved) {
+        const sourceMax = source.scrollHeight - source.clientHeight;
+        const previewMax = article.scrollHeight - article.clientHeight;
+        if (sourceMax > 0 && previewMax > 0) {
+          const aligned = (source.scrollTop / sourceMax) * previewMax;
+          if (Math.abs(aligned - article.scrollTop) > 2) {
+            markScrollDriver("preview");
+            article.scrollTop = aligned;
+          }
         }
       }
-      if (matched || attempts > 12) clearInterval(timer);
+      if (target) {
+        // 新组件已经能看见就不动；真被裁切才拉进来（最小位移，不做居中）
+        const rect = target.getBoundingClientRect();
+        const relTop = rect.top - article.getBoundingClientRect().top;
+        const margin = 8;
+        if (relTop < margin || relTop + rect.height > article.clientHeight - margin) {
+          const max = Math.max(0, article.scrollHeight - article.clientHeight);
+          const next =
+            relTop < margin
+              ? article.scrollTop + relTop - margin
+              : article.scrollTop + relTop + rect.height - article.clientHeight + margin;
+          markScrollDriver("preview");
+          article.scrollTop = Math.min(max, Math.max(0, next));
+        }
+        target.classList.add("doc-insert-flash");
+        setTimeout(() => target.classList.remove("doc-insert-flash"), 2000);
+      }
+      clearInterval(timer);
     }, 130);
     const timeout = setTimeout(() => setInsertFlash(null), 2600);
     return () => {
@@ -309,8 +344,19 @@ export default function DocumentEditor({
     const index = historyIndex + offset;
     if (index < 0 || index >= history.length) return;
     setHistoryIndex(index);
+    lastContentChange.current = Date.now();
     setDoc((current) => ({ ...current, content: history[index] }));
   }
+  // 插入时会自己定位两个面板的滚动位置，期间锁住双向比例联动，避免被拉两次
+  function lockScrollSync(ms = 900) {
+    suppressScrollSync.current = true;
+    if (scrollSyncTimer.current) window.clearTimeout(scrollSyncTimer.current);
+    scrollSyncTimer.current = window.setTimeout(() => {
+      suppressScrollSync.current = false;
+      scrollSyncTimer.current = null;
+    }, ms);
+  }
+
   // 主流块编辑器约定：插入位置跟随光标最近停留的位置；
   // 从未碰过编辑区时光标不可见也不可预期，改为追加到文末
   function getInsertRange() {
@@ -325,48 +371,79 @@ export default function DocumentEditor({
     return selection.current;
   }
 
-  // 等宽字符宽度（只测一次），用于把逻辑行折算成 textarea 里的可视行
-  function getMonoCharWidth(input: HTMLTextAreaElement, style: CSSStyleDeclaration) {
-    if (monoCharWidth.current) return monoCharWidth.current;
-    let width = 7.2;
-    try {
-      const ctx = document.createElement("canvas").getContext("2d");
-      if (ctx) {
-        ctx.font = `${style.fontSize} ${style.fontFamily}`;
-        width = ctx.measureText("0123456789").width / 10 || width;
-      }
-    } catch {
-      // 保持默认估算值
+  // 用一份与 textarea 同样式的隐藏镜像实测光标所在行的纵坐标：
+  // 比按字符宽度估算折行可靠得多（软换行、长行、全角混排、嵌入的代码块都能对上）
+  function measureCaretY(offset: number): number | null {
+    const input = textarea.current;
+    if (!input) return null;
+    const style = window.getComputedStyle(input);
+    const mirror = document.createElement("div");
+    const props = [
+      "boxSizing",
+      "fontFamily",
+      "fontSize",
+      "fontWeight",
+      "fontStyle",
+      "lineHeight",
+      "letterSpacing",
+      "wordSpacing",
+      "textTransform",
+      "textIndent",
+      "paddingTop",
+      "paddingRight",
+      "paddingBottom",
+      "paddingLeft",
+      "borderTopWidth",
+      "borderRightWidth",
+      "borderBottomWidth",
+      "borderLeftWidth",
+      "whiteSpace",
+      "wordBreak",
+      "overflowWrap",
+      "tabSize",
+    ];
+    for (const prop of props) {
+      mirror.style[prop as "width"] = style.getPropertyValue(
+        prop.replace(/[A-Z]/g, (ch) => `-${ch.toLowerCase()}`),
+      );
     }
-    monoCharWidth.current = width;
-    return width;
+    mirror.style.position = "absolute";
+    mirror.style.top = "0";
+    mirror.style.left = "-10000px";
+    mirror.style.width = `${input.clientWidth}px`;
+    mirror.style.height = "auto";
+    mirror.style.overflow = "hidden";
+    mirror.style.visibility = "hidden";
+    mirror.style.whiteSpace = "pre-wrap";
+    mirror.style.overflowWrap = "break-word";
+    mirror.textContent = doc.content.slice(0, offset);
+    const marker = document.createElement("span");
+    marker.textContent = "\u200b";
+    mirror.appendChild(marker);
+    document.body.appendChild(mirror);
+    const borderTop = parseFloat(style.borderTopWidth) || 0;
+    const y = marker.offsetTop - borderTop;
+    document.body.removeChild(mirror);
+    return Number.isFinite(y) ? y : null;
   }
 
-  // CJK 等全角字符按 2 个等宽位计，估算才够准
-  function visualLength(line: string) {
-    let n = 0;
-    for (const ch of line) n += (ch.codePointAt(0) || 0) > 0xff ? 2 : 1;
-    return n;
-  }
-
-  // 估算插入点应滚动到的位置：编辑器软换行会把一个逻辑行折成多行，按等宽字符折算
+  // 插入点应滚动到的位置：光标行只要没被裁切就不动，真出界时只露出这一行（不做居中），
+  // 避免“点一下组件，两个面板都大幅跳走”
   function estimateScrollTopFor(offset: number) {
     const input = textarea.current;
-    const fallback = input?.scrollTop || 0;
-    if (!input) return fallback;
-    const style = window.getComputedStyle(input);
-    const lineHeight = parseFloat(style.lineHeight) || 24;
-    const padTop = parseFloat(style.paddingTop) || 0;
-    const padX = (parseFloat(style.paddingLeft) || 0) + (parseFloat(style.paddingRight) || 0);
-    const charWidth = getMonoCharWidth(input, style);
-    const charsPerLine = Math.max(8, Math.floor((input.clientWidth - padX) / charWidth));
-    let visualLines = 0;
-    for (const line of doc.content.slice(0, offset).split("\n")) {
-      visualLines += Math.max(1, Math.ceil(visualLength(line) / charsPerLine));
-    }
-    const target = padTop + visualLines * lineHeight - input.clientHeight / 2;
+    if (!input) return 0;
+    const viewTop = input.scrollTop;
+    const caretY = measureCaretY(offset);
+    if (caretY === null) return viewTop;
+    const lineHeight = parseFloat(window.getComputedStyle(input).lineHeight) || 24;
     const max = Math.max(0, input.scrollHeight - input.clientHeight);
-    return Math.min(max, Math.max(0, target));
+    const pad = 8;
+    let next = viewTop;
+    if (caretY < viewTop + pad) next = caretY - pad;
+    else if (caretY > viewTop + input.clientHeight - lineHeight - pad)
+      next = caretY - input.clientHeight + lineHeight + pad;
+    next = Math.min(max, Math.max(0, next));
+    return Math.abs(next - viewTop) <= 2 ? viewTop : next;
   }
 
   function insert(text: string, suffix?: string, defaultContent?: string) {
@@ -394,33 +471,70 @@ export default function DocumentEditor({
       end: suffix !== undefined ? from + selected.length : from,
       scrollTop: estimateScrollTopFor(start),
     };
+    lockScrollSync();
     changeContent(
       doc.content.slice(0, start) + insertion + doc.content.slice(end),
     );
     // 面板里的块级组件插入：让预览同步定位到新组件并短暂高亮
     if (suffix === undefined) {
-      setInsertFlash({ needle: extractFlashNeedle(text), at: Date.now() });
+      setInsertFlash({
+        needle: extractFlashNeedle(text),
+        at: Date.now(),
+        // 插入点在整个文档里的相对位置，用于在多个候选中挑出刚插入的那一个
+        ratio: start / Math.max(1, doc.content.length),
+        // 插入前的滚动位置：左侧没被挪动时，右侧也不应该重新对位
+        editorScroll: textarea.current?.scrollTop || 0,
+      });
     }
     if (view === "preview") setView("split");
   }
 
-  // 从插入的代码块中提取一段会出现在预览 DOM 里的文本，用作预览定位的匹配串
+  // 在预览里挑出刚插入的那一块：块列表在 .doc-markdown 下（article 只有标题和内容容器），
+  // 同名文本可能早有旧内容，取「相对位置最接近插入点」的候选
+  function pickInsertFlashTarget(article: HTMLElement, needle: string, ratio: number) {
+    const textOf = (el: Element) => (el.textContent || "").replace(/\s+/g, "");
+    const root = article.querySelector(".doc-markdown") || article;
+    const blocks = Array.from(root.children);
+    const matches = blocks.filter((el) => textOf(el).includes(needle));
+    if (matches.length === 1) return matches[0];
+    if (matches.length > 1) {
+      return matches.reduce((best, el) => {
+        const gap = (node: Element) =>
+          Math.abs(blocks.indexOf(node) / blocks.length - ratio);
+        return gap(el) < gap(best) ? el : best;
+      });
+    }
+    // 块级没命中时再看更深的层级（内容可能被组件包裹或被变量插值改写）
+    return Array.from(root.querySelectorAll("*")).find(
+      (el) => el.children.length === 0 && textOf(el).includes(needle),
+    );
+  }
+
+  // 从插入的代码块中提取一段会出现在预览 DOM 里的文本，用作预览定位的匹配串：
+  // 优先取标题文本（参数详情之类的块可能默认折叠，只有标题一定渲染出来）
   function extractFlashNeedle(snippet: string): string {
-    const candidates = snippet
-      .split("\n")
-      .map((l) =>
-        l
-          .replace(/:::[\w-]*/g, "")
-          .replace(/```[\w-]*/g, "")
-          .replace(/https?:\/\/\S+/g, "")
-          .replace(/\[[^\]]*\]\([^)]*\)/g, " ")
-          .replace(/<[^>]*>/g, " ")
-          .replace(/[#>*`~\[\]()!|_"=]/g, " ")
-          .replace(/\s+/g, ""),
-      )
-      .filter((l) => l.length >= 4)
-      .sort((a, b) => b.length - a.length);
-    return candidates[0] || "";
+    const clean = (line: string) =>
+      line
+        .replace(/:::[\w-]*/g, "")
+        .replace(/```[\w-]*/g, "")
+        .replace(/https?:\/\/\S+/g, "")
+        .replace(/\[[^\]]*\]\([^)]*\)/g, " ")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/[#>*`~\[\]()!|_"=]/g, " ")
+        .replace(/\s+/g, "");
+    const lines = snippet.split("\n");
+    const heading = lines
+      .filter((line) => /^\s*#{2,6} /.test(line))
+      .map(clean)
+      .filter((line) => line.length >= 4)
+      .sort((a, b) => b.length - a.length)[0];
+    if (heading) return heading;
+    return (
+      lines
+        .map(clean)
+        .filter((line) => line.length >= 4)
+        .sort((a, b) => b.length - a.length)[0] || ""
+    );
   }
   function insertInline(text: string) {
     const { start, end } = getInsertRange();
@@ -432,6 +546,7 @@ export default function DocumentEditor({
       end: nextCursor,
       scrollTop: estimateScrollTopFor(start),
     };
+    lockScrollSync();
     changeContent(
       doc.content.slice(0, start) + text + doc.content.slice(end),
     );
@@ -457,20 +572,54 @@ export default function DocumentEditor({
     changeContent(doc.content.slice(0, start) + block + doc.content.slice(end));
   }
 
-  // 分屏模式：左侧编辑区滚动时，右侧预览按滚动比例联动
-  function handleSourceScroll() {
-    if (view !== "split" || syncingPreviewScroll.current) return;
+  // 两个面板按同一套比例双向联动：滚哪边，另一边就跟到同比例的位置
+  function markScrollDriver(side: "source" | "preview") {
+    scrollDriver.current = { side, at: Date.now() };
+  }
+
+  // 刚被对侧程序驱动过就不用再回传，否则两边会互相推
+  function isScrollEcho(side: "source" | "preview") {
+    const driver = scrollDriver.current;
+    return !!driver && driver.side !== side && Date.now() - driver.at < 120;
+  }
+
+  function driveScroll(side: "source" | "preview", ratio: number) {
     const source = textarea.current;
     const preview = previewArticleRef.current;
     if (!source || !preview) return;
+    markScrollDriver(side);
+    if (side === "source") {
+      const max = preview.scrollHeight - preview.clientHeight;
+      if (max > 0) preview.scrollTop = Math.max(0, Math.min(max, ratio * max));
+    } else {
+      const max = source.scrollHeight - source.clientHeight;
+      if (max > 0) source.scrollTop = Math.max(0, Math.min(max, ratio * max));
+    }
+  }
+
+  function handleSourceScroll() {
+    if (view !== "split" || suppressScrollSync.current || isScrollEcho("source")) return;
+    const source = textarea.current;
+    if (!source) return;
     const sourceMax = source.scrollHeight - source.clientHeight;
     if (sourceMax <= 0) return;
-    syncingPreviewScroll.current = true;
-    const ratio = source.scrollTop / sourceMax;
-    preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight);
-    requestAnimationFrame(() => {
-      syncingPreviewScroll.current = false;
-    });
+    driveScroll("source", source.scrollTop / sourceMax);
+  }
+
+  // 反向：滚右侧预览时左侧编辑区跟随（原先只有单向联动，滚预览左侧不动）
+  function handlePreviewScroll() {
+    if (
+      view !== "split" ||
+      suppressScrollSync.current ||
+      Date.now() - lastContentChange.current < 600 ||
+      isScrollEcho("preview")
+    )
+      return;
+    const preview = previewArticleRef.current;
+    if (!preview) return;
+    const previewMax = preview.scrollHeight - preview.clientHeight;
+    if (previewMax <= 0) return;
+    driveScroll("preview", preview.scrollTop / previewMax);
   }
 
   // 文本颜色：写入 <span style="color: ...">，渲染层安全白名单已允许
@@ -1174,7 +1323,7 @@ export default function DocumentEditor({
                     </Select>
                   )}
                 </div>
-                <article ref={previewArticleRef}>
+                <article ref={previewArticleRef} onScroll={handlePreviewScroll}>
                   <h1 className="preview-title">{doc.title || "文档标题"}</h1>
                   {preview ? (
                     <MarkdownRenderer
