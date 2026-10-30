@@ -990,6 +990,14 @@ input[type="checkbox"] {
   animation: doc-insert-flash 1.8s ease-out 1;
   border-radius: 8px;
 }
+/* 系统开了「减少动态效果」时不做渐隐：改成静态描边，2s 后仍由脚本摘掉 class 消失 */
+@media (prefers-reduced-motion: reduce) {
+  .doc-insert-flash {
+    animation: none;
+    box-shadow: 0 0 0 3px rgba(22, 100, 255, 0.35);
+    background-color: rgba(22, 100, 255, 0.1);
+  }
+}
 .editor-inspector {
   width: 300px;
   flex-shrink: 0;
